@@ -328,7 +328,7 @@
           <span class="sb-menu-item" role="button" menuClose>{{'MY_GROUPS' | translate}}</span>
         </ion-item>
 
-        <ion-item (click)="emitSideMenuItemEvent($event, 'MLREPORTS')" *ngIf="showReports">
+        <ion-item (click)="emitSideMenuItemEvent($event, 'MLREPORTS')" *ngIf="isLoggedIn && showReports">
             <span class="sb-menu-icon">
               <img src="./assets/imgs/Reports.png" aria-hidden="true" class="tool-icon" alt="reports">
             </span>
@@ -412,7 +412,7 @@
           <span class="sb-menu-item" role="button" menuClose>{{'HELP' | translate}}</span>
         </ion-item>
 
-        <ion-item role="button" (click)="emitSideMenuItemEvent($event, 'LOGIN')" *ngIf="!isLoggedIn && showLoginButton">
+        <ion-item role="button" (click)="loginWithKeyCloak()"  *ngIf="!isLoggedIn && showLoginButton">
           <span class="sb-menu-icon">
             <ion-icon name="log-in-outline"></ion-icon>
           </span>

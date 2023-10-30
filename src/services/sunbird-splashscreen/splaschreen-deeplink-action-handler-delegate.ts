@@ -268,9 +268,9 @@ export class SplaschreenDeeplinkActionHandlerDelegate implements SplashscreenAct
   private generateUtmTelemetryEvent(identifier, dialCode, url) {
     const telemetryObject = new TelemetryObject(identifier ? identifier : dialCode, identifier ? 'Content' : 'qr', undefined);
     const utmUrl = url.slice(url.indexOf('?') + 1);
-    const params: { [param: string]: string } = qs.parse(utmUrl);
+    // const params: { [param: string]: string } = qs.parse(utmUrl);
     const utmcData: CorrelationData[] = [];
-
+    const params = qs.parse(utmUrl);
     if (utmUrl !== url) {
       ContentUtil.genrateUTMCData(params).forEach((element) => {
         utmcData.push(element);

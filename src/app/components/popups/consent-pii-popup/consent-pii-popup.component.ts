@@ -29,6 +29,8 @@ export class ConsentPiiPopupComponent {
         this.isSSOUser = this.navParams.get('isSSOUser');
     }
     async ionViewWillEnter() {
+        this.commonUtilService.getAppName().then((res) => { this.appName = res; });
+
         this.profile = this.appGlobalService.getCurrentUser();
         const profileKeys = await this.formAndFrameworkUtilService.getConsentFormConfig();
         profileKeys.forEach(element => {
@@ -38,7 +40,7 @@ export class ConsentPiiPopupComponent {
                 value: this.converDataSrcToObject(element)
             });
         });
-        this.commonUtilService.getAppName().then((res) => { this.appName = res; });
+        // this.commonUtilService.getAppName().then((res) => { this.appName = res; });
     }
     closePopover(data) {
         const request = {

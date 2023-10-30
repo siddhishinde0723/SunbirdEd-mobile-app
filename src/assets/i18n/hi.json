@@ -1003,5 +1003,9 @@
   "YOU_ARE_NOT_CONNECTED_TO_THE_INTERNET": "आप इंटरनेट से जुड़े हुए नहीं हैं",
   "YOU_MUST_JOIN_AN_ACTIVE_BATCH": "कोर्स जानकारी के लिए सक्रिय बैच में नामांकन किजिए",
   "YOU_MUST_JOIN_TO_ACCESS_TRAINING_DETAIL": "कोर्स के अभिगम के लिए लाॅग इन करें",
-  "YOU_MUST_LOGIN_TO_ACCESS_QUIZ_CONTENT": "इस कंटेंट तक पहुंचने के लिए आपको लॉग इन करना होगा"
+  "YOU_MUST_LOGIN_TO_ACCESS_QUIZ_CONTENT": "इस कंटेंट तक पहुंचने के लिए आपको लॉग इन करना होगा",
+  "CRS_TRK_AGREE_TO_SHARE_PROFILE_DETAILS": "मैं इस पाठ्यक्रम के प्रशासकों के साथ अपना विवरण साझा करने के लिए सहमत हूं। सभी पाठ्यक्रम प्रशासक द्वारा बाध्य हैं ",
+  "TBK_TRK_AGREE_TO_SHARE_PROFILE_DETAILS": "मैं इस पाठ्यक्रम के प्रशासकों के साथ अपना विवरण साझा करने के लिए सहमत हूं। सभी पाठ्यक्रम प्रशासक द्वारा बाध्य हैं ",
+  "CONSENT_TERMS_OF_USE_REMAINING": "मेरे डेटा के उनके उपयोग में",
+  "CONSENT_TERMS_OF_USE": "गोपनीयता नीति और पाठ्यक्रम शर्तें "
 }

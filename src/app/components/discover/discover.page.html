@@ -11,15 +11,15 @@
   </ion-item>
 </ion-list>
 
-<div class="form-api-components" *ngIf="displaySections">
+<!-- <div class="form-api-components" *ngIf="displaySections">
   <ng-container *ngFor="let section of displaySections">
     <div class="heading-label" *ngIf="section?.title && section?.theme?.component !== 'sb-course-cards-hlist'">
       <span role="heading" aria-level="2">{{section?.title | translateJson}}</span>
       <hr>
-    </div>
+    </div> -->
 
     <!-- Pills -->
-    <ng-container *ngIf="section?.theme?.component === 'sb-pills-grid'">
+    <!-- <ng-container *ngIf="section?.theme?.component === 'sb-pills-grid'">
       <sb-pills-grid [pillShape]="section?.theme?.inputs?.pillShape"
           [pillsViewType]="section?.theme?.inputs?.pillsViewType"
           [selectMode]="section?.theme?.inputs?.selectMode"
@@ -59,4 +59,4 @@
     </ng-container>
 
   </ng-container>
-</div>
+</div> -->

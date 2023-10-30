@@ -24,6 +24,7 @@ import { FormAndFrameworkUtilService } from '@app/services/formandframeworkutil.
 import { mergeMap, tap } from 'rxjs/operators';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
+import { tenantOrgName, tenantLogo } from '../configuration/configuration';
 
 @Injectable()
 export class LoginNavigationHandlerService {
@@ -54,7 +55,7 @@ export class LoginNavigationHandlerService {
             await this.sbProgressLoader.show(this.generateIgnoreTelemetryContext());
             const value = await this.setProfileDetailsAndRefresh(skipNavigation, subType);
 
-            await this.refreshTenantData(value.slug, value.title);
+            await this.refreshTenantData(value.slug, tenantOrgName);
 
             this.ngZone.run(() => {
                 this.preferences.putString(PreferenceKey.NAVIGATION_SOURCE,
@@ -166,9 +167,11 @@ export class LoginNavigationHandlerService {
                 if (isDefaultChannelProfile) {
                     title = await this.appVersion.getAppName();
                 }
-                this.preferences.putString(PreferenceKey.APP_LOGO, tenantInfo.logo).toPromise().then();
+//                 this.preferences.putString(PreferenceKey.APP_LOGO, tenantInfo.logo).toPromise().then();
+                this.preferences.putString(PreferenceKey.APP_LOGO, tenantLogo).toPromise().then();
                 this.preferences.putString(PreferenceKey.APP_NAME, title).toPromise().then();
-                (window as any).splashscreen.setContent(title, tenantInfo.appLogo);
+//                 (window as any).splashscreen.setContent(title, tenantInfo.appLogo);
+                (window as any).splashscreen.setContent(title, tenantLogo);
                 resolve();
             } catch (error) {
                 resolve();

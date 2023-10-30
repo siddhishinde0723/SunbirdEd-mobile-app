@@ -27,10 +27,10 @@ import {
   ActivePageService, AppGlobalService,
   AppHeaderService, CommonUtilService,
   CorReleationDataType, Environment,
-  ID, InteractSubtype, InteractType, NotificationService, PageId, TelemetryGeneratorService, UtilityService
+  ID, InteractSubtype, InteractType, NotificationService, PageId, TelemetryGeneratorService, UtilityService,  LoginHandlerService
 } from '../../../services';
 import { ToastNavigationComponent } from '../popups/toast-navigation/toast-navigation.component';
-
+import {Location} from '@angular/common';
 declare const cordova;
 
 @Component({
@@ -67,8 +67,10 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
   isDarkMode:boolean;
   showReports: any;
   showLoginButton = false;
+  skipNavigation: any;
   notificationCount = {
     unreadCount : 0
+    
   };
   isTablet = false;
   orientationToSwitch = AppOrientation.LANDSCAPE;
@@ -107,7 +109,9 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
     private popoverCtrl: PopoverController,
     private tncUpdateHandlerService: TncUpdateHandlerService,
     private appHeaderService: AppHeaderService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private loginHandlerService: LoginHandlerService,
+    private location: Location,
   ) {
     this.setLanguageValue();
     this.events.subscribe('onAfterLanguageChange:update', (res) => {
@@ -119,6 +123,8 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
       this.showReports = res;
     });
     this.getUnreadNotifications();
+    const extrasData = this.router.getCurrentNavigation().extras.state;
+    this.skipNavigation = extrasData;
     this.isTablet = window['isTablet'];
     this.events.subscribe(EventTopics.ORIENTATION, () => {
       this.checkCurrentOrientation();
@@ -268,7 +274,18 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
     this.events.publish(EventTopics.HAMBURGER_MENU_CLICKED);
     this.currentSelectedTabs = await this.preference.getString(PreferenceKey.SELECTED_SWITCHABLE_TABS_CONFIG).toPromise();
   }
-
+  loginWithKeyCloak() {
+    this.loginHandlerService.signIn(this.skipNavigation).then(() => {
+      this.navigateBack(this.skipNavigation);
+    });
+  }
+  private navigateBack(skipNavigation) {
+    if ((skipNavigation && skipNavigation.navigateToCourse) ||
+      (skipNavigation && (skipNavigation.source === 'user' ||
+      skipNavigation.source === 'resources'))) {
+              this.location.back();
+    }
+  }
   emitEvent($event, name) {
 
     if (name === 'filter') {

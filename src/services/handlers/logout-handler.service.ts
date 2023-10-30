@@ -17,11 +17,13 @@ import {
   Environment, InteractSubtype, InteractType, PageId
 } from '../telemetry-constants';
 import {GooglePlus} from '@ionic-native/google-plus/ngx';
-
+import {Location} from '@angular/common';
+import { LoginHandlerService } from '@app/services';
 @Injectable({
   providedIn: 'root'
 })
 export class LogoutHandlerService {
+  skipNavigation: any;
   constructor(
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
     @Inject('AUTH_SERVICE') private authService: AuthService,
@@ -36,7 +38,11 @@ export class LogoutHandlerService {
     private segmentationTagService: SegmentationTagService,
     private platform: Platform,
     private googlePlusLogin: GooglePlus,
+    private loginHandlerService: LoginHandlerService,
+    private location: Location
   ) {
+    const extrasData = this.router.getCurrentNavigation()?.extras?.state;
+      this.skipNavigation = extrasData;
   }
 
   public async onLogout() {
@@ -83,14 +89,27 @@ export class LogoutHandlerService {
         return this.authService.resignSession();
       }),
       tap(async () => {
-        await this.navigateToAptPage();
+        // await this.navigateToAptPage();
+        this.loginWithKeyCloak();
         this.events.publish(AppGlobalService.USER_INFO_UPDATED);
         this.appGlobalService.setEnrolledCourseList([]);
         this.segmentationTagService.getPersistedSegmentaion();
       })
     ).subscribe();
   }
+  private loginWithKeyCloak() {
+    this.loginHandlerService.signIn(this.skipNavigation).then(() => {
+      this.navigateBack(this.skipNavigation);
+    });
+  }
 
+  private navigateBack(skipNavigation) {
+    if ((skipNavigation && skipNavigation.navigateToCourse) ||
+      skipNavigation && (skipNavigation.source === 'user' ||
+      skipNavigation.source === 'resources')) {
+      this.location.back();
+    }
+  }
   private async logoutGoogle(){
     if (await this.preferences.getBoolean(PreferenceKey.IS_GOOGLE_LOGIN).toPromise()) {
       try {

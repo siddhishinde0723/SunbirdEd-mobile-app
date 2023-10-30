@@ -11,7 +11,8 @@ import { IonTabs, ToastController } from '@ionic/angular';
 import { Events } from '@app/util/events';
 import { ProfileService, ProfileType, SharedPreferences } from 'sunbird-sdk';
 import { OnboardingConfigurationService } from '@app/services/onboarding-configuration.service';
-
+import { LogoutHandlerService } from '@app/services/handlers/logout-handler.service';
+import { tenantChannelId } from '@app/configuration/configuration';
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.page.html',
@@ -44,7 +45,8 @@ export class TabsPage implements OnInit, AfterViewInit {
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
     private commonUtilService: CommonUtilService,
     private router: Router,
-    private onboardingConfigurationService: OnboardingConfigurationService
+    private onboardingConfigurationService: OnboardingConfigurationService,
+    private logoutHandlerService: LogoutHandlerService,
   ) {
 
   }
@@ -60,6 +62,11 @@ export class TabsPage implements OnInit, AfterViewInit {
           userId: session.userToken,
           requiredFields: ProfileConstants.REQUIRED_FIELDS,
         }).toPromise();
+        const orgData: any = serverProfile.rootOrg;
+        if (orgData.id !== tenantChannelId) {
+          this.commonUtilService.showToast("No Authorized");
+          this.logoutHandlerService.onLogout();
+        }
         this.commonUtilService.showToast(this.commonUtilService.translateMessage('WELCOME_BACK', serverProfile.firstName));
       }
     }
