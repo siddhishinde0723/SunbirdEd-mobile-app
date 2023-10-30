@@ -13,7 +13,8 @@ import { map } from 'rxjs/operators';
 import { SplaschreenDeeplinkActionHandlerDelegate } from './sunbird-splashscreen/splaschreen-deeplink-action-handler-delegate';
 import { CommonUtilService } from './common-util.service';
 import { LocalCourseService } from './local-course.service';
-
+import { LogoutHandlerService } from '@app/services/handlers/logout-handler.service';
+import { tenantChannelId } from '@app/configuration/configuration';
 @Injectable()
 export class ExternalIdVerificationService {
     public isCustodianUser$: Observable<boolean>;
@@ -27,7 +28,8 @@ export class ExternalIdVerificationService {
         private splaschreenDeeplinkActionHandlerDelegate: SplaschreenDeeplinkActionHandlerDelegate,
         private commonUtilService: CommonUtilService,
         private localCourseService: LocalCourseService,
-        private router: Router
+        private router: Router,
+        private logoutHandlerService: LogoutHandlerService,
     ) {
         this.isCustodianUser$ = this.profileService.isDefaultChannelProfile().pipe(
             map((isDefaultChannelProfile) => isDefaultChannelProfile) as any
@@ -67,6 +69,11 @@ export class ExternalIdVerificationService {
             userId: session.userToken,
             requiredFields: ProfileConstants.REQUIRED_FIELDS,
         }).toPromise();
+        const orgData: any = serverProfile.rootOrg;
+        if (orgData.id !== tenantChannelId) {
+          this.commonUtilService.showToast("No Authorized");
+          this.logoutHandlerService.onLogout();
+        }
         if (isCustodianUser) {
             await this.profileService.getUserFeed().toPromise()
                 .then(async (userFeed: any) => {

@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
 import { AuditState, CorrelationData, SharedPreferences } from 'sunbird-sdk';
 import { TagPrefixConstants } from '@app/services/segmentation-tag/segmentation-tag.service';
 import { OnboardingConfigurationService } from '@app/services';
-
+import { LoginHandlerService } from '../../services';
 export interface ILanguages {
   label: string;
   code: string;
@@ -45,7 +45,7 @@ export class LanguageSettingsPage {
   headerConfig: any;
   headerObservable: any;
   appName = '';
-
+  skipNavigation: any;
   constructor(
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
     public translateService: TranslateService,
@@ -60,8 +60,13 @@ export class LanguageSettingsPage {
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private nativePageTransitions: NativePageTransitions,
-    private onboardingConfigurationService: OnboardingConfigurationService
-  ) { }
+    private onboardingConfigurationService: OnboardingConfigurationService,
+    private loginHandlerService: LoginHandlerService,
+  ){
+    const extrasData = this.router.getCurrentNavigation().extras.state;
+    this.skipNavigation = extrasData;
+}
+
 
   ionViewDidEnter() {
     this.activatedRoute.params.subscribe(async params => {
@@ -306,7 +311,8 @@ export class LanguageSettingsPage {
           fixedPixelsBottom: 0
         };
         this.nativePageTransitions.slide(options);
-        this.router.navigate([RouterLinks.USER_TYPE_SELECTION]);
+        // this.router.navigate([RouterLinks.USER_TYPE_SELECTION]);
+        this.loginWithKeyCloak();
         this.preferences.putBoolean(PreferenceKey.IS_NEW_USER, true).toPromise();
       }
     } else {
@@ -321,7 +327,19 @@ export class LanguageSettingsPage {
       this.commonUtilService.showToast(dom.body.textContent, false, 'redErrorToast');
     }
   }
+  loginWithKeyCloak() {
+    this.loginHandlerService.signIn(this.skipNavigation).then(() => {
+      this.navigateBack(this.skipNavigation);
+    });
+  }
 
+  private navigateBack(skipNavigation) {
+    if ((skipNavigation && skipNavigation.navigateToCourse) ||
+      (skipNavigation && (skipNavigation.source === 'user' ||
+      skipNavigation.source === 'resources'))) {
+        this.location.back();
+    }
+  }
   handleHeaderEvents($event) {
     if ($event.name === 'back') {
       this.telemetryGeneratorService.generateBackClickedTelemetry(

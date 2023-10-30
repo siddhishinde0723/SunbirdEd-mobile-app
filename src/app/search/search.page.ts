@@ -60,7 +60,7 @@ import { FormConstants } from '../form.constants';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DiscoverComponent } from '../components/discover/discover.page';
 import { OnTabViewWillEnter } from './../tabs/on-tab-view-will-enter';
-
+import { tenantChannelId } from '@app/configuration/configuration';
 declare const cordova;
 @Component({
   selector: 'app-search',
@@ -937,13 +937,14 @@ export class SearchPage implements OnInit, AfterViewInit, OnDestroy, OnTabViewWi
     const contentSearchRequest: ContentSearchCriteria = {
       searchType: SearchType.SEARCH,
       query: this.searchKeywords,
-      primaryCategories: this.primaryCategories,
+      primaryCategories: ['course'],
       facets: facets ? facets : Search.FACETS,
       mode: 'soft',
       framework: this.currentFrameworkId,
       languageCode: this.selectedLanguageCode,
       limit: 10,
-      offset: offset
+      offset: offset,
+      channel: [tenantChannelId]
     };
     if(this.rootOrgId){
       contentSearchRequest.channel = [this.rootOrgId]
@@ -963,6 +964,8 @@ export class SearchPage implements OnInit, AfterViewInit, OnDestroy, OnTabViewWi
         contentSearchRequest.grade = applyProfileFilter(this.appGlobalService, this.profile.grade,
           contentSearchRequest.grade, 'gradeLevel');
       }
+      contentSearchRequest.channel = applyProfileFilter(this.appGlobalService, [tenantChannelId],
+        contentSearchRequest.channel, 'channel');
     }
 
     this.isDialCodeSearch = false;

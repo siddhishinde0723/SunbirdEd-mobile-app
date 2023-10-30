@@ -294,7 +294,8 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
     const rootOrgId = this.onboardingConfigurationService.getAppConfig().overriddenDefaultChannelId
     let displayItems = await this.contentAggregatorHandler.newAggregate(request, AggregatorPageType.HOME, rootOrgId);
     this.getOtherMLCategories();
-    displayItems = this.mapContentFacteTheme(displayItems);
+    // this.getOtherMLCategories();
+        displayItems = this.mapContentFacteTheme(displayItems);
     this.checkHomeData(displayItems);
     this.displaySections = this.contentAggregatorHandler.populateIcons(displayItems);
     this.showorHideBanners();

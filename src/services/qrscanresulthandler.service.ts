@@ -124,7 +124,8 @@ export class QRScannerResultHandler {
     this.generateQRScanSuccessInteractEvent(scannedData, 'SearchResult', dialCode);
     const telemetryObject = new TelemetryObject(dialCode, 'qr', ' ');
     const utmUrl = scannedData.slice(scannedData.indexOf('?') + 1);
-    const params: {[param: string]: string} = qs.parse(utmUrl);
+    // const params: {[param: string]: string} = qs.parse(utmUrl);
+    const params = qs.parse(utmUrl);
     const cData: Array<CorrelationData> = [];
 
     if (utmUrl !== scannedData) {
@@ -158,7 +159,8 @@ export class QRScannerResultHandler {
     const contentId = results[results.length - 1];
     this.generateQRScanSuccessInteractEvent(scannedData, 'ContentDetail', contentId);
     const utmUrl = scannedData.slice(scannedData.indexOf('?') + 1);
-    const params: {[param: string]: string} = qs.parse(utmUrl);
+    // const params: {[param: string]: string} = qs.parse(utmUrl);
+    const params = qs.parse(utmUrl);
     const cData: CorrelationData[] = [];
 
     if (utmUrl !== scannedData) {
