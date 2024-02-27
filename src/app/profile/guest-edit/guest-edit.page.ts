@@ -30,13 +30,14 @@ import {
   ObjectType,
   PageId,
 } from '@app/services/telemetry-constants';
+import { ContainerService, } from '@app/services/container.services';
 import { AppHeaderService } from '@app/services/app-header.service';
 import {PreferenceKey, ProfileConstants, RegexPatterns, RouterLinks} from '@app/app/app.constant';
 import { Location } from '@angular/common';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
 import { ProfileHandler } from '@app/services/profile-handler';
-import { FormAndFrameworkUtilService, OnboardingConfigurationService } from '@app/services';
+import { LoginHandlerService, OnboardingConfigurationService } from '@app/services';
 import { SegmentationTagService, TagPrefixConstants } from '@app/services/segmentation-tag/segmentation-tag.service';
 
 @Component({
@@ -140,8 +141,7 @@ export class GuestEditPage implements OnInit, OnDestroy {
     private location: Location,
     private profileHandler: ProfileHandler,
     private segmentationTagService: SegmentationTagService,
-    private onboardingConfigurationService: OnboardingConfigurationService,
-    private formAndFrameworkUtilService: FormAndFrameworkUtilService
+    private onboardingConfigurationService: OnboardingConfigurationService
   ) {
     if (this.router.getCurrentNavigation().extras.state) {
       this.isNewUser = Boolean(this.router.getCurrentNavigation().extras.state.isNewUser);
@@ -182,11 +182,12 @@ export class GuestEditPage implements OnInit, OnDestroy {
       Environment.USER,
       PageId.CREATE_USER
     );
-    this.getCategoriesAndUpdateAttributes(this.profile.profileType || undefined);
+    this.addAttributeSubscription(this.profile.profileType || undefined);
     this.supportedUserTypes = await this.profileHandler.getSupportedUserTypes(this.onboardingConfigurationService.getAppConfig().overriddenDefaultChannelId);
   }
 
-  private async addAttributeSubscription() {
+  private async addAttributeSubscription(userType: string) {
+    this.supportedProfileAttributes = await this.profileHandler.getSupportedProfileAttributes(true, userType, this.onboardingConfigurationService.getAppConfig().overriddenDefaultChannelId);
     const subscriptionArray: Array<any> = this.updateAttributeStreamsnSetValidators(this.supportedProfileAttributes);
     this.formControlSubscriptions = combineLatest(subscriptionArray).subscribe();
   }
@@ -213,7 +214,7 @@ export class GuestEditPage implements OnInit, OnDestroy {
     if (this.formControlSubscriptions) {
       this.formControlSubscriptions.unsubscribe();
     }
-    this.getCategoriesAndUpdateAttributes(this.guestEditForm.value.profileType);
+    this.addAttributeSubscription(this.guestEditForm.value.profileType);
     this.guestEditForm.patchValue({
       syllabus: [],
       boards: [],
@@ -368,9 +369,7 @@ export class GuestEditPage implements OnInit, OnDestroy {
         } catch (e) {
           console.error(e);
         } finally {
-          if (this.loader) {
-            this.loader.dismiss();
-          }
+          this.loader.dismiss();
         }
       })
     );
@@ -635,16 +634,6 @@ export class GuestEditPage implements OnInit, OnDestroy {
       })
     ));
     return subscriptionArray;
-  }
-
-  private getCategoriesAndUpdateAttributes(userType: string) {
-    this.formAndFrameworkUtilService.getFrameworkCategoryList(userType).then((categories) => {
-      if (categories && categories.supportedFrameworkConfig && categories.supportedAttributes) {
-        this.categories = categories.supportedFrameworkConfig;
-        this.supportedProfileAttributes = categories.supportedAttributes;
-        this.addAttributeSubscription();
-      }
-    });
   }
 
 }

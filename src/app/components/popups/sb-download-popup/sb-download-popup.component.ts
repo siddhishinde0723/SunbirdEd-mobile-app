@@ -60,19 +60,23 @@ export class SbDownloadPopupComponent implements OnInit, OnChanges {
       this.queuedIdentifiers = typeof this.queuedIdentifiers === 'number' ? new Array(this.queuedIdentifiers) : this.queuedIdentifiers;
     }
     if (changes['currentCount']) {
-      this.currentCount = changes['currentCount'].currentValue;
+      this.currentCount = this.currentCount;
     }
     if (changes['downloadSize']) {
-      this.downloadSize = changes['downloadSize'].currentValue;
+      this.downloadSize = this.downloadSize;
     }
     if (changes['downloadProgress']) {
-      this.downloadProgress = changes['downloadProgress'].currentValue;
-      if ((this.contentName && this.contentAvailableLocally) && (this.downloadProgress  || this.downloadProgress === 100)) {
+      this.downloadProgress = this.downloadProgress;
+      if (this.downloadProgress === 100 && this.contentName && this.contentAvailableLocally) {
+        this.showDownload = false;
+      } else if (this.contentName && this.downloadProgress && this.contentAvailableLocally) {
+        this.showDownload = false;
+      } else if (this.contentName && this.contentAvailableLocally) {
         this.showDownload = false;
       }
     }
     if (changes['contentName']) {
-      this.contentName = changes['contentName'];
+      this.contentName = this.contentName;
     }
   }
 }

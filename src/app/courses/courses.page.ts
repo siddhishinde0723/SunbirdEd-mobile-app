@@ -401,7 +401,8 @@ export class CoursesPage implements OnInit, OnDestroy {
    */
   private getCurrentUser(): void {
     const profileType = this.appGlobalService.getGuestUserType();
-    this.showSignInCard = this.commonUtilService.isAccessibleForNonStudentRole(profileType);
+    this.showSignInCard = this.commonUtilService.isAccessibleForNonStudentRole(profileType) &&
+      this.appGlobalService.DISPLAY_SIGNIN_FOOTER_CARD_IN_COURSE_TAB_FOR_TEACHER;
   }
 
   async search() {
@@ -956,6 +957,7 @@ export class CoursesPage implements OnInit, OnDestroy {
   async getAggregatorResult(resetFilter?: boolean) {
     this.spinner(true);
     this.profile = await this.profileService.getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS }).toPromise();
+    const audience: string[] = await this.profileHandler.getAudience(this.profile.profileType);
     const request: ContentAggregatorRequest = {
       applyFirstAvailableCombination: {},
       userPreferences: {

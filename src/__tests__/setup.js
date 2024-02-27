@@ -72,19 +72,7 @@ global.splashscreen = {
     markImportDone: () => { },
     hide: () => { },
     clearPrefs: () => { },
-    setContent: () => { },
-    getActions: (data) => {data(JSON.stringify([
-        {
-            type: 'TELEMETRY',
-            payload: 'sample-payload'
-        }, {
-            type: 'IMPORT',
-            payload: 'sample-payload'
-        }, {
-            type: 'DEEPLINK',
-            payload: 'payload'
-        }
-    ]))}
+    setContent: () => { }
 }
 
 global.codePush = {

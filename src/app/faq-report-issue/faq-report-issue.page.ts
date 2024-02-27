@@ -307,9 +307,8 @@ export class FaqReportIssuePage implements OnInit, OnDestroy {
       userDetails = 'From: ' + userProfile.profileType[0].toUpperCase() + userProfile.profileType.slice(1) + ', ' +
       selectedBMG + ticketSummary;
     }
-    if (this.categories) {
-      userDetails += '.<br> <br>' + this.commonUtilService.translateMessage('DEVICE_ID') + ': ' + this.deviceId + '<br>'
-    } 
+    this.categories ? userDetails += '.<br> <br>' + this.commonUtilService.translateMessage('DEVICE_ID') + ': ' + this.deviceId + '<br>'
+      : undefined;
     userDetails += ticketSummary;
     return userDetails;
   }
@@ -394,7 +393,7 @@ export class FaqReportIssuePage implements OnInit, OnDestroy {
   }
   
   private generateLogTelemetry(){
-     
+
   }
 
   takeAction(action?: string) {
@@ -507,13 +506,11 @@ export class FaqReportIssuePage implements OnInit, OnDestroy {
     let correlationlist: Array<CorrelationData> =  [];
     correlationlist =  [...correlationlist, ...(this.corRelationList || [])];
     // Category
-    if (this.formValues && this.formValues.category) {
-      correlationlist.push({ id: this.formValues.category, type: CorReleationDataType.CATEGORY });
-    }
+    this.formValues && this.formValues.category ?
+      correlationlist.push({ id: this.formValues.category, type: CorReleationDataType.CATEGORY }) : undefined;
     // SubCategory
-    if (this.formValues && this.formValues.subcategory) {
-      correlationlist.push({ id: this.formValues.subcategory, type: CorReleationDataType.SUBCATEGORY });
-    }
+    this.formValues && this.formValues.subcategory ?
+      correlationlist.push({ id: this.formValues.subcategory, type: CorReleationDataType.SUBCATEGORY }) : undefined;
     if (this.formValues && this.formValues.children && this.formValues.children.subcategory) {
       // Board
       correlationlist.push({ id: this.extractPrepareFieldStr('board') || '', type: CorReleationDataType.BOARD });
@@ -691,9 +688,9 @@ export class FaqReportIssuePage implements OnInit, OnDestroy {
     categorykeys.forEach(element => {
       if (Object.prototype.hasOwnProperty.call(formValue, element)) {
         if (!this.categories) {
-          this.categories = formValue[element] ? formValue[element] : undefined;
+          formValue[element] ? this.categories = formValue[element] : undefined;
         } else {
-          this.categories += formValue[element] ? (' - ' + formValue[element]) : undefined;
+          formValue[element] ? this.categories += ' - ' + formValue[element] : undefined;
         }
       }
     });

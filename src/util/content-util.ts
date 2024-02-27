@@ -154,12 +154,14 @@ export class ContentUtil {
       }
     });
 
-    for(const param in utmParams) {
-      if (utmParams[param] && !Array.isArray(utmParams[param])) {
-        cData.push({ id: utmParams[param], type: param });
-      } else {
-        // should generate error telemetry for duplicate campaign parameter
-      }
+    if (Object.keys(utmParams).length) {
+      Object.keys(utmParams).map((key) => {
+        if (utmParams[key] && !Array.isArray(utmParams[key])) {
+          cData.push({ id: utmParams[key], type: key });
+        } else {
+          // should generate error telemetry for duplicate campaign parameter
+        }
+      });
     }
     return cData;
   }

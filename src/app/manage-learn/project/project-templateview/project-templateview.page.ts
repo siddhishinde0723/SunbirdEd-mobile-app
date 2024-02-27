@@ -289,7 +289,6 @@ export class ProjectTemplateviewPage implements OnInit {
           projectId: this.project.projectId,
           programId: this.programId,
           solutionId: this.solutionId,
-          hasAcceptedTAndC: this.project.hasAcceptedTAndC,
         },
       });
     } else {
@@ -372,13 +371,11 @@ export class ProjectTemplateviewPage implements OnInit {
     await alert.present();
   }
   openStartIMPPopup(){
-    if(!this.project?.projectId){
-      this.popupService.showStartIMPForProjectPopUp('FRMELEMNTS_LBL_START_IMPROVEMENT', 'FRMELEMNTS_LBL_START_IMP_POPUP_MSG1', 'FRMELEMNTS_LBL_START_IMP_POPUP_MSG2',).then((data: any) => {
-        if(data){
-          this.doAction();
-        }
-      })
-    }
+    this.popupService.showStartIMPForProjectPopUp('FRMELEMNTS_LBL_START_IMPROVEMENT', 'FRMELEMNTS_LBL_START_IMP_POPUP_MSG1', 'FRMELEMNTS_LBL_START_IMP_POPUP_MSG2',).then((data: any) => {
+      if(data){
+        this.doAction();
+      }
+    })
    }
    private async showProfileNameConfirmationPopup() {
      let listing;

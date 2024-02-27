@@ -20,7 +20,9 @@ export class YearOfBirthPopupComponent implements OnInit {
   ngOnInit(): void {
     this.initiateYearSelecter();
   }
-  async submit() { 
+  async submit() {
+    const currentYear = new Date().getFullYear();
+    const userAge = currentYear - this.selectedYearOfBirth;
     const loader = await this.commonUtilService.getLoader();
     await loader.present();
     const req = {

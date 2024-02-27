@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NotificationPage } from './notification.page';
 import { ComponentsModule } from '../components/components.module';
-import { SbNotificationModule } from '@project-sunbird/sb-notification';
+import { SbNotificationModule } from 'sb-notification';
 
 const routes: Routes = [
   {

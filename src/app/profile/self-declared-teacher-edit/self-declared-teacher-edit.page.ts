@@ -268,6 +268,7 @@ export class SelfDeclaredTeacherEditPage {
   }
 
   private async checkLocationAvailability() {
+    let stateId;
     let availableLocationData;
     if (this.profile && this.profile['userLocations'] && this.profile['userLocations'].length) {
       for (const ele of this.profile['userLocations']) {
@@ -275,6 +276,7 @@ export class SelfDeclaredTeacherEditPage {
           this.availableLocationDistrict = ele.name;
 
         } else if (ele.type === 'state') {
+          stateId = ele.id || null;
           this.availableLocationState = ele.name;
         }
       }

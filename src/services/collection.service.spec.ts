@@ -11,7 +11,6 @@ describe('LocalCourseService', () => {
 
   const mockContentService: Partial<ContentService> = {};
   const mockCommonUtilService: Partial<CommonUtilService> = {};
-  window.console.error = jest.fn()
 
   beforeAll(() => {
     collectionService = new CollectionService(

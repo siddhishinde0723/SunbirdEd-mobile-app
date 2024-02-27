@@ -279,7 +279,7 @@ export class FaqHelpPage implements OnInit {
       return;
     }
     this.value = event.data;
-    window.parent.postMessage(this.value, window.parent.origin);
+    window.parent.postMessage(this.value, '*');
   }
 
   async navigateToReportIssue() {

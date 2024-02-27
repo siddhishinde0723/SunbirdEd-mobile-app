@@ -196,6 +196,8 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
   config: any;
   nextContentToBePlayed: any;
   isPlayerPlaying = false;
+  // displayTranscripts = false;
+  // transcriptList = [];
 
   constructor(
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
@@ -561,6 +563,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
     }
 
     this.content = data;
+    this.playerType = this.content.mimeType === 'video/mp4' ? 'sunbird-video-player' : undefined;
     if (data.contentData.licenseDetails && Object.keys(data.contentData.licenseDetails).length) {
       this.licenseDetails = data.contentData.licenseDetails;
     }
@@ -601,7 +604,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
     if (Boolean(data.isAvailableLocally)) {
       this.isUpdateAvail = data.isUpdateAvailable && !this.isUpdateAvail;
     } else {
-      console.log("Data is not available locally.");
+      this.content.contentData.size = this.content.contentData.size;
     }
 
     if (this.content.contentData.me_totalDownloads) {
@@ -1002,7 +1005,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
       corRelationData
     );
     this.telemetryGeneratorService.generateInteractTelemetry(InteractType.TOUCH,
-      InteractSubtype.DOWNLOAD_CANCEL_CLICKED,
+      this.isUpdateAvail ? InteractSubtype.DOWNLOAD_CANCEL_CLICKED : InteractSubtype.DOWNLOAD_CANCEL_CLICKED,
       Environment.HOME,
       PageId.CONTENT_DETAIL,
       this.telemetryObject,
@@ -1653,7 +1656,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
     }
     try {
       const batchDetails = await this.courseService.getBatchDetails({ batchId }).toPromise();
-      for (let key in batchDetails.cert_templates) {
+      for (var key in batchDetails.cert_templates) {
         return (batchDetails && batchDetails.cert_templates[key] &&
           batchDetails.cert_templates[key].description) || '';
       }

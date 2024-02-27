@@ -2222,6 +2222,7 @@ describe('AppComponent', () => {
             jest.spyOn(appComponent, 'reloadSigninEvents').mockImplementation(() => {
                 return;
             });
+            mockAppGlobalService.OPEN_RAPDISCOVERY_ENABLED = true;
             (window as any).openrap = {
                 startDiscovery: jest.fn((fn) => fn({}))
             };
@@ -2258,22 +2259,11 @@ describe('AppComponent', () => {
                 expect(mockPreferences.getString).toHaveBeenNthCalledWith(1, PreferenceKey.BATCH_DETAIL_KEY);
                 expect(appComponent.toggleRouterOutlet).toBeTruthy();
                 expect(mockZone.run).toHaveBeenCalled();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(1,
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
                     InteractType.OTHER,
-                    InteractSubtype.NETWORK_STATUS,
+                    InteractSubtype.OPENRAP_DEVICE_DISCONNECTED,
                     Environment.HOME,
-                    'splash', undefined,
-                    new Map()
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(2,
-                    'fcm', '', 'home', 'sample-page', undefined, undefined, undefined,
-                    [{id: 'sample-batch-details', type: 'NotificationReceivedAt'}], 'notification-received'
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(3,
-                    InteractType.OTHER,
-                    InteractSubtype.HOTCODE_PUSH_INITIATED,
-                    Environment.HOME,
-                    Environment.HOME, null,
+                    Environment.HOME, undefined,
                     new Map()
                 );
                 done();
@@ -2428,6 +2418,7 @@ describe('AppComponent', () => {
             jest.spyOn(appComponent, 'reloadSigninEvents').mockImplementation(() => {
                 return;
             });
+            mockAppGlobalService.OPEN_RAPDISCOVERY_ENABLED = true;
             (window as any).openrap = {
                 startDiscovery: jest.fn((fn) => fn({}))
             };
@@ -2466,22 +2457,11 @@ describe('AppComponent', () => {
                 expect(mockPreferences.getString).toHaveBeenNthCalledWith(1, PreferenceKey.BATCH_DETAIL_KEY);
                 expect(appComponent.toggleRouterOutlet).toBeTruthy();
                 expect(mockZone.run).toHaveBeenCalled();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(1,
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
                     InteractType.OTHER,
-                    InteractSubtype.NETWORK_STATUS,
+                    InteractSubtype.OPENRAP_DEVICE_DISCONNECTED,
                     Environment.HOME,
-                    'splash', undefined,
-                    new Map()
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(2,
-                    'fcm', '', 'home', 'sample-page', undefined, undefined, undefined,
-                    [{id: 'sample-batch-details', type: 'NotificationReceivedAt'}], 'notification-received'
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(3,
-                    InteractType.OTHER,
-                    InteractSubtype.HOTCODE_PUSH_INITIATED,
-                    Environment.HOME,
-                    Environment.HOME, null,
+                    Environment.HOME, undefined,
                     new Map()
                 );
                 expect(mockEventsBusService.events).toHaveBeenCalled();
@@ -2506,6 +2486,7 @@ describe('AppComponent', () => {
             jest.spyOn(appComponent, 'reloadSigninEvents').mockImplementation(() => {
                 return;
             });
+            mockAppGlobalService.OPEN_RAPDISCOVERY_ENABLED = true;
             (window as any).openrap = {
                 startDiscovery: jest.fn((fn) => fn({}))
             };
@@ -2532,32 +2513,24 @@ describe('AppComponent', () => {
                     [{ id: '', type: 'NotificationId' }]
                 );
                 expect(mockTranslate.use).toHaveBeenCalled();
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
+                    InteractType.OTHER,
+                    'networkStatus',
+                    Environment.HOME,
+                    'splash',
+                    undefined,
+                    value
+                );
                 expect(mockEvents.subscribe).toHaveBeenCalled();
                 expect(mockPreferences.getString).toHaveBeenNthCalledWith(1, PreferenceKey.BATCH_DETAIL_KEY);
                 expect(appComponent.toggleRouterOutlet).toBeTruthy();
                 expect(mockZone.run).toHaveBeenCalled();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(1,
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
                     InteractType.OTHER,
-                    InteractSubtype.NETWORK_STATUS,
-                    Environment.HOME,
-                    'splash', undefined,
-                    new Map()
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(2,
-                    'fcm', '', 'home', 'sample-page', undefined, undefined, undefined,
-                    [{
-                        id: '[{\"utmSource\": \"playstore\"}, {\"utmMedium\": \"sample\"}]',
-                        type: 'NotificationReceivedAt'
-                    }],
-                    'notification-received'
-                );
-                const data = new Map();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(3,
-                    InteractType.OTHER,
-                    InteractSubtype.UTM_INFO,
+                    InteractSubtype.OPENRAP_DEVICE_DISCONNECTED,
                     Environment.HOME,
                     Environment.HOME, undefined,
-                    {utm_data: undefined}
+                    new Map()
                 );
                 expect(mockEventsBusService.events).toHaveBeenCalled();
                 expect(mockCommonUtilService.showToast).toHaveBeenCalledWith('AUTO_MIGRATION_FAIL_MESSAGE');
@@ -2581,6 +2554,7 @@ describe('AppComponent', () => {
             jest.spyOn(appComponent, 'reloadSigninEvents').mockImplementation(() => {
                 return;
             });
+            mockAppGlobalService.OPEN_RAPDISCOVERY_ENABLED = true;
             (window as any).openrap = {
                 startDiscovery: jest.fn((fn) => fn({}))
             };
@@ -2619,28 +2593,12 @@ describe('AppComponent', () => {
                 expect(mockPreferences.getString).toHaveBeenNthCalledWith(1, PreferenceKey.BATCH_DETAIL_KEY);
                 expect(appComponent.toggleRouterOutlet).toBeTruthy();
                 expect(mockZone.run).toHaveBeenCalled();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(1,
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
                     InteractType.OTHER,
-                    InteractSubtype.NETWORK_STATUS,
-                    Environment.HOME,
-                    'splash', undefined,
-                    new Map()
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(2,
-                    'fcm', '', 'home', 'sample-page', undefined, undefined, undefined,
-                    [{
-                        id: '[{\"utmSource\": \"playstore\"}, {\"utmMedium\": \"sample\"}]',
-                        type: 'NotificationReceivedAt'
-                    }],
-                    'notification-received'
-                );
-                const data = new Map();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(3,
-                    InteractType.OTHER,
-                    InteractSubtype.UTM_INFO,
+                    InteractSubtype.OPENRAP_DEVICE_DISCONNECTED,
                     Environment.HOME,
                     Environment.HOME, undefined,
-                    {utm_data: undefined}
+                    new Map()
                 );
                 expect(mockEventsBusService.events).toHaveBeenCalled();
                 expect(mockLogoutHandlerService.onLogout).toHaveBeenCalled();
@@ -2754,6 +2712,7 @@ describe('AppComponent', () => {
             jest.spyOn(appComponent, 'reloadSigninEvents').mockImplementation(() => {
                 return;
             });
+            mockAppGlobalService.OPEN_RAPDISCOVERY_ENABLED = true;
             (window as any).openrap = {
                 startDiscovery: jest.fn((fn) => fn({}))
             };
@@ -2800,28 +2759,12 @@ describe('AppComponent', () => {
                 expect(mockPreferences.getString).toHaveBeenNthCalledWith(1, PreferenceKey.BATCH_DETAIL_KEY);
                 expect(appComponent.toggleRouterOutlet).toBeTruthy();
                 expect(mockZone.run).toHaveBeenCalled();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(1,
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
                     InteractType.OTHER,
-                    InteractSubtype.NETWORK_STATUS,
-                    Environment.HOME,
-                    'splash', undefined,
-                    new Map()
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(2,
-                    'fcm', '', 'home', 'sample-page', undefined, undefined, undefined,
-                    [{
-                        id: '[{\"utmSource\": \"playstore\"}, {\"utmMedium\": \"sample\"}]',
-                        type: 'NotificationReceivedAt'
-                    }],
-                    'notification-received'
-                );
-                const data = new Map();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(3,
-                    InteractType.OTHER,
-                    InteractSubtype.UTM_INFO,
+                    InteractSubtype.OPENRAP_DEVICE_DISCONNECTED,
                     Environment.HOME,
                     Environment.HOME, undefined,
-                    {utm_data: undefined}
+                    new Map()
                 );
                 expect(mockPreferences.putString).toHaveBeenCalledWith(
                     PreferenceKey.DEVICE_LOCATION,
@@ -2850,6 +2793,7 @@ describe('AppComponent', () => {
             jest.spyOn(appComponent, 'reloadSigninEvents').mockImplementation(() => {
                 return;
             });
+            mockAppGlobalService.OPEN_RAPDISCOVERY_ENABLED = true;
             (window as any).openrap = {
                 startDiscovery: jest.fn((fn) => fn({}))
             };
@@ -2905,28 +2849,12 @@ describe('AppComponent', () => {
                 expect(mockPreferences.getString).toHaveBeenNthCalledWith(1, PreferenceKey.BATCH_DETAIL_KEY);
                 expect(appComponent.toggleRouterOutlet).toBeTruthy();
                 expect(mockZone.run).toHaveBeenCalled();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(1,
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
                     InteractType.OTHER,
-                    InteractSubtype.NETWORK_STATUS,
-                    Environment.HOME,
-                    'splash', undefined,
-                    new Map()
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(2,
-                    'fcm', '', 'home', 'sample-page', undefined, undefined, undefined,
-                    [{
-                        id: '[{\"utmSource\": \"playstore\"}, {\"utmMedium\": \"sample\"}]',
-                        type: 'NotificationReceivedAt'
-                    }],
-                    'notification-received'
-                );
-                const data = new Map();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(3,
-                    InteractType.OTHER,
-                    InteractSubtype.UTM_INFO,
+                    InteractSubtype.OPENRAP_DEVICE_DISCONNECTED,
                     Environment.HOME,
                     Environment.HOME, undefined,
-                    {utm_data: undefined}
+                    new Map()
                 );
                 expect(mockPreferences.putString).toHaveBeenCalledWith(
                     PreferenceKey.IP_LOCATION,
@@ -2953,6 +2881,7 @@ describe('AppComponent', () => {
             jest.spyOn(appComponent, 'reloadSigninEvents').mockImplementation(() => {
                 return;
             });
+            mockAppGlobalService.OPEN_RAPDISCOVERY_ENABLED = true;
             (window as any).openrap = {
                 startDiscovery: jest.fn((fn) => fn({}))
             };
@@ -3001,28 +2930,12 @@ describe('AppComponent', () => {
                 expect(mockPreferences.getString).toHaveBeenNthCalledWith(1, PreferenceKey.BATCH_DETAIL_KEY);
                 expect(appComponent.toggleRouterOutlet).toBeTruthy();
                 expect(mockZone.run).toHaveBeenCalled();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(1,
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
                     InteractType.OTHER,
-                    InteractSubtype.NETWORK_STATUS,
-                    Environment.HOME,
-                    'splash', undefined,
-                    new Map()
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(2,
-                    'fcm', '', 'home', 'sample-page', undefined, undefined, undefined,
-                    [{
-                        id: '[{\"utmSource\": \"playstore\"}, {\"utmMedium\": \"sample\"}]',
-                        type: 'NotificationReceivedAt'
-                    }],
-                    'notification-received'
-                );
-                const data = new Map();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(3,
-                    InteractType.OTHER,
-                    InteractSubtype.UTM_INFO,
+                    InteractSubtype.OPENRAP_DEVICE_DISCONNECTED,
                     Environment.HOME,
                     Environment.HOME, undefined,
-                    {utm_data: undefined}
+                    new Map()
                 );
                 expect(mockPreferences.putString).toHaveBeenCalledWith(
                     PreferenceKey.IP_LOCATION,
@@ -3048,6 +2961,7 @@ describe('AppComponent', () => {
             jest.spyOn(appComponent, 'reloadSigninEvents').mockImplementation(() => {
                 return;
             });
+            mockAppGlobalService.OPEN_RAPDISCOVERY_ENABLED = true;
             (window as any).openrap = {
                 startDiscovery: jest.fn((fn) => fn({}))
             };
@@ -3096,28 +3010,12 @@ describe('AppComponent', () => {
                 expect(mockPreferences.getString).toHaveBeenNthCalledWith(1, PreferenceKey.BATCH_DETAIL_KEY);
                 expect(appComponent.toggleRouterOutlet).toBeTruthy();
                 expect(mockZone.run).toHaveBeenCalled();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(1,
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
                     InteractType.OTHER,
-                    InteractSubtype.NETWORK_STATUS,
-                    Environment.HOME,
-                    'splash', undefined,
-                    new Map()
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(2,
-                    'fcm', '', 'home', 'sample-page', undefined, undefined, undefined,
-                    [{
-                        id: '[{\"utmSource\": \"playstore\"}, {\"utmMedium\": \"sample\"}]',
-                        type: 'NotificationReceivedAt'
-                    }],
-                    'notification-received'
-                );
-                const data = new Map();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(3,
-                    InteractType.OTHER,
-                    InteractSubtype.UTM_INFO,
+                    InteractSubtype.OPENRAP_DEVICE_DISCONNECTED,
                     Environment.HOME,
                     Environment.HOME, undefined,
-                    {utm_data: undefined}
+                    new Map()
                 );
                 expect(mockPreferences.putString).toHaveBeenCalledWith(
                     PreferenceKey.IP_LOCATION,
@@ -3144,6 +3042,7 @@ describe('AppComponent', () => {
             jest.spyOn(appComponent, 'reloadSigninEvents').mockImplementation(() => {
                 return;
             });
+            mockAppGlobalService.OPEN_RAPDISCOVERY_ENABLED = true;
             (window as any).openrap = {
                 startDiscovery: jest.fn((fn) => fn({}))
             };
@@ -3178,32 +3077,24 @@ describe('AppComponent', () => {
                     [{ id: '', type: 'NotificationId' }]
                 );
                 expect(mockTranslate.use).toHaveBeenCalled();
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
+                    InteractType.OTHER,
+                    'networkStatus',
+                    Environment.HOME,
+                    'splash',
+                    undefined,
+                    value
+                );
                 expect(mockEvents.subscribe).toHaveBeenCalled();
                 expect(mockPreferences.getString).toHaveBeenNthCalledWith(1, PreferenceKey.BATCH_DETAIL_KEY);
                 expect(appComponent.toggleRouterOutlet).toBeTruthy();
                 expect(mockZone.run).toHaveBeenCalled();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(1,
+                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
                     InteractType.OTHER,
-                    InteractSubtype.NETWORK_STATUS,
-                    Environment.HOME,
-                    'splash', undefined,
-                    new Map()
-                );
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(2,
-                    'fcm', '', 'home', 'sample-page', undefined, undefined, undefined,
-                    [{
-                        id: '[{\"utmSource\": \"playstore\"}, {\"utmMedium\": \"sample\"}]',
-                        type: 'NotificationReceivedAt'
-                    }],
-                    'notification-received'
-                );
-                const data = new Map();
-                expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenNthCalledWith(3,
-                    InteractType.OTHER,
-                    InteractSubtype.UTM_INFO,
+                    InteractSubtype.OPENRAP_DEVICE_DISCONNECTED,
                     Environment.HOME,
                     Environment.HOME, undefined,
-                    {utm_data: undefined}
+                    new Map()
                 );
                 expect(mockPreferences.putString).toHaveBeenCalledWith(
                     'sunbirdcontent_context',

@@ -139,12 +139,6 @@ var formRequestArray = [{
         "subType": "search",
         "action": "filter_v3",
         "component": "app"
-    },
-    {
-        'type': 'config',
-        'subType': 'frameworkCategory',
-        'action': 'get',
-        'component': 'app'
     }
 ];
 

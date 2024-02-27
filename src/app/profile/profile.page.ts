@@ -157,7 +157,6 @@ export class ProfilePage implements OnInit {
   learnerPassbook: any[] = [];
   learnerPassbookCount: any;
   enrolledCourseList = [];
-  categories: any;
   projects=[];
   projectsCount =0;
   projectStatus =statusType;
@@ -227,13 +226,11 @@ export class ProfilePage implements OnInit {
   }
 
   async ngOnInit() {
-    this.getCategories();
     this.doRefresh();
     this.appName = await this.appVersion.getAppName();
   }
 
   ionViewWillEnter() {
-    this.getCategories();
     this.events.subscribe('update_header', () => {
       this.headerService.showHeaderWithHomeButton();
     });
@@ -493,9 +490,7 @@ export class ProfilePage implements OnInit {
           this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
           this.mappedTrainingCertificates = this.mapTrainingsToCertificates(res);
         }
-        if (refreshCourseList) {
-          await loader.dismiss();
-        } 
+        refreshCourseList ? await loader.dismiss() : false;
       })
       .catch((error: any) => {
         console.error('error while loading enrolled courses', error);
@@ -542,7 +537,7 @@ export class ProfilePage implements OnInit {
   async getLearnerPassbook() {
     try {
       const request: GetLearnerCerificateRequest = { userId: this.profile.userId || this.profile.id };
-      request.size = this.learnerPassbookCount ? this.learnerPassbookCount : null;
+      this.learnerPassbookCount ? request.size = this.learnerPassbookCount : null;
       const getCertsReq: CSGetLearnerCerificateRequest = {
         userId: this.profile.userId || this.profile.id,
         schemaName: 'certificate',
@@ -594,25 +589,33 @@ export class ProfilePage implements OnInit {
       this.downloadTrainingCertificate(data)
     }
   }
-  async projectCertificateDownload(project){
+  async projectCertificateDownload(project) {
     if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
       this.commonUtilService.showToast('OFFLINE_CERTIFICATE_MESSAGE', false, '', 3000, 'top');
       return;
     }
-    await this.checkForPermissions().then(async (result) => {
-      if (result) {
-          const request = { type:'project',name:project.title, project: project._id, certificate: project.certificate, templateUrl : project.certificate.templateUrl };
-          if (this.platform.is('ios')) {
-            (window as any).cordova.InAppBrowser.open(request.certificate['templateUrl'], '_blank', "toolbarposition=top");
-          } else {
-            this.router.navigate([`/${RouterLinks.PROFILE}/${RouterLinks.CERTIFICATE_VIEW}`], {
-              state: { request }
-            });
-          }
-      } else {
-        this.commonUtilService.showSettingsPageToast('FILE_MANAGER_PERMISSION_DESCRIPTION', this.appName, PageId.PROFILE, true);
-      }
-    });
+    if(this.commonUtilService.isAndroidVer13()) {
+      await this.navigateToCertificateViewPage(project);
+    } else {
+      await this.checkForPermissions().then(async (result) => {
+        if (result) {
+          await this.navigateToCertificateViewPage(project);
+        } else {
+          await this.commonUtilService.showSettingsPageToast('FILE_MANAGER_PERMISSION_DESCRIPTION', this.appName, PageId.PROFILE, true);
+        }
+      });
+    }
+  }
+
+  async navigateToCertificateViewPage(project: any) {
+    const request = { type:'project',name:project.title, project: project._id, certificate: project.certificate, templateUrl : project.certificate.templateUrl };
+    if (this.platform.is('ios')) {
+      (window as any).cordova.InAppBrowser.open(request.certificate['templateUrl'], '_blank', "toolbarposition=top");
+    } else {
+      await this.router.navigate([`/${RouterLinks.PROFILE}/${RouterLinks.CERTIFICATE_VIEW}`], {
+        state: { request }
+      });
+    }
   }
   async downloadTrainingCertificate(course: {
     courseName: string,
@@ -634,37 +637,45 @@ export class ProfilePage implements OnInit {
       telemetryObject,
       values);
 
-    await this.checkForPermissions().then(async (result) => {
-      if (result) {
-        if (course.issuedCertificate) {
-          const request = { courseId: course.courseId, certificate: course.issuedCertificate };
-          if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
-            if (!(await this.courseService.certificateManager.isCertificateCached(request).toPromise())) {
-              this.commonUtilService.showToast('OFFLINE_CERTIFICATE_MESSAGE', false, '', 3000, 'top');
-              return;
-            }
-          }
-          this.router.navigate([`/${RouterLinks.PROFILE}/${RouterLinks.CERTIFICATE_VIEW}`], {
-            state: { request }
-          });
-        } else {
-          if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
-            this.commonUtilService.showToast('OFFLINE_CERTIFICATE_MESSAGE', false, '', 3000, 'top');
-            return;
-          }
-          const downloadMessage = await this.translate.get('CERTIFICATE_DOWNLOAD_INFO').toPromise();
-          const toastOptions = {
-            message: downloadMessage || 'Certificate getting downloaded'
-          };
-          const toast = await this.toastController.create(toastOptions);
-          await toast.present();
-
-          await this.downloadLegacyCertificate(course, toast);
-        }
+      if(this.commonUtilService.isAndroidVer13()) {
+        await this.navigateToDownlaodCertificateView(course);
       } else {
-        this.commonUtilService.showSettingsPageToast('FILE_MANAGER_PERMISSION_DESCRIPTION', this.appName, PageId.PROFILE, true);
+        await this.checkForPermissions().then(async (result) => {
+          if (result) {
+            await this.navigateToDownlaodCertificateView(course)
+          } else {
+            await this.commonUtilService.showSettingsPageToast('FILE_MANAGER_PERMISSION_DESCRIPTION', this.appName, PageId.PROFILE, true);
+          }
+        });
       }
-    });
+  }
+
+  async navigateToDownlaodCertificateView(course) {
+    if (course.issuedCertificate) {
+      const request = { courseId: course.courseId, certificate: course.issuedCertificate };
+      if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
+        if (!(await this.courseService.certificateManager.isCertificateCached(request).toPromise())) {
+          this.commonUtilService.showToast('OFFLINE_CERTIFICATE_MESSAGE', false, '', 3000, 'top');
+          return;
+        }
+      }
+      await this.router.navigate([`/${RouterLinks.PROFILE}/${RouterLinks.CERTIFICATE_VIEW}`], {
+        state: { request }
+      });
+    } else {
+      if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
+        this.commonUtilService.showToast('OFFLINE_CERTIFICATE_MESSAGE', false, '', 3000, 'top');
+        return;
+      }
+      const downloadMessage = await this.translate.get('CERTIFICATE_DOWNLOAD_INFO').toPromise();
+      const toastOptions = {
+        message: downloadMessage || 'Certificate getting downloaded'
+      };
+      const toast = await this.toastController.create(toastOptions);
+      await toast.present();
+
+      await this.downloadLegacyCertificate(course, toast);
+    }
   }
 
   private async downloadLegacyCertificate(course, toast) {
@@ -1086,6 +1097,7 @@ export class ProfilePage implements OnInit {
   }
 
   private async showStoragePermissionPopup(): Promise<boolean | undefined> {
+    // await this.popoverCtrl.dismiss();
     return new Promise<boolean | undefined>(async (resolve) => {
       const confirm = await this.commonUtilService.buildPermissionPopover(
         async (selectedButton: string) => {
@@ -1272,13 +1284,6 @@ export class ProfilePage implements OnInit {
 
     return displayValues;
   }
-
-  private getCategories() {
-    this.formAndFrameworkUtilService.getFrameworkCategoryList().then((categories) => {
-      this.categories = categories.supportedFrameworkConfig;
-    });
-  }
-  
   getProjectsCertificate(){
     const config ={
       url : urlConstants.API_URLS.PROJECT_CERTIFICATES

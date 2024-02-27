@@ -318,6 +318,12 @@ export class AddFilePage implements OnInit {
       // this.project.status = statusType.submitted;
       this.update('submit');
     }, 0)
-    this.location.back()
+    this.router.navigate([`${RouterLinks.PROJECT}/${RouterLinks.DETAILS}`], {
+      queryParams: {
+        projectId: this.project._id,
+        programId: this.project.programId,
+        solutionId: this.project.solutionId,
+      }, replaceUrl: true
+    });
   }
 }

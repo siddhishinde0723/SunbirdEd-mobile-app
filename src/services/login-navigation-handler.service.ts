@@ -145,7 +145,7 @@ export class LoginNavigationHandlerService {
                     await that.profileService.setActiveSessionForProfile(profile.uid).toPromise()
 
                     try {
-                        await that.formAndFrameworkUtilService.updateLoggedInUser(success, profile)
+                        that.formAndFrameworkUtilService.updateLoggedInUser(success, profile)
                     } catch (e) {
                         console.error(e);
                     } finally {
@@ -163,16 +163,16 @@ export class LoginNavigationHandlerService {
 
     private refreshTenantData(slug: string, title: string) {
         return new Promise<void>(async (resolve, reject) => {
-            let appName = title;
+
             try {
                 const tenantInfo = await this.profileService.getTenantInfo({ slug: '' }).toPromise();
                 const isDefaultChannelProfile = await this.profileService.isDefaultChannelProfile().toPromise();
                 if (isDefaultChannelProfile) {
-                    appName = await this.appVersion.getAppName();
+                    title = await this.appVersion.getAppName();
                 }
                 this.preferences.putString(PreferenceKey.APP_LOGO, tenantInfo.logo).toPromise().then();
-                this.preferences.putString(PreferenceKey.APP_NAME, appName).toPromise().then();
-                (window as any).splashscreen.setContent(appName, tenantInfo.appLogo);
+                this.preferences.putString(PreferenceKey.APP_NAME, title).toPromise().then();
+                (window as any).splashscreen.setContent(title, tenantInfo.appLogo);
                 resolve();
             } catch (error) {
                 resolve();

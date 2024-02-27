@@ -12,7 +12,5 @@ export class PbHorizontalComponent {
   @Input('isOnBoardCard') isOnBoardCard;
   @Input('isCourseProgress') isCourseProgress;
 
-  constructor() {
-    console.log('pb-horizontal.component');   
-  }
+  constructor() {}
 }

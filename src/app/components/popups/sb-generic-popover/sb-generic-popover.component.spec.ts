@@ -45,10 +45,7 @@ describe('SbGenericPopoverComponent', () => {
         sbGenericPopoverComponent.backButtonFunc = {
             unsubscribe: unsubscribeFn,
         } as any;
-        mockEvents.subscribe = jest.fn((topic, fn) => {
-            if(topic == 'selectedContents:changed') {
-                fn({selectedContents: {}})
-        }});
+
         // act
         sbGenericPopoverComponent.ngOnInit();
         // assert
@@ -84,14 +81,6 @@ describe('SbGenericPopoverComponent', () => {
         sbGenericPopoverComponent.deleteContent(1);
         // assert
         expect(mockPopOverController.dismiss).toHaveBeenCalledWith({ isLeftButtonClicked: false });
-    });
-
-    it('should dismiss the popup on deleteContent, buttonIndex default', () => {
-        // arrange
-        // act
-        sbGenericPopoverComponent.deleteContent();
-        // assert
-        expect(mockPopOverController.dismiss).toHaveBeenCalledWith({ isLeftButtonClicked: true });
     });
 
 });

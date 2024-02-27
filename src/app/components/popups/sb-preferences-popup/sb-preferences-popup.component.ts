@@ -1,5 +1,6 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { TelemetryGeneratorService } from '@app/services';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 
 @Component({

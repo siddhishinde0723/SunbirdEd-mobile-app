@@ -8,9 +8,7 @@ export type EventHandler = (...args: any[]) => any;
 export class Events {
     private c = new Map<string, EventHandler[]>();
 
-    constructor() {
-        console.log('events.ts');       
-    }
+    constructor() {}
 
     subscribe(topic: string, ...handlers: EventHandler[]) {
         let topics = this.c.get(topic);

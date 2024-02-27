@@ -1,4 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { RouterLinks } from '@app/app/app.constant';
 import { AndroidPermission, AndroidPermissionsStatus } from '@app/services/android-permissions/android-permission';
 import { CommonUtilService } from '@app/services/common-util.service';
 import { Environment, InteractSubtype, PageId } from '@app/services/telemetry-constants';
@@ -28,7 +29,6 @@ export class DownloadTranscriptPopupComponent implements OnInit {
     private permissionService: AndroidPermissionsService,
   ) { }
   ngOnInit(): void {
-    console.log('download-transcript-popup.component');   
   }
   private async checkForPermissions(): Promise<boolean | undefined> {
     if(this.platform.is('ios')) {
@@ -112,45 +112,53 @@ export class DownloadTranscriptPopupComponent implements OnInit {
     const loader = await this.commonUtilService.getLoader();
     this.popOverCtrl.dismiss();
     await loader.present();
-    await this.checkForPermissions().then(async (result) => {
-      if (result) {
-        const transcriptsObj = this.contentData.transcripts;
-        if (transcriptsObj) {
-          let transcripts = [];
-          if (typeof transcriptsObj === 'string') {
-            console.log('....................')
-            transcripts = JSON.parse(transcriptsObj);
-          } else {
-            transcripts = transcriptsObj;
-          }
-          if (transcripts && transcripts.length > 0) {
-            transcripts.forEach(item => {
-                if (item.language === this.transcriptLanguage) {
-                  const url = item.artifactUrl;
-                  const request = {
-                    identifier: item.identifier,
-                    downloadUrl: url,
-                    mimeType: '',
-                    fileName: this.contentData.name
-                  };
-                  this.contentService.downloadTranscriptFile(request).then((data) => {
-                    loader.dismiss();
-                  }).catch((err) => {
-                    console.log('err........', err);
-                    loader.dismiss();
-                  });
-                }
-            });
-          } else {
-            loader.dismiss();
-          }
+    if(this.commonUtilService.isAndroidVer13()) {
+      await this.downloadTranscriptData(loader);
+    } else {
+      await this.checkForPermissions().then(async (result) => {
+        if (result) {
+          this.downloadTranscriptData(loader)
+        } else {
+          await this.commonUtilService.showSettingsPageToast('FILE_MANAGER_PERMISSION_DESCRIPTION', this.appName, PageId.PROFILE, true);
         }
-      } else {
-        this.commonUtilService.showSettingsPageToast('FILE_MANAGER_PERMISSION_DESCRIPTION', this.appName, PageId.PROFILE, true);
-      }
-    });
-    
+      });
+    }
   }
+
+  downloadTranscriptData(loader) {
+    const transcriptsObj = this.contentData.transcripts;
+    if (transcriptsObj) {
+      let transcripts = [];
+      if (typeof transcriptsObj === 'string') {
+        console.log('....................')
+        transcripts = JSON.parse(transcriptsObj);
+      } else {
+        transcripts = transcriptsObj;
+      }
+      if (transcripts && transcripts.length > 0) {
+        transcripts.forEach(item => {
+            if (item.language === this.transcriptLanguage) {
+              const url = item.artifactUrl;
+              const request = {
+                identifier: item.identifier,
+                downloadUrl: url,
+                mimeType: '',
+                fileName: this.contentData.name
+              };
+              this.contentService.downloadTranscriptFile(request).then((data) => {
+                loader.dismiss();
+              }).catch((err) => {
+                console.log('err........', err);
+                loader.dismiss();
+              });
+            }
+        });
+      } else {
+        loader.dismiss();
+      }
+    }
+  }
+
   closePopover() {
     this.popOverCtrl.dismiss();
   }
