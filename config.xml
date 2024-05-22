@@ -11,19 +11,23 @@
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="22" />
     <preference name="BackupWebStorage" value="none" />
-    <preference name="SplashScreenDelay" value="5000" />
+    <preference name="FadeSplashScreen" value="false" />
     <preference name="Orientation" value="portrait" />
     <preference name="AndroidLaunchMode" value="singleInstance" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <hook src="scripts/copyContentPlayer.js" type="before_build" />
     <hook src="scripts/copyContentPlayer.js" type="before_run" />
     <platform name="android">
+        <preference name="android-targetSdkVersion" value="33" />
         <hook src="scripts/deleteUnUsableIosIcon.js" type="before_run" />
         <hook src="scripts/deleteUnUsableIosIcon.js" type="before_build" />
+        <hook src="scripts/android/fix-android-sdk33-migration.js" type="before_run" />
+        <hook src="scripts/android/fix-android-sdk33-migration.js" type="before_build" />
         <hook src="scripts/copyGradleFiles.js" type="before_build" />
         <hook src="scripts/copyBundledData.js" type="before_build" />
         <hook src="scripts/copyGradleFiles.js" type="before_run" />
         <hook src="scripts/copyBundledData.js" type="before_run" />
+        <hook src="scripts/android/android-10-migration-fix.js" type="before_build" />
         <hook src="scripts/application/add_application.js" type="before_run" />
         <resource-file src="MainActivity.java" target="app/src/main/java/org/sunbird/app/MainActivity.java" />
         <resource-file src="whitelabel.xml" target="app/src/main/res/values/whitelabel.xml" />
@@ -50,26 +54,21 @@
         <preference name="android-manifest/application/@android:allowBackup" value="false" />
         <preference name="loadUrlTimeoutValue" value="700000" />
         <preference name="CodePushDeploymentKey" value="agojO-OZt4dZlt_pu9r9j2Ipy_jY90dbb065-3633-45a5-9c55-c0405eafaebb" />
+        <preference name="AndroidWindowSplashScreenAnimationDuration" value="5000" />
         <preference name="AndroidXEnabled" value="true" />
         <allow-intent href="market:*" />
-        <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
-        <icon density="mdpi" src="resources/android/icon/drawable-ldpi-icon.png" />
-        <icon density="hdpi" src="resources/android/icon/drawable-ldpi-icon.png" />
-        <icon density="xhdpi" src="resources/android/icon/drawable-ldpi-icon.png" />
-        <icon density="xxhdpi" src="resources/android/icon/drawable-ldpi-icon.png" />
-        <icon density="xxxhdpi" src="resources/android/icon/drawable-ldpi-icon.png" />
-        <splash density="land-ldpi" src="resources/android/splash/drawable-ldpi-splash.png" />
-        <splash density="land-mdpi" src="resources/android/splash/drawable-ldpi-splash.png" />
-        <splash density="land-hdpi" src="resources/android/splash/drawable-hdpi-splash.png" />
-        <splash density="land-xhdpi" src="resources/android/splash/drawable-hdpi-splash.png" />
-        <splash density="land-xxhdpi" src="resources/android/splash/drawable-xhdpi-splash.png" />
-        <splash density="land-xxxhdpi" src="resources/android/splash/drawable-xhdpi-splash.png" />
-        <splash density="port-ldpi" src="resources/android/splash/drawable-ldpi-splash.png" />
-        <splash density="port-mdpi" src="resources/android/splash/drawable-ldpi-splash.png" />
-        <splash density="port-hdpi" src="resources/android/splash/drawable-hdpi-splash.png" />
-        <splash density="port-xhdpi" src="resources/android/splash/drawable-hdpi-splash.png" />
-        <splash density="port-xxhdpi" src="resources/android/splash/drawable-xhdpi-splash.png" />
-        <splash density="port-xxxhdpi" src="resources/android/splash/drawable-xhdpi-splash.png" />
+        <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.xml" />
+        <icon density="mdpi" src="resources/android/icon/drawable-ldpi-icon.xml" />
+        <icon density="hdpi" src="resources/android/icon/drawable-ldpi-icon.xml" />
+        <icon density="xhdpi" src="resources/android/icon/drawable-ldpi-icon.xml" />
+        <icon density="xxhdpi" src="resources/android/icon/drawable-ldpi-icon.xml" />
+        <icon density="xxxhdpi" src="resources/android/icon/drawable-ldpi-icon.xml" />
+        <preference name="AutoHideSplashScreen" value="true" />
+        <preference name="AndroidWindowSplashScreenBackground" value="#ffffff" />
+        <preference name="FadeSplashScreen" value="false" />
+        <preference name="SplashScreen" value="resources/android/splash/drawable-ldpi-splash.png" />
+        <preference name="SplashScreen" value="resources/android/splash/drawable-hdpi-splash.png" />
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/android/splash/drawable-ldpi-splash.png" />
         <resource-file src="resources/android/icon/mipmap-hdpi-icon.png" target="app/src/main/res/mipmap-hdpi/n_icon.png" />
         <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
     </platform>
@@ -129,7 +128,6 @@
     <content src="index.html" />
     <plugin name="cordova-plugin-screen-orientation" spec="^3.0.1" />
     <plugin name="cordova-plugin-zip" spec="^3.1.0" />
-    <plugin name="cordova-plugin-code-push" spec="^1.11.18" />
     <plugin name="cordova-plugin-file-opener2" spec="^2.2.0" />
     <plugin name="cordova-plugin-printer" spec="^0.8.0" />
     <plugin name="com.jjdltc.cordova.plugin.zip" spec="https://github.com/swayangjit/jjdltc-cordova-plugin-zip.git" />
@@ -140,23 +138,11 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^6.0.3" />
     <plugin name="cordova-plugin-androidx-adapter" spec="^1.1.3" />
     <plugin name="cordova-plugin-device" spec="^2.0.3" />
-    <plugin name="cordova-plugin-file" spec="^6.0.2" />
-    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-plugin-inappbrowser" spec="^5.0.0" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.2" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.3" />
     <plugin name="cordova-plugin-webview-checker" spec="^1.0.1" />
     <plugin name="cordova-plugin-awesome-shared-preferences" spec="https://github.com/adriano-di-giovanni/cordova-plugin-shared-preferences.git" />
-    <plugin name="cordova-plugin-local-notification" spec="https://github.com/katzer/cordova-plugin-local-notifications.git">
-        <variable name="ANDROID_SUPPORT_V4_VERSION" value="26.+" />
-    </plugin>
-    <plugin name="cordova-plugin-fcm-with-dependecy-updated" spec="https://github.com/Sunbird-Ed/sb-cordova-plugin-fcm.git#release-3.4.0">
-        <variable name="FCM_CORE_VERSION" value="16.0.9" />
-        <variable name="FCM_VERSION" value="18.0.0" />
-        <variable name="GRADLE_TOOLS_VERSION" value="3.5.0" />
-        <variable name="GOOGLE_SERVICES_VERSION" value="4.2.0" />
-        <variable name="ANDROID_DEFAULT_NOTIFICATION_ICON" value="@mipmap/ic_launcher" />
-    </plugin>
     <plugin name="cordova-plugin-advanced-http" spec="^2.5.1" />
     <plugin name="cordova-plugin-android-permissions" spec="^1.1.2" />
     <plugin name="cordova-plugin-media" spec="^5.0.3" />
@@ -165,16 +151,10 @@
     </plugin>
     <plugin name="com.telerik.plugins.nativepagetransitions" spec="^0.6.5" />
     <plugin name="cordova-plugin-proguard" spec="https://github.com/greybax/cordova-plugin-proguard.git" />
-    <plugin name="sb-cordova-plugin-utility" spec="https://github.com/Sunbird-Ed/sb-cordova-plugin-utility.git#release-3.1.0" />
     <plugin name="cordova-plugin-android-downloadmanager" spec="https://github.com/Sunbird-Ed/sb-cordova-plugin-downloadmanager.git" />
     <plugin name="sb-cordova-plugin-db" spec="https://github.com/Sunbird-Ed/sb-cordova-plugin-db.git#release-3.1.0" />
-    <plugin name="sb-cordova-plugin-customtabs" spec="https://github.com/Sunbird-Ed/sb-cordova-plugin-customtabs.git">
-        <variable name="URL_SCHEME" value="@string/custom_scheme_url" />
-        <variable name="URL_HOST" value="mobile" />
-    </plugin>
     <plugin name="cordova-plugin-openrap" spec="https://github.com/project-sunbird/cordova-plugin-openrap.git" />
     <plugin name="cordova-plugin-qr-scanner" spec="https://github.com/project-sunbird/cordova-plugin-qr-scanner.git#release-3.3.0" />
-    <plugin name="cordova-plugin-sunbirdsplash" spec="https://github.com/project-sunbird/cordova-plugin-sunbirdsplash.git#release-4.10.1" />
     <plugin name="sb-cordova-plugin-sync" spec="https://github.com/project-sunbird/sb-cordova-plugin-sync.git#release-3.2.0" />
     <plugin name="cordova-plugin-inappupdatemanager" spec="https://github.com/subranil/cordova-plugin-inappupdatemanager.git" />
     <plugin name="cordova-sqlite-storage" spec="^6.0.0" />

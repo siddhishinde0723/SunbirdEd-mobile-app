@@ -80,7 +80,14 @@ import { ProfileHandler } from '@app/services/profile-handler';
 import { SegmentationTagService, TagPrefixConstants } from '@app/services/segmentation-tag/segmentation-tag.service';
 import { OrganizationSearchCriteria } from '@project-sunbird/sunbird-sdk';
 import { FrameworkCategory } from '@project-sunbird/client-services/models/channel';
-import { LocationHandler } from '@app/services/location-handler';
+import { LocationHandler } from '../../services/location-handler';
+import { urlConstants } from '../manage-learn/core/constants/urlConstants';
+import { UnnatiDataService } from '../manage-learn/core/services/unnati-data.service';
+import { ToastService, statusType } from '../manage-learn/core';
+import { UtilityService } from '../../services/utility-service';
+import { LogoutHandlerService } from '../../services/handlers/logout-handler.service';
+import { DeleteUserRequest } from '@project-sunbird/sunbird-sdk/profile/def/delete-user-request';
+//  import { DeleteUserService } from '../../services/delete-user.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -110,7 +117,7 @@ export class ProfilePage implements OnInit {
   mediumList = [];
   gradeLevelList = [];
   subjectList = [];
-
+  loader?: HTMLIonLoadingElement;
   imageUri = 'assets/imgs/ic_profile_default.png';
 
   readonly DEFAULT_PAGINATION_LIMIT = 3;
@@ -181,8 +188,12 @@ export class ProfilePage implements OnInit {
     private profileHandler: ProfileHandler,
     private segmentationTagService: SegmentationTagService,
     private platform: Platform,
-    private locationHandler: LocationHandler
-  ) {
+    private locationHandler: LocationHandler,
+    private unnatiDataService : UnnatiDataService,
+    private utilityService: UtilityService,
+    private logoutHandler: LogoutHandlerService,
+    private toast: ToastService,
+    ) {
     const extrasState = this.router.getCurrentNavigation().extras.state;
     if (extrasState) {
       this.userId = extrasState.userId || '';
@@ -289,6 +300,7 @@ export class ProfilePage implements OnInit {
     const that = this;
     return new Promise((resolve, reject) => {
       that.authService.getSession().toPromise().then((session: OAuthSession) => {
+        console.log("session",session)
         if (session === null || session === undefined) {
           reject('session is null');
         } else {
@@ -520,6 +532,202 @@ export class ProfilePage implements OnInit {
       return accumulator;
     }, []);
   }
+
+  verifyUser() {
+    console.log("this.profile",this.profile)
+    console.log("this.loggedid", this.loggedInUserId)
+    
+    //  this.launchDeleteUrl();
+    if (this.profile.roles && this.profile.roles.length === 1) {
+      const publicRole = this.profile.roles.find(role => role.role === "PUBLIC");
+      console.log("publicRole",publicRole)
+      if (publicRole) {
+           this.delete();
+      } else {
+          this.toast.showMessage('FRMELEMNTS_LBL_DELETE_AUTH', 'danger');
+      }
+    }
+}
+async openConfirmationDialog(message: string): Promise<boolean> {
+  return new Promise<boolean>((resolve) => {
+    const confirmed = window.confirm(message);
+    resolve(confirmed);
+  });
+}
+async delete(){
+    //if active profile uid and user is deleted
+    this.telemetryGeneratorService.generateInteractTelemetry(InteractType.TOUCH,   //telemetry for delete button clicked
+    InteractSubtype.DELETE_CLICKED,
+    undefined,
+    PageId.PROFILE,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    ID.DELETE_CLICKED);
+    const confirmed = await this.openConfirmationDialog('Are you sure you want to delete the account?');
+    if (!confirmed) {
+        return; // If not confirmed, do nothing
+    }
+    this.loader = this.commonUtilService.getLoader();
+  if (this.loader) {
+          let req: DeleteUserRequest;
+          if(this.loggedInUserId) {
+          req = {
+           userId: this.loggedInUserId
+          };
+          }
+          else{
+            console.log('profile does not exists');
+          }
+       
+          const request: GenerateOtpRequest = {
+            key: this.profile.email || this.profile.phone || this.profile.recoveryEmail,
+            userId: this.profile.userId,
+            templateId: OTPTemplates.EDIT_CONTACT_OTP_TEMPLATE,
+            type: ''
+        };
+        if ((this.profile.email && !this.profile.phone) ||
+        (!this.profile.email && !this.profile.phone && this.profile.recoveryEmail)) {
+            request.type = ProfileConstants.CONTACT_TYPE_EMAIL;
+        } else if (this.profile.phone || this.profile.recoveryPhone) {
+          this.toast.showMessage('You have not updated your email id. Please write a maile to support to delete your account', 'danger');
+        }
+          const resp = await this.profileService.generateOTP(request).toPromise();
+          if (resp) {
+            console.log("resp",resp)
+              const response = await this.callOTPPopover1(request.type, request.key, false);
+              console.log("response",response)
+              if (response && response.OTPSuccess) {
+                   Promise.resolve(true);
+                   await this.profileService.deleteUser(req).toPromise()
+                   .then((result) => {
+                    if(result) {
+                     console.log('profile deleted succesfully');
+                     this.telemetryGeneratorService.generateInteractTelemetry(InteractType.TOUCH,   //telemetry for delete button clicked
+                     InteractSubtype.DELETE_SUCCESS,
+                     undefined,
+                     PageId.PROFILE,
+                     undefined,
+                     undefined,
+                     undefined,
+                     undefined,
+                     ID.DELETE_SUCCESS);
+                    this.profileService.deleteProfileData(this.loggedInUserId).toPromise()       //deleting local data
+                     .then((result) => {
+                       if (result) {
+                        console.log('Profile data deleted successfully');
+                        this.logoutHandler.onLogout();
+                       } else {
+                       console.log('Unable to delete profile data');
+                       }
+                   });  
+            }
+            else {
+              console.log('unable to delete profile');                        
+            }
+          })
+              } else {
+                  return Promise.reject(true);
+              }
+          }
+          
+    }
+}
+
+  async launchDeleteUrl() {  
+    this.telemetryGeneratorService.generateInteractTelemetry(InteractType.TOUCH,   //telemetry for delete button clicked
+      InteractSubtype.DELETE_CLICKED,
+      undefined,
+      PageId.PROFILE,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      ID.DELETE_CLICKED);
+
+      const baseUrl = await this.utilityService.getBuildConfigValue('BASE_URL');
+      const deeplinkValue = await this.utilityService.getBuildConfigValue('URL_SCHEME');  
+      const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';      
+      const deleteEndpoint = 'guest-profile/delete-user'; 
+      console.log("deleteEndpoint",deleteEndpoint)
+      console.log("formattedBaseUrl",formattedBaseUrl)
+      
+
+        var data = {type: '', value : ''}; 
+        if(this.profile.maskedEmail) {
+          data.type = 'email'; 
+          data.value = this.profile.maskedEmail;
+        } else if (this.profile.maskedPhone) {
+          data.type = 'phone'; 
+          data.value = this.profile.maskedPhone;
+        }
+
+        const modifiedDeeplinkValue = deeplinkValue + '://mobile';
+        const url = new URL(formattedBaseUrl + deleteEndpoint);
+    
+        url.searchParams.append('deeplink', modifiedDeeplinkValue);
+        url.searchParams.append('userId', this.profile.userId);
+        url.searchParams.append('type', data.type);
+        url.searchParams.append('value', data.value);
+        console.log("url",url)
+        customtabs.launchInBrowser(
+          url.toString(),
+          (callbackUrl) => {
+            const params = new URLSearchParams(callbackUrl); // Parse the callbackUrl as URLSearchParams
+            const userId = params.get('userId'); // Get the value of 'userId' parameter
+            this.profileService.getActiveProfileSession().toPromise()   //getting active profile uid
+            .then(async (profile) => {
+                try {
+                    if(profile.uid === userId) {       //if active profile uid and user is deleted
+                      this.loader = this.commonUtilService.getLoader();
+                    if (this.loader) {
+                        this.logoutHandler.onLogout(); 
+                            let req: DeleteUserRequest;
+                            if(profile.uid) {
+                            req = {
+                             userId: profile.uid
+                            };
+                            }
+                            else{
+                              console.log('profile does not exists');
+                            }
+                            await this.profileService.deleteUser(req).toPromise()
+                            .then((result) => {
+                              if(result) {
+                                 console.log('profile deleted succesfully');
+                                 this.profileService.deleteProfileData(profile.uid).toPromise()       //deleting local data
+                                 .then((result) => {
+                                     if (result) {
+                                         console.log('Profile data deleted successfully');
+                                     } else {
+                                         console.log('Unable to delete profile data');
+                                     }
+                                 });  
+                              }
+                              else {
+                                console.log('unable to delete profile');                        
+                              }
+                            })
+                      }
+                    }
+                    else {
+                      console.log('userID does not match')
+                    }
+                    } catch (error) {
+                        console.error('Error occurred while deleting profile', error);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error occurred while getting active profile session:', error);
+                }); 
+              },
+              (error) => {
+                console.error('Error launching Custom Tab:', error);
+              }
+        );           
+}
+
 
   async getLearnerPassbook() {
     try {
@@ -854,6 +1062,42 @@ export class ProfilePage implements OnInit {
         title: !updateContact ? this.commonUtilService.translateMessage('AUTHRISE_USER_OTP_TITLE') :
             this.commonUtilService.translateMessage('VERIFY_EMAIL_OTP_TITLE'),
         description: !updateContact ? this.commonUtilService.translateMessage('AUTHRISE_USER_OTP_DESCRIPTION') :
+            this.commonUtilService.translateMessage('VERIFY_EMAIL_OTP_DESCRIPTION'),
+        type: ProfileConstants.CONTACT_TYPE_EMAIL,
+        userId: this.profile.userId
+      };
+
+      const data = await this.openContactVerifyPopup(EditContactVerifyPopupComponent, componentProps, 'popover-alert input-focus');
+      if (updateContact && data && data.OTPSuccess) {
+        this.updateEmailInfo(data.value);
+      }
+      return data;
+    }
+  }
+  private async callOTPPopover1(type: string, key?: any, updateContact: boolean = true) {
+    if (type === ProfileConstants.CONTACT_TYPE_PHONE) {
+      const componentProps = {
+        key,
+        phone: this.profile.phone,
+        title: !updateContact ? this.commonUtilService.translateMessage('AUTHRISE_DELETE_OTP_TITLE') :
+            this.commonUtilService.translateMessage('AUTHRISE_USER_OTP_DESCRIPTION'),
+        description: !updateContact ? this.commonUtilService.translateMessage('AUTHRISE_USER_OTP_DESCRIPTION') :
+            this.commonUtilService.translateMessage('VERIFY_PHONE_OTP_DESCRIPTION'),
+        type: ProfileConstants.CONTACT_TYPE_PHONE,
+        userId: this.profile.userId
+      };
+
+      const data = await this.openContactVerifyPopup(EditContactVerifyPopupComponent, componentProps, 'popover-alert input-focus');
+      if (updateContact && data && data.OTPSuccess) {
+        this.updatePhoneInfo(data.value);
+      }
+    } else {
+      const componentProps = {
+        key,
+        phone: this.profile.email,
+        title: !updateContact ? this.commonUtilService.translateMessage('AUTHRISE_DELETE_OTP_TITLE') :
+            this.commonUtilService.translateMessage('VERIFY_EMAIL_OTP_TITLE'),
+        description: !updateContact ? this.commonUtilService.translateMessage('AUTHRISE_DELETE_OTP_DESCRIPTION') :
             this.commonUtilService.translateMessage('VERIFY_EMAIL_OTP_DESCRIPTION'),
         type: ProfileConstants.CONTACT_TYPE_EMAIL,
         userId: this.profile.userId

@@ -556,6 +556,9 @@ export enum InteractSubtype {
     GOOGLE = 'google',
     APPLE = 'apple',
     STATE = 'state',
+    COURSE_KEBAB_MENU_CLICKED = 'course-kebab-menu-clicked',
+    CATEGORY_CLICKED = '%-clicked',
+    DELETE_SUCCESS='delete-success'
 }
 
 export enum ID {
@@ -620,7 +623,9 @@ export enum ID {
     SELECT_DEACTIVATE = 'select-deactivate',
     SELECT_DELETE = 'select-delete',
     SELECT_ACTIVITY_DASHBOARD = 'select-activity-dashboard',
-    DOWNLOAD_CLICKED = 'download-clicked'
+    DOWNLOAD_CLICKED = 'download-clicked',
+    DELETE_CLICKED = 'delete-clicked',
+    DELETE_SUCCESS='delete-success'
 }
 
 export enum ActionButtonType {

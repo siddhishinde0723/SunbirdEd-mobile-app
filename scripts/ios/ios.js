@@ -48,9 +48,7 @@ module.exports = function (context) {
         obj['custom_scheme_url'] = properties.get('custom_scheme') + ""
         obj['REAL_VERSION_NAME'] = properties.get('version_name') + "" 
         obj['FLAVOR'] = properties.get('version_name')+""
-        obj['APPLICATION_ID'] = properties.get('app_id') + ""
-        obj['CFBundleShortVersionString'] = properties.get('version_name') + ""
-        obj['CFBundleVersion'] = properties.get('app_version_code')+""
+        obj['APPLICATION_ID'] = properties.get('app_id') + "" 
         // obj['VERSION_CODE'] = properties.get('app_version_code')
 
         const releaseBuild = process.argv.some(arg => arg === "--release")
