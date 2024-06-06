@@ -20,6 +20,7 @@ import { AuditState, CorrelationData, SharedPreferences } from 'sunbird-sdk';
 import { TagPrefixConstants } from '@app/services/segmentation-tag/segmentation-tag.service';
 import { OnboardingConfigurationService } from '@app/services';
 import { LoginHandlerService } from '../../services';
+
 export interface ILanguages {
   label: string;
   code: string;
@@ -46,6 +47,7 @@ export class LanguageSettingsPage {
   headerObservable: any;
   appName = '';
   skipNavigation: any;
+
   constructor(
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
     public translateService: TranslateService,
@@ -62,11 +64,11 @@ export class LanguageSettingsPage {
     private nativePageTransitions: NativePageTransitions,
     private onboardingConfigurationService: OnboardingConfigurationService,
     private loginHandlerService: LoginHandlerService,
-  ){
-    const extrasData = this.router.getCurrentNavigation().extras.state;
-    this.skipNavigation = extrasData;
-}
-
+    ){
+      const extrasData = this.router.getCurrentNavigation().extras.state;
+      this.skipNavigation = extrasData;
+  }
+  
 
   ionViewDidEnter() {
     this.activatedRoute.params.subscribe(async params => {

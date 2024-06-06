@@ -49,7 +49,7 @@ export class SplashScreenService {
         }
         if(splashscreen){
             splashscreen.markImportDone();
-            splashscreen.hide();
+            // splashscreen.hide();
         }
     }
 

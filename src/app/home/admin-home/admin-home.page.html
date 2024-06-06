@@ -34,6 +34,7 @@
   
       <!-- Pills -->
       <ng-container *ngIf="section?.theme?.component === 'sb-pills-grid'">
+       
         <sb-pills-grid [pillShape]="section?.theme?.inputs?.pillShape"
           [pillsViewType]="section?.theme?.inputs?.pillsViewType" 
           [selectMode]="section?.theme?.inputs?.selectMode"
@@ -41,8 +42,15 @@
           [viewMoreText]="section?.theme?.inputs?.viewMoreText | translateJson"
           [viewLessText]="section?.theme?.inputs?.viewLessText | translateJson"
           (select)="onPillClick($event)">
-          <sb-pill-item *ngFor="let pillData of section.data" [name]="pillData?.title | translateJson" [icon]="pillData?.icon"
-            [value]="pillData"></sb-pill-item>
+          <!-- this is to hide observation survey -->
+          <ng-container  *ngFor="let pillData of section.data" >
+          <sb-pill-item *ngIf="pillData.code != 'observation' && pillData.code != 'survey'" 
+          [name]="pillData?.title | translateJson" [icon]="pillData?.icon"
+            [value]="pillData">
+            </sb-pill-item>
+        </ng-container>
+        <!-- <sb-pill-item *ngFor="let pillData of section.data" [name]="pillData?.title | translateJson" [icon]="pillData?.icon"
+        [value]="pillData"></sb-pill-item> -->
         </sb-pills-grid>
       </ng-container>
   

@@ -26,11 +26,12 @@ import {
 import {
   ActivePageService, AppGlobalService,
   AppHeaderService, CommonUtilService,
-  CorReleationDataType, Environment,
-  ID, InteractSubtype, InteractType, NotificationService, PageId, TelemetryGeneratorService, UtilityService,  LoginHandlerService
+  CorReleationDataType, Environment,LoginHandlerService,
+  ID, InteractSubtype, InteractType, NotificationService, PageId, TelemetryGeneratorService, UtilityService
 } from '../../../services';
 import { ToastNavigationComponent } from '../popups/toast-navigation/toast-navigation.component';
 import {Location} from '@angular/common';
+
 declare const cordova;
 
 @Component({
@@ -67,10 +68,8 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
   isDarkMode:boolean;
   showReports: any;
   showLoginButton = false;
-  skipNavigation: any;
   notificationCount = {
     unreadCount : 0
-    
   };
   isTablet = false;
   orientationToSwitch = AppOrientation.LANDSCAPE;
@@ -82,6 +81,8 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
   guestUserDetails;
   showYearOfBirthPopup = false;
   public isIOS = false;
+  skipNavigation: any;
+
   @ViewChild('increaseFontSize') increaseFontSize: ElementRef;
   @ViewChild('decreaseFontSize') decreaseFontSize: ElementRef;
   @ViewChild('resetFontSize') resetFontSize: ElementRef;
@@ -174,6 +175,18 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
       this.isDarkMode = val === AppMode.DARKMODE;
     });
     this.checkForAppUpdate().then();
+  }
+  loginWithKeyCloak() {
+    this.loginHandlerService.signIn(this.skipNavigation).then(() => {
+      this.navigateBack(this.skipNavigation);
+    });
+  }
+  private navigateBack(skipNavigation) {
+    if ((skipNavigation && skipNavigation.navigateToCourse) ||
+      (skipNavigation && (skipNavigation.source === 'user' ||
+      skipNavigation.source === 'resources'))) {
+              this.location.back();
+    }
   }
   ngAfterViewInit() {
     this.changeFontSize('reset');
@@ -274,18 +287,7 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
     this.events.publish(EventTopics.HAMBURGER_MENU_CLICKED);
     this.currentSelectedTabs = await this.preference.getString(PreferenceKey.SELECTED_SWITCHABLE_TABS_CONFIG).toPromise();
   }
-  loginWithKeyCloak() {
-    this.loginHandlerService.signIn(this.skipNavigation).then(() => {
-      this.navigateBack(this.skipNavigation);
-    });
-  }
-  private navigateBack(skipNavigation) {
-    if ((skipNavigation && skipNavigation.navigateToCourse) ||
-      (skipNavigation && (skipNavigation.source === 'user' ||
-      skipNavigation.source === 'resources'))) {
-              this.location.back();
-    }
-  }
+
   emitEvent($event, name) {
 
     if (name === 'filter') {

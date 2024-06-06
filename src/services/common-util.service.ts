@@ -33,6 +33,7 @@ import { Router } from '@angular/router';
 import { AndroidPermissionsService } from './android-permissions/android-permissions.service';
 import GraphemeSplitter from 'grapheme-splitter';
 import { ComingSoonMessageService } from './coming-soon-message.service';
+import { Device } from '@ionic-native/device/ngx';
 
 declare const FCMPlugin;
 export interface NetworkInfo {
@@ -40,7 +41,7 @@ export interface NetworkInfo {
 }
 @Injectable()
 export class CommonUtilService {
-    public networkAvailability$: Observable<boolean>;
+    public networkAvailability$: Observable<any>;
 
     networkInfo: NetworkInfo = {
         isNetworkAvailable: navigator.onLine
@@ -69,7 +70,8 @@ export class CommonUtilService {
         private router: Router,
         private toastController: ToastController,
         private permissionService: AndroidPermissionsService,
-        private comingSoonMessageService: ComingSoonMessageService
+        private comingSoonMessageService: ComingSoonMessageService,
+        private device: Device
     ) {
         this.networkAvailability$ = merge(
             this.network.onChange().pipe(
@@ -810,5 +812,27 @@ export class CommonUtilService {
                 guestProfile = allProfileDetais.find(ele => ele.uid === guestUserId);
             });
         return guestProfile;
+    }
+
+    // Used to convert file to base png, updated function to handle default image in consumption library.
+    public async convertFileToBase64(file): Promise<Observable<string>> {
+        let res = await fetch(file);
+        let blob = await res.blob();
+        return new Observable(res => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                res.next(reader.result as string);
+                res.complete();
+            }
+            reader.readAsDataURL(blob);
+        });
+    }
+
+    public isAndroidVer13(): boolean{
+        if (this.platform.is("android") && this.device.version >= "13") {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

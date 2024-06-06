@@ -92,7 +92,7 @@ export class AppGlobalService implements OnDestroy {
     private _isNativePopupVisible: boolean;
     private _isDiscoverBackEnabled: boolean = false;
     private _isForumEnabled: boolean = false;
-
+    private frameworkCategory = {};
     constructor(
         @Inject('PROFILE_SERVICE') private profile: ProfileService,
         @Inject('AUTH_SERVICE') public authService: AuthService,
@@ -271,6 +271,18 @@ export class AppGlobalService implements OnDestroy {
      */
     getCachedCourseFrameworkId(): string {
         return this.courseFrameworkId;
+    }
+
+    /**
+     * This method store the Framework Category
+     */
+    setFramewokCategory(categories: any) {
+        this.frameworkCategory = categories;
+    }
+
+    /** This method return the framework categories if available */
+    getCachedFrameworkCategory(): any {
+        return this.frameworkCategory;
     }
 
     /**

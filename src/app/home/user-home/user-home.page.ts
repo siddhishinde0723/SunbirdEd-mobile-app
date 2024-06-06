@@ -294,8 +294,7 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
     const rootOrgId = this.onboardingConfigurationService.getAppConfig().overriddenDefaultChannelId
     let displayItems = await this.contentAggregatorHandler.newAggregate(request, AggregatorPageType.HOME, rootOrgId);
     this.getOtherMLCategories();
-    // this.getOtherMLCategories();
-        displayItems = this.mapContentFacteTheme(displayItems);
+    displayItems = this.mapContentFacteTheme(displayItems);
     this.checkHomeData(displayItems);
     this.displaySections = this.contentAggregatorHandler.populateIcons(displayItems);
     this.showorHideBanners();
@@ -892,7 +891,7 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
       return;
     }
     switch (selectedPill) {
-      case 'observation':
+      case 'observations':
         this.router.navigate([RouterLinks.OBSERVATION], {});
         break;
       case 'project':
@@ -903,5 +902,4 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
     }
   }
 }
-
 

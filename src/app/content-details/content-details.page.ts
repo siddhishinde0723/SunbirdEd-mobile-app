@@ -1204,7 +1204,9 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
   async handlePlayer(playerData) {
     this.config = playerData.state.config;
     let playerConfig = await this.formFrameworkUtilService.getPdfPlayerConfiguration();
-    if (["video/mp4", "video/webm"].includes(playerData.state.config['metadata']['mimeType']) && this.checkIsPlayerEnabled(playerConfig , 'videoPlayer').name === "videoPlayer" && !this.content.contentData["interceptionPoints"]) {
+    if (["video/mp4", "video/webm"].includes(playerData.state.config['metadata']['mimeType']) 
+    && this.checkIsPlayerEnabled(playerConfig , 'videoPlayer').name === "videoPlayer" 
+  && (!this.content.contentData['interceptionPoints'] || Object.keys(this.content.contentData['interceptionPoints'].length === 0))) {
       this.config = await this.getNewPlayerConfiguration();
       this.config['config'].sideMenu.showPrint = false;
       this.playerType = 'sunbird-video-player';

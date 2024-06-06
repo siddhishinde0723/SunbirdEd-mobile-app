@@ -13,6 +13,7 @@ import { ProfileService, ProfileType, SharedPreferences } from 'sunbird-sdk';
 import { OnboardingConfigurationService } from '@app/services/onboarding-configuration.service';
 import { LogoutHandlerService } from '@app/services/handlers/logout-handler.service';
 import { tenantChannelId } from '@app/configuration/configuration';
+
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.page.html',

@@ -89,8 +89,9 @@ export class LogoutHandlerService {
         return this.authService.resignSession();
       }),
       tap(async () => {
-        // await this.navigateToAptPage();
-        this.loginWithKeyCloak();
+           // await this.navigateToAptPage();
+           this.loginWithKeyCloak();
+
         this.events.publish(AppGlobalService.USER_INFO_UPDATED);
         this.appGlobalService.setEnrolledCourseList([]);
         this.segmentationTagService.getPersistedSegmentaion();
@@ -110,6 +111,7 @@ export class LogoutHandlerService {
       this.location.back();
     }
   }
+
   private async logoutGoogle(){
     if (await this.preferences.getBoolean(PreferenceKey.IS_GOOGLE_LOGIN).toPromise()) {
       try {

@@ -308,6 +308,10 @@ export class ProjectService {
     }
   }
   async openSyncSharePopup(type, name, project, taskId?) {
+    console.log("project",project)
+    console.log("taskId",taskId)
+    console.log("type",type)
+    console.log("name",name)
     if (this.networkFlag) {
       let data;
       this.project = project;
@@ -331,14 +335,18 @@ export class ProjectService {
           {
             text: data["FRMELEMNTS_BTN_SYNCANDSHARE"],
             handler: () => {
-              if (project.isEdit || project.isNew) {
-                project.isNew
-                  ? this.createNewProject(project, true)
-                  : this.router.navigate([`${RouterLinks.PROJECT}/${RouterLinks.SYNC}`], { queryParams: { projectId: project._id, taskId: taskId, share: true, fileName: name } });
+              if (project.isNew) {
+                  this.createNewProject(project, true);
               } else {
-                type == 'shareTask' ? this.getPdfUrl(name, taskId) : this.getPdfUrl(project.title);
+                  this.router.navigate([`${RouterLinks.PROJECT}/${RouterLinks.SYNC}`], { queryParams: { projectId: project._id, taskId: taskId, share: true, fileName: name } });
               }
-            },
+              if (type == 'shareTask') {
+                  this.getPdfUrl(name, taskId);
+              } else {
+               this.getPdfUrl(project.title);
+              }
+          }
+          
           },
         ],
       });
@@ -358,10 +366,14 @@ export class ProjectService {
   }
 
   getPdfUrl(fileName, taskId?) {
+    console.log("fileName",fileName);
+    console.log("taskId",taskId);
+
     let task_id = taskId ? taskId : '';
     const config = {
       url: urlConstants.API_URLS.GET_SHARABLE_PDF + this.project._id + '?tasks=' + task_id,
     };
+    console.log("config",config)
     this.share.getFileUrl(config, fileName);
   }
 

@@ -3,6 +3,6 @@ export const configuration = {
   hmr: false,
   debug: true
 };
-export const tenantOrgName = "Tekdi Saas";
+export const tenantOrgName = "Shikshagraha";
 export const tenantLogo = "resources/android/splash/drawable-hdpi-splash.png";
-export const tenantChannelId = "01373263149320601644";
+export const tenantChannelId = "01406407969375027211";

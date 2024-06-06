@@ -15,6 +15,7 @@ import { CommonUtilService } from './common-util.service';
 import { LocalCourseService } from './local-course.service';
 import { LogoutHandlerService } from '@app/services/handlers/logout-handler.service';
 import { tenantChannelId } from '@app/configuration/configuration';
+
 @Injectable()
 export class ExternalIdVerificationService {
     public isCustodianUser$: Observable<boolean>;
@@ -30,6 +31,7 @@ export class ExternalIdVerificationService {
         private localCourseService: LocalCourseService,
         private router: Router,
         private logoutHandlerService: LogoutHandlerService,
+
     ) {
         this.isCustodianUser$ = this.profileService.isDefaultChannelProfile().pipe(
             map((isDefaultChannelProfile) => isDefaultChannelProfile) as any

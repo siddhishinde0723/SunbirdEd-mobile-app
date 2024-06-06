@@ -509,8 +509,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   reloadGuestEvents() {
     this.checkDeviceLocation();
-    //     this.checkGuestUserType();
-        this.loginHandlerService.signIn();
+     //     this.checkGuestUserType();
+     this.loginHandlerService.signIn();
   }
 
   private async checkGuestUserType() {
