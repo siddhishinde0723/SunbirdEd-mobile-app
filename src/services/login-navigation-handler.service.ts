@@ -24,7 +24,7 @@ import { FormAndFrameworkUtilService } from '@app/services/formandframeworkutil.
 import { mergeMap, tap } from 'rxjs/operators';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
-import { tenantOrgName, tenantLogo } from '../configuration/configuration';
+import { tenantOrgName, tenantLogo ,tenantChannelId } from '../configuration/configuration';
 
 @Injectable()
 export class LoginNavigationHandlerService {
@@ -56,7 +56,7 @@ export class LoginNavigationHandlerService {
             const value = await this.setProfileDetailsAndRefresh(skipNavigation, subType);
 
             await this.refreshTenantData(value.slug, tenantOrgName);
-
+       
             this.ngZone.run(() => {
                 this.preferences.putString(PreferenceKey.NAVIGATION_SOURCE,
                     (skipNavigation && skipNavigation.source) || PageId.MENU).toPromise();
@@ -65,6 +65,7 @@ export class LoginNavigationHandlerService {
                 this.sbProgressLoader.hide({ id: 'login' });
             });
         } catch (err) {
+            console.log("error",err)
             await this.logoutOnImpropperLoginProcess();
 
             this.sbProgressLoader.hide({ id: 'login' });
@@ -164,17 +165,35 @@ export class LoginNavigationHandlerService {
             try {
                 const tenantInfo = await this.profileService.getTenantInfo({ slug: '' }).toPromise();
                 const isDefaultChannelProfile = await this.profileService.isDefaultChannelProfile().toPromise();
-                if (isDefaultChannelProfile) {
-                    title = await this.appVersion.getAppName();
+               console.log("isDefaultChannelProfile",isDefaultChannelProfile)
+               const that = this;
+
+               const session = await that.authService.getSession().toPromise();
+
+                   const req: ServerProfileDetailsRequest = {
+                       userId: session.userToken,
+                       requiredFields: ProfileConstants.REQUIRED_FIELDS
+                   };
+                   this.appGlobalService.isGuestUser = false;
+                   const success: any = await that.profileService.getServerProfilesDetails(req).toPromise();
+                if(success.rootOrgId === tenantChannelId){
+                    if (isDefaultChannelProfile) {
+                        title = await this.appVersion.getAppName();
+                    }
+                    
+    //                 this.preferences.putString(PreferenceKey.APP_LOGO, tenantInfo.logo).toPromise().then();
+                    this.preferences.putString(PreferenceKey.APP_LOGO, tenantLogo).toPromise().then();
+                    this.preferences.putString(PreferenceKey.APP_NAME, title).toPromise().then();
+    //                 (window as any).splashscreen.setContent(title, tenantInfo.appLogo);
+                    (window as any).splashscreen.setContent(title, tenantLogo);
+                    resolve();
                 }
-//                 this.preferences.putString(PreferenceKey.APP_LOGO, tenantInfo.logo).toPromise().then();
-                this.preferences.putString(PreferenceKey.APP_LOGO, tenantLogo).toPromise().then();
-                this.preferences.putString(PreferenceKey.APP_NAME, title).toPromise().then();
-//                 (window as any).splashscreen.setContent(title, tenantInfo.appLogo);
-                (window as any).splashscreen.setContent(title, tenantLogo);
-                resolve();
+               else {
+                reject(false);
+                }
+              
             } catch (error) {
-                resolve();
+                reject(error);
             }
         });
     }

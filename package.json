@@ -194,7 +194,7 @@
     "cordova-plugin-code-push": "git+https://github.com/swayangjit/cordova-plugin-code-push.git",
     "cordova-plugin-console": "^1.1.0",
     "cordova-plugin-fcm-with-dependecy-updated": "git+https://github.com/Sunbird-Ed/sb-cordova-plugin-fcm.git#release-5.0.2",
-    "cordova-plugin-file-transfer": "git+https://github.com/vishwanath1004/cordova-plugin-file-transfer.git",
+    "cordova-plugin-file-transfer": "github:vishwanath1004/cordova-plugin-file-transfer",
     "cordova-plugin-filepath": "github:vishwanath1004/cordova-plugin-filepath",
     "cordova-plugin-inappupdatemanager": "git+https://github.com/subranil/cordova-plugin-inappupdatemanager.git#release-3.7.0",
     "cordova-plugin-local-notification": "git+https://github.com/fquirin/cordova-plugin-local-notifications.git",
@@ -229,7 +229,6 @@
       "cordova-plugin-x-socialsharing": {},
       "cordova-plugin-device": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-file-transfer": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-statusbar": {},
@@ -294,7 +293,8 @@
         "ANDROIDX_CORE_VERSION": "1.6.+"
       },
       "cordova-plugin-chooser": {},
-      "cordova-plugin-filepath": {}
+      "cordova-plugin-filepath": {},
+      "cordova-plugin-file-transfer": {}
     },
     "platforms": [
       "ios"

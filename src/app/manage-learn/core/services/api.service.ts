@@ -55,8 +55,11 @@ export class ApiService {
           this.ionicHttp.setDataSerializer('json');
           return this.ionicHttp.get(this.baseUrl + requestParam.url, '', headers).then(
             data => {
+              console.log("get data",data)
               return JSON.parse(data.data);
             }, error => {
+              console.log("get error",error)
+
               catchError(this.handleError(error))
             },
           );
@@ -103,8 +106,12 @@ export class ApiService {
           this.ionicHttp.setDataSerializer('json');
           return this.ionicHttp.post(this.baseUrl + requestParam.url, body, headers).then(
             data => {
+              console.log("post data",data)
+
               return JSON.parse(data.data);
             }, error => {
+              console.log("post data",error)
+
               catchError(this.handleError(error))
             });
       })

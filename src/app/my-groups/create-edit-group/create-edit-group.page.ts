@@ -232,7 +232,7 @@ export class CreateEditGroupPage {
       PageId.CREATE_GROUP,
       undefined, undefined, undefined, this.corRelationList);
     const baseUrl = await this.utilityService.getBuildConfigValue('TOU_BASE_URL');
-    const url = baseUrl + RouterLinks.TERM_OF_USE + '#groupGuidelines';
+    const url =  RouterLinks.TERM_OF_USE + '#groupGuidelines';
     const options
       = 'hardwareback=yes,clearcache=no,zoom=no,toolbar=yes,disallowoverscroll=yes';
 

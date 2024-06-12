@@ -71,6 +71,8 @@ export class LanguageSettingsPage {
   
 
   ionViewDidEnter() {
+    console.log("language setting ",this.skipNavigation)
+
     this.activatedRoute.params.subscribe(async params => {
       this.isFromSettings = Boolean(params['isFromSettings']);
       if (!this.isFromSettings) {
@@ -336,11 +338,12 @@ export class LanguageSettingsPage {
   }
 
   private navigateBack(skipNavigation) {
-    if ((skipNavigation && skipNavigation.navigateToCourse) ||
-      (skipNavigation && (skipNavigation.source === 'user' ||
-      skipNavigation.source === 'resources'))) {
-        this.location.back();
-    }
+    this.location.back();
+    // if ((skipNavigation && skipNavigation.navigateToCourse) ||
+    //   (skipNavigation && (skipNavigation.source === 'user' ||
+    //   skipNavigation.source === 'resources'))) {
+    //     this.location.back();
+    // }
   }
   handleHeaderEvents($event) {
     if ($event.name === 'back') {

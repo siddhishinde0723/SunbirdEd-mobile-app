@@ -115,7 +115,7 @@ export class ConsentPiiPopupComponent {
 
     async openTermsOfUse() {
         const baseUrl = await this.utilityService.getBuildConfigValue('TOU_BASE_URL');
-        const url = baseUrl + RouterLinks.TERM_OF_USE;
+        const url = RouterLinks.TERM_OF_USE;
         const options
             = 'hardwareback=yes,clearcache=no,zoom=no,toolbar=yes,disallowoverscroll=yes';
 

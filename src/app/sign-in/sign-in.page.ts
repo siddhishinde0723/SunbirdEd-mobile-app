@@ -74,6 +74,8 @@ export class SignInPage implements OnInit {
     }
 
     async ngOnInit() {
+        console.log("signin page ",this.skipNavigation)
+
         this.appName = await this.commonUtilService.getAppName();
     }
 
@@ -94,19 +96,20 @@ export class SignInPage implements OnInit {
             webviewStateSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('state');
             webviewMigrateSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('migrate');
             await webviewSessionProviderConfigLoader.dismiss();
+            const webViewStateSession = new WebviewStateSessionProvider(
+                webviewStateSessionProviderConfig,
+                webviewMigrateSessionProviderConfig
+            );
+            await this.loginNavigationHandlerService.setSession(webViewStateSession, this.skipNavigation, InteractSubtype.STATE).then(() => {
+                this.navigateBack(this.skipNavigation);
+            });
         } catch (e) {
-            await this.sbProgressLoader.hide({id: 'login'});
+             await this.sbProgressLoader.hide({id: 'login'});
             await webviewSessionProviderConfigLoader.dismiss();
             this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
             return;
         }
-        const webViewStateSession = new WebviewStateSessionProvider(
-            webviewStateSessionProviderConfig,
-            webviewMigrateSessionProviderConfig
-        );
-        await this.loginNavigationHandlerService.setSession(webViewStateSession, this.skipNavigation, InteractSubtype.STATE).then(() => {
-            this.navigateBack(this.skipNavigation);
-        });
+       
     }
 
     async signInWithGoogle() {
@@ -159,11 +162,12 @@ export class SignInPage implements OnInit {
     }
 
     private navigateBack(skipNavigation) {
-        if ((skipNavigation && skipNavigation.navigateToCourse) ||
-            (skipNavigation && (skipNavigation.source === 'user' ||
-                skipNavigation.source === 'resources'))) {
-            this.location.back();
-        }
+        this.location.back();
+        // if ((skipNavigation && skipNavigation.navigateToCourse) ||
+        //     (skipNavigation && (skipNavigation.source === 'user' ||
+        //         skipNavigation.source === 'resources'))) {
+        //     this.location.back();
+        // }
     }
 
     async appleSignIn() {

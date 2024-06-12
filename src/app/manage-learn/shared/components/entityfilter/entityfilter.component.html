@@ -26,7 +26,7 @@
     </ion-list>
     <ion-list *ngIf="!selectableList?.length ">
       <div class="_flex-box _justify-content-center noDataMsg">
-        {{ 'FRMELEMNTS_MSG_NO_SCHOOL_FOUND' | translate }}
+        {{ 'FRMELEMNTS_MSG_NO_SCHOOL_FOUND' |  translate:{'entity': entity} }}
       </div>
     </ion-list>
   </div>

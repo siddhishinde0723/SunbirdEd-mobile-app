@@ -335,23 +335,22 @@ export class ProjectService {
           {
             text: data["FRMELEMNTS_BTN_SYNCANDSHARE"],
             handler: () => {
-              if (project.isNew) {
-                  this.createNewProject(project, true);
+              if (project.isEdit || project.isNew) {
+                project.isNew
+                  ? this.createNewProject(project, true)
+                  : this.router.navigate([`${RouterLinks.PROJECT}/${RouterLinks.SYNC}`], { queryParams: { projectId: project._id, taskId: taskId, share: true, fileName: name } });
               } else {
-                  this.router.navigate([`${RouterLinks.PROJECT}/${RouterLinks.SYNC}`], { queryParams: { projectId: project._id, taskId: taskId, share: true, fileName: name } });
+                type == 'shareTask' ? this.getPdfUrl(name, taskId) : this.getPdfUrl(project.title);
               }
-              if (type == 'shareTask') {
-                  this.getPdfUrl(name, taskId);
-              } else {
-               this.getPdfUrl(project.title);
-              }
-          }
-          
+            },
           },
         ],
       });
       await alert.present();
     }else{
+      if(project.status == statusType['submitted']){
+        type == 'shareTask' ? this.getPdfUrl(name, taskId) : this.getPdfUrl(project.title);
+      }else
       if (project.isEdit || project.isNew) {
         project.isNew
           ? this.createNewProject(project, true)
