@@ -528,7 +528,7 @@ html[data-theme="JOYFUL"]{
   // enrolled-course-details page
   app-enrolled-course-details-page{
     .enrolled-course-card-button{
-      background-color: var(--app-primary) !important;
+      background-color: #9D7F73 !important;
       border-radius: 50px !important;
       margin: 1rem 0 1rem !important;
     }
@@ -561,7 +561,7 @@ html[data-theme="JOYFUL"]{
 
     .card-content-bottom-0 {
       .segment-button-has-label-only {
-        color: var(--app-primary) !important;
+        color: black !important;
       }
     }
   }
@@ -936,7 +936,7 @@ html[data-theme="JOYFUL"]{
       border-radius: 12px !important;
       min-height: 3rem !important;
       .title{
-        color: var(--app-primary) !important;
+        color: black !important;
         font-weight: bold;
       }
       .sb-curiculum__chapter{
@@ -1488,7 +1488,7 @@ html[data-theme="JOYFUL"]{
         padding-right: 16px;
         .enrolled-course-card-button{
           border-radius: 2rem !important;
-          background-color: var(--app-primary) !important;
+          background-color: #9D7F73 !important;
         }
       }
       ion-card-content{
@@ -1507,7 +1507,7 @@ html[data-theme="JOYFUL"]{
         border-radius: 1rem;
         .cd-chapter-card-button{
           border-radius: 2rem !important;
-          background-color: var(--app-primary) !important;
+          background-color: #9D7F73 !important;
         }
       }
     }

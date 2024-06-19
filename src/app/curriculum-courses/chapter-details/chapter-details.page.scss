@@ -1,24 +1,28 @@
 @import "src/assets/styles/_variables.scss";
+
 .cd-header-container {
     padding: 16px;
     margin: 8px;
     border-radius: 2px;
-    box-shadow: 0 3px 5px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 3px 5px 4px rgba(0, 0, 0, 0.05);
     position: relative;
-    .cd-title-container{
+
+    .cd-title-container {
         margin-bottom: 8px;
     }
+
     .cd-header-title {
         color: map-get($colors, gray_3A);
         font-size: 1rem;
         font-weight: bold;
     }
 
-    .cd-of-menu{
+    .cd-of-menu {
         position: absolute;
         top: 1rem;
         right: 1rem;
-        .cd-menu-icon{
+
+        .cd-menu-icon {
             height: 1rem;
             width: 1.25rem;
             margin: 8px 8px 8px 16px;
@@ -45,16 +49,16 @@
     }
 
     .cd-chapter-card-button {
-        background-color: $green;
-        border: 1px solid $green;
-        color: white;
+        background-color: #9D7F73;
+        border: 1px solid #9D7F73;
+        color: black;
         display: inline-block;
         font-size: 1rem;
         cursor: pointer;
         outline: none;
         width: 100%;
         padding: 16px 0px 16px 0px;
-        box-shadow: 0 4px 7px 0 rgba(0,0,0,0.25);
+        box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.25);
 
         .play-icon {
             margin-right: px;
@@ -87,6 +91,7 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 8px;
+
     .cd-align-s {
         align-items: start;
         margin-bottom: 8px;

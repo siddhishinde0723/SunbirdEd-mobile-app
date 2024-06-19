@@ -27,7 +27,7 @@ export class DownloadsTabComponent implements OnInit {
   @Output() sortCriteriaChanged = new EventEmitter();
   showLoader = false;
   selectedContents: ContentDelete[] = [];
-  showDeleteButton = true;
+  showDeleteButton = false;
   deleteAllPopupPresent = false;
   showSelectAll = true;
   selectedFilter: string = MenuOverflow.DOWNLOAD_FILTERS[0];
@@ -91,7 +91,7 @@ export class DownloadsTabComponent implements OnInit {
     });
     await deleteConfirm.present();
     const { data } = await deleteConfirm.onDidDismiss();
-    this.showDeleteButton=true
+    this.showDeleteButton=false
 
     if (data === undefined) { // Backdrop clicked
       if (!identifier) { this.unSelectAllContents(); }
@@ -187,7 +187,7 @@ export class DownloadsTabComponent implements OnInit {
     this.downloadedContents.forEach(element => {
       element['isSelected'] = false;
     });
-    this.showDeleteButton = true;
+    this.showDeleteButton = false;
     this.showSelectAll = true;
     if (this.deleteAllPopupPresent) {
       await this.deleteAllConfirm.dismiss({ isLeftButtonClicked: null });
@@ -207,7 +207,7 @@ export class DownloadsTabComponent implements OnInit {
       this.showDeleteButton = false;
       this.deleteAllContents();
     } else {
-      this.showDeleteButton = true;
+      this.showDeleteButton = false;
       if (this.deleteAllPopupPresent) {
         await this.deleteAllConfirm.dismiss({ isLeftButtonClicked: null });
       }
