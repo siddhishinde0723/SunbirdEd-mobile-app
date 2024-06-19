@@ -1272,9 +1272,9 @@ app-resources{
 }
 
 .sb-btn-large {
-  background-color: #9D7F73;
+  background-color: $blue;
   border: none;
-  color: black;
+  color: white;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -1698,7 +1698,7 @@ sb-pills-grid{
       width: 90%;
       height: 2.75rem;
       background-color: transparent !important;
-      color: black !important;
+      color: var(--app-primary) !important;
       box-shadow: none !important
     }
   }
@@ -1857,7 +1857,7 @@ app-user-home, app-sb-preferences-popup {
 }
 
 ._submitted {
-  color:black;
+  color:$primary-color;
   font-size: 1.2rem;
 }
 
@@ -1995,9 +1995,9 @@ app-faq-help {
           width: 60vw;
           height: 2.5rem !important;
           margin: 0 !important;
-          background-color: #9D7F73;
-          color: black !important;
-          border: #9D7F73 !important;
+          background-color: var(--app-white) !important;
+          color: var(--app-primary) !important;
+          border: none !important;
         }
       }
     }
@@ -2315,7 +2315,7 @@ app-metadata-details,app-add-file {
 }
 .card-icons {
   font-size: 1.875rem;
-  color: #9D7F73;
+  color: $blue;
 }
 .card-icons-downloadStarted {
   font-size: 1.875rem;
@@ -2527,4 +2527,3 @@ app-slider-type-input {
   outline: none;
 }
 }
-

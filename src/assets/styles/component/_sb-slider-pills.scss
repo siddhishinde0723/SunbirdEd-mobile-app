@@ -60,11 +60,11 @@
             border-radius: 16px;
             @include padding(($base-block-space * 0.5), ($base-block-space * 2));
             box-shadow: 0 3px 4px 0 rgba(0,0,0,0.19);
-            color: black;	
+            color: $primary-color;	
             min-height: ($base-block-space * 4);
             &:active, &.active {
-                background-color: #9D7F73;
-                color: black;
+                background-color: $primary-color;
+                color: $white-color;
             }
         }
     }

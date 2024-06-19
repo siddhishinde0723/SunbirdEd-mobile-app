@@ -164,8 +164,7 @@
         @include margin(null, 0, null, null);
       }
       &.popover-color {
-        background-color: #9D7F73;
-        color: black
+        background-color: $info-color;
       }
     }
     .sb-popover-action-btn[disabled]{
@@ -341,8 +340,8 @@
     .popover-button-cancel {
       background-color: map-get($colors, white);
       --background: white;
-      border: 1px solid #9D7F73;
-      color: black !important;
+      border: 1px solid $blue;
+      color: $blue !important;
       width: 9.375rem;
     }
     @media only screen and (max-width : 720px) {
@@ -365,9 +364,8 @@
     }
   }
     .popover-button-allow {
-      border: 1px solid #9D7F73;
-      background-color: #9D7F73;
-      color: black;
+      border: 1px solid $blue;
+      background-color: $blue;
       width: 9.375rem;
     }
 

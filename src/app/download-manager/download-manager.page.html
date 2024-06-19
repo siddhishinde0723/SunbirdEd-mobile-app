@@ -1,5 +1,5 @@
 <ion-content hide-header-footer overflow-scroll="true" scrollEvents="true">
-  <div class="sb-view-all-container" style="margin-top: 10px;">
+  <div class="sb-view-all-container">
     <app-downloads-header [storageInfo]="storageInfo" [appName]="appName"></app-downloads-header>
 
     <app-no-downloads *ngIf="!downloadedContents.length"></app-no-downloads>

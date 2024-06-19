@@ -80,10 +80,10 @@
 
 .selected-lang {
   .language-selection {
-    background-color: #9D7F73   !important;
+    background-color: var(--app-primary) !important;
   }
   .label-text {
-    color: black !important;
+    color: var(--app-white) !important;
   }
 }
 

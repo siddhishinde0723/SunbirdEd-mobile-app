@@ -43,7 +43,7 @@
   }
   .profile-share-icon{
     .share-icon{
-      color: #9D7F73;
+      color: $blue;
       position: relative;
       top: 0.375rem;
       margin-left: 8px;
@@ -253,7 +253,7 @@
 
   .delete_button {
     border-radius: 20px!important;
-    border: 1px solid #9D7F73 !important;
+    border: 1px solid #024F9D !important;
     background-color:white;
     color: black;
     height: 2.5rem!important;
@@ -274,7 +274,7 @@
 
   .custom-round {
     border-radius: 64px !important;
-    --background: #9D7F73 !important;
+    --background: #024F9D !important;
   }
 
   .bottom-block {
@@ -307,7 +307,7 @@
   }
 
   .batch-detail {
-    color: #9D7F73;
+    color: var(--app-primary);
   }
 
   .flex-nowrap {
@@ -352,7 +352,7 @@
 
   .ongoing-status-text{
     @extend .enrolled-status-text;
-    color: #9D7F73;
+    color: $blue;
   }
 
   .completed-status-text{
@@ -402,14 +402,14 @@
     text-transform: capitalize
   }
   .refresh-icon {
-    color:  #9D7F73;
+    color: map-get($colors, primary_blue);
     float: right;
     height: 2.5rem !important;
     width: 2.5rem !important;
     margin-top: -0.5rem;
   }
   ion-icon.refresh-icon.md.hydrated:active {
-    background: #9D7F73;
+    background: map-get($colors, white_e8);
     border-radius: 18px;
   }
 
@@ -437,19 +437,19 @@
     text-align: center;
   }
 
-  .framework-block {  
+  .framework-block {
     border-style: double;
     margin-top: 8px;
     border-radius: 1rem;
-    background-color: #E8E7E7 ;
-    border-color: #E8E7E7 ;
+    background-color: aliceblue;
+    border-color: aliceblue;
     padding-top: 12px;
   }
   .location-mapping-block {
     border-style: double;
     border-radius: 1rem;
-    background-color: #E8E7E7 ;
-    border-color: #E8E7E7 ;
+    background-color: aliceblue;
+    border-color: aliceblue;
     padding-top: 12px;
   }
 

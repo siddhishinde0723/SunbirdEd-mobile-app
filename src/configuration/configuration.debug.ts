@@ -3,6 +3,6 @@ export const configuration = {
   hmr: false,
   debug: true
 };
-export const tenantOrgName = "Shikshagraha";
+export const tenantOrgName = "ShikshaLokam";
 export const tenantLogo = "resources/android/splash/drawable-hdpi-splash.png";
-export const tenantChannelId = "01406407969375027211";
+export const tenantChannelId = "0138786843639234561";

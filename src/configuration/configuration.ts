@@ -7,9 +7,9 @@ export const configuration = {
   hmr: false,
   debug: false
 };
-export const tenantOrgName = "Shikshagraha";
+export const tenantOrgName = "ShikshaLokam";
 export const tenantLogo = "resources/android/splash/drawable-hdpi-splash.png";
-export const tenantChannelId = "01406407969375027211";
+export const tenantChannelId = "0138786843639234561";
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -7,11 +7,11 @@
 }
 
 .cr-terms-checkbox{
-  --background-checked: #9D7F73;
-  --border-color: #9D7F73;
+  --background-checked: #{$blue};
+  --border-color: #{$blue};
   --border-radius: 4px;
   --border-width: 1px;
-  --border-color-checked:#9D7F73;
+  --border-color-checked:#{$blue};
 }
 .cr-input-primary {
   display: inline-flex;
@@ -73,12 +73,12 @@
   padding: 0px 10px;
 }
 .save-changes{
-  color: black;
-  background-color: #9D7F73;
+  color: white;
+  background-color: $blue;
   font-size: 1rem;
   padding: 8px 0;
   margin-left: 18px;
-  border: 2px solid #9D7F73;
+  border: 2px solid $blue;
   width: 80%;
 }
 

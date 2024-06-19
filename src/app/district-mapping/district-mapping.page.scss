@@ -158,20 +158,20 @@
     }
 
     .block-button-save{
-        color: black;
-        background-color: #9D7F73;
+        color: white;
+        background-color: $blue;
         font-size: 1rem;
         padding: 8px 0;
         margin-left: 18px;
-        border: 2px solid #9D7F73;
+        border: 2px solid $blue;
         width: 45%;
       }
       .block-button-clear{
-        color: black;
+        color: $blue;
         background-color: white;
         font-size: 1rem;
         padding: 8px 0;
-        border: 2px solid #9D7F73 ;
+        border: 2px solid $blue;
         width: 45%;
         margin-left: 0.7rem;
       }

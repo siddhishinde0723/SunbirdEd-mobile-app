@@ -39,13 +39,13 @@
   }
 
   .add-task {
-    --background:  #b8a9a3 !important;
-    background-color:#b8a9a3 ;
+    --background: var(--app-primary-light) !important;
+    background-color: var(--app-primary-light);
     .flex-box {
       display: flex;
       align-items: center;
       .icon {
-        color: #9D7F73 !important;
+        color: var(--app-primary) !important;
         font-size: 1.875rem;
       }
       .label {
@@ -66,10 +66,5 @@
       padding: 2px;
       vertical-align: middle;
       margin-left: 3px;
-    }
-  }
-  app-accordion-list ::ng-deep{
-    ion-icon{
-      color: black;
     }
   }

@@ -40,7 +40,7 @@
         padding-left: 0px;
     }
     .mandatory-ribben-label{
-        background-color:#9D7F73 !important;
+        background-color: var(--app-primary-header) !important;
         padding: 2px 15px;
         color: #000;
         text-transform: uppercase;
@@ -51,8 +51,8 @@
     }
 
     .action-btn{
-        --background:#9D7F73 !important;
-        color: black !important;
+        --background: var(--app-primary-header) !important;
+        color: var(--app-primary) !important;
         text-transform: none;
     }
 
@@ -69,8 +69,8 @@
 }
 .view-more {
     --background: transparent !important;
-    --border-color: #9D7F73 !important;
-    --color: black !important;
+    --border-color: var(--app-primary-medium) !important;
+    --color: var(--app-primary-medium) !important;
     width: 100%;
     text-transform: none;
     font-weight: bold;

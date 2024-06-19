@@ -80,7 +80,6 @@ export class TaskCardComponent implements OnInit {
   async openPopover(ev: any, taskIndex) {
     let menu:any =[];
     const selectedTask = this.data.tasks[taskIndex];
-    console.log("selectedTask",selectedTask)
     if(this.viewOnly){
       let shareOption = {
         TITLE: 'FRMELEMNTS_LBL_SHARE',

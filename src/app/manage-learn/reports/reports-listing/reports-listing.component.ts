@@ -20,18 +20,17 @@ export class ReportsListingComponent {
   };
 
   reportsArray = [
-    // romoved the observation and servey reports as the tabs are also removed 
-    // {
-    //   title: 'FRMELEMNTS_LBL_OBSERVATION_REPORTS',
-    //   subTitle: 'FRMELEMNTS_LBL_OBSERVATION_REPORTS_DEC',
-    //   link:`${RouterLinks.REPORTS}/${RouterLinks.OBSERVATION_SOLUTION_LISTING}`
-    //   // link: RouterLinks.OBSERVATION,
-    // },
-    // {
-    //   title: 'FRMELEMNTS_LBL_SURVEY_REPORTS',
-    //   subTitle: 'FRMELEMNTS_LBL_SURVEY_REPORTS_DESC',
-    //   link: RouterLinks.SURVEY,
-    // },
+    {
+      title: 'FRMELEMNTS_LBL_OBSERVATION_REPORTS',
+      subTitle: 'FRMELEMNTS_LBL_OBSERVATION_REPORTS_DEC',
+      link:`${RouterLinks.REPORTS}/${RouterLinks.OBSERVATION_SOLUTION_LISTING}`
+      // link: RouterLinks.OBSERVATION,
+    },
+    {
+      title: 'FRMELEMNTS_LBL_SURVEY_REPORTS',
+      subTitle: 'FRMELEMNTS_LBL_SURVEY_REPORTS_DESC',
+      link: RouterLinks.SURVEY,
+    },
     {
       title: 'FRMELEMNTS_LBL_IMPROVEMENT_REPORTS',
       subTitle: 'FRMELEMNTS_LBL_IMPROVEMENT_REPORTS_DESC',

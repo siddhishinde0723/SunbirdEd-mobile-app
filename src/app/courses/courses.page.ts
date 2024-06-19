@@ -13,7 +13,6 @@ import { CsPrimaryCategory } from '@project-sunbird/client-services/services/con
 import { CourseCardGridTypes } from '@project-sunbird/common-consumption';
 import forEach from 'lodash/forEach';
 import { Subscription } from 'rxjs';
-
 import {
   Content,
   ContentAggregatorRequest, ContentEventType, ContentImportRequest, ContentImportResponse, ContentImportStatus,

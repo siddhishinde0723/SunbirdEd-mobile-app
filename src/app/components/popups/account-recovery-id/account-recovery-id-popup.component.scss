@@ -46,14 +46,14 @@
 }
 
 ion-button{
-    --background: #9D7F73!important;
+    --background: #{$blue} !important;
     color: map-get($colors, white);
-    --background-hover: #9D7F73!important;
-    --background-activated: #9D7F73 !important;
+    --background-hover: #{$blue} !important;
+    --background-activated: #{$blue} !important;
 }
 
 ion-button[fill="outline"]{
     --background: map-get($colors, white) !important;
-    color: black    ;
-    --border-color: #9D7F73;
+    color: #{$blue};
+    --border-color: #{$blue};
 }

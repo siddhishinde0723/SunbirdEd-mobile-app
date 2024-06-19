@@ -6,42 +6,16 @@
 }
 
 .view-more {
-   --background: #9D7F73 !important;
-   --border-color: #9D7F73!important;
-   --color: black!important;
+   --background: var(--app-primary-background) !important;
+   --border-color: var(--app-primary-medium) !important;
+   --color: var(--app-primary-medium) !important;
    height: 2.25rem;
    font-size: 0.875rem;
 }
 ion-searchbar ::ng-deep .searchbar-input{
   border-radius: 10px;
-  border:1px solid #9D7F73;
+  border:1px solid $primary-300;
 }
-
-sb-library-filters ::ng-deep{
-  .sb-pills-container{
-    background: transparent !important;
-  }
-  .sb-medium-pills-container, .sb-grade-pills-container {
-    .pill{
-      border-color:  #9D7F73 !important;
-      color: black !important;
-      box-shadow: var(--button-style-shadow) !important;
-      margin-right: 1rem !important;
-    }
-    .pill.active{
-      color:black !important;
-      background-color: #9D7F73 !important;
-      border-color: #9D7F73 !important;
-    }
-  }
-
-  .sb-medium-pills-container {
-    .pill{
-      border-radius: 4px !important;
-    }
-  }
-}
-
 .create_header ::ng-deep .title.w-90 {
   color:black;
 }
@@ -71,14 +45,4 @@ sb-library-filters ::ng-deep{
 }
 .header{
   margin-left: 13px;
-}
-.selected-filter {
-  background-color: red;
-}
-.active {
-  background-color: brown;
-}
-
-.inactive {
-  background-color: lightgray; /* Or any other color for the inactive state */
 }
