@@ -289,7 +289,7 @@
     }
   }
   .sc-ion-segment-md-h{
-    --color-checked : #{$blue};
+    --color-checked : #9D7F73;
     font-weight: bold;
     --color: #{map-get($colors, cornflower_blue)};
   }
@@ -602,7 +602,7 @@ margin-top: -13px; opacity: 1;
 .consent-arrow {
   ion-icon{
     font-size: 1.5rem;
-    color: #024f9d;
+    color: black;
   }
 }
 .sb--card__meta1 {

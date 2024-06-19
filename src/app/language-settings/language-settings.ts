@@ -339,11 +339,11 @@ export class LanguageSettingsPage {
 
   private navigateBack(skipNavigation) {
     this.location.back();
-    // if ((skipNavigation && skipNavigation.navigateToCourse) ||
-    //   (skipNavigation && (skipNavigation.source === 'user' ||
-    //   skipNavigation.source === 'resources'))) {
-    //     this.location.back();
-    // }
+    if ((skipNavigation && skipNavigation.navigateToCourse) ||
+      (skipNavigation && (skipNavigation.source === 'user' ||
+      skipNavigation.source === 'resources'))) {
+        this.location.back();
+    }
   }
   handleHeaderEvents($event) {
     if ($event.name === 'back') {

@@ -13,27 +13,27 @@
   }
 
   .ecv-header {
-    background-color: #{$blue};
-    color: map-get($colors, white);
+    background-color:#FFCB37;
+    color: black;
     padding: 16px 0;
   }
 
   ion-button{
-    --background: #{$blue} !important;
-    color: map-get($colors, white);
-    --background-hover: #{$blue} !important;
-    --background-activated: #{$blue} !important;
+    --background:#9D7F73 !important;
+    color:black;
+    --background-hover: #9D7F73 !important;
+    --background-activated: #9D7F73 !important;
   }
 
   ion-button[fill="outline"]{
     --background: map-get($colors, white) !important;
-    color: #{$blue};
+    color:black;
     --border-color: #{$blue};
   }
 
   ion-button[fill="clear"]{
     --background: map-get($colors, white) !important;
-    color: #{$blue};
+    color:#9D7F73 ;
   }
 }
 

@@ -560,6 +560,7 @@ export class RouterLinks {
 
     // routing to Term of use Web Page
     public static readonly TERM_OF_USE = 'https://shikshalokam.org/term-of-use/';
+    public static readonly PRIVATE_POLICY = 'https://shikshalokam.org/data-privacy-policy/';
 
     // My Groups
     public static readonly MY_GROUPS = 'my-groups';

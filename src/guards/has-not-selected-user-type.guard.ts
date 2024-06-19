@@ -52,6 +52,7 @@ export class HasNotSelectedUserTypeGuard implements Resolve<any> {
 
     private navigateToProfileSettings(){
         const navigationExtras: NavigationExtras = {
+        
             state: {
                 forwardMigration: true
             }

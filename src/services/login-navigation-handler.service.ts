@@ -1,4 +1,4 @@
-import { EventTopics, IgnoreTelemetryPatters, PreferenceKey, ProfileConstants, SystemSettingsIds } from '@app/app/app.constant';
+import { EventTopics, IgnoreTelemetryPatters, PreferenceKey, ProfileConstants, SystemSettingsIds,RouterLinks } from '@app/app/app.constant';
 import { Environment, InteractType, PageId } from '@app/services/telemetry-constants';
 import { Context as SbProgressLoaderContext, SbProgressLoader } from '@app/services/sb-progress-loader.service';
 import {
@@ -25,6 +25,7 @@ import { mergeMap, tap } from 'rxjs/operators';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
 import { tenantOrgName, tenantLogo ,tenantChannelId } from '../configuration/configuration';
+import { Router, ActivatedRoute, Resolve, NavigationExtras, ActivatedRouteSnapshot } from '@angular/router';
 
 @Injectable()
 export class LoginNavigationHandlerService {
@@ -45,6 +46,7 @@ export class LoginNavigationHandlerService {
         private formAndFrameworkUtilService: FormAndFrameworkUtilService,
         private platform: Platform,
         private googlePlusLogin: GooglePlus,
+        private router: Router,
     ) {
     }
 
@@ -189,7 +191,9 @@ export class LoginNavigationHandlerService {
                     resolve();
                 }
                else {
+                this.router.navigate([RouterLinks.SIGN_IN])
                 reject(false);
+
                 }
               
             } catch (error) {

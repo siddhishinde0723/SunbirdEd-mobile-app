@@ -53,13 +53,14 @@ export class ApiService {
       mergeMap(session => {
         const headers = session ? this.setHeaders(session) : {};
           this.ionicHttp.setDataSerializer('json');
+          console.log("url",requestParam.url)
+          console.log("body",headers)
           return this.ionicHttp.get(this.baseUrl + requestParam.url, '', headers).then(
             data => {
-              console.log("get data",data)
+              console.log("JSON.parse(data.data)",JSON.parse(data.data))
               return JSON.parse(data.data);
             }, error => {
-              console.log("get error",error)
-
+              console.log("error",error)
               catchError(this.handleError(error))
             },
           );
@@ -104,13 +105,17 @@ export class ApiService {
         const headers = session ? this.setHeaders(session) :{};
           let body = requestParam.payload ? requestParam.payload : {};
           this.ionicHttp.setDataSerializer('json');
+          console.log("body",body)
+          console.log("url",requestParam.url)
+          console.log("body",headers)
+
           return this.ionicHttp.post(this.baseUrl + requestParam.url, body, headers).then(
             data => {
-              console.log("post data",data)
+              console.log("JSON.parse(data.data)",JSON.parse(data.data))
 
               return JSON.parse(data.data);
             }, error => {
-              console.log("post data",error)
+              console.log("error",error)
 
               catchError(this.handleError(error))
             });

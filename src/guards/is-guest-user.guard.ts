@@ -8,6 +8,7 @@ export class IsGuestUserGuard implements CanLoad {
         @Inject('AUTH_SERVICE') private authService: AuthService,
         private router: Router
     ) {
+        console.log("hello")
     }
 
     async canLoad(): Promise<boolean> {

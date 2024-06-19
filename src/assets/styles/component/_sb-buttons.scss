@@ -139,7 +139,7 @@
 
 //outline colored btns
 .sb-btn-outline-info{
-    @include btn-theme-bgwhite($primary-color);
+    @include btn-theme-bgwhite(#9D7F73);
     
  }
  .sb-btn-outline-info button{

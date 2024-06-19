@@ -5,15 +5,19 @@
     (ionChange)="onSearch($event)" search-icon="search">
   </ion-searchbar>
   <div class="container">
-    <sb-library-filters [list]="filters" class="text-transform-none" [layout]="layout" selectedItems="{{[selectedFilterIndex]}}" id="projectListFilters"
-      (selectedFilter)="getDataByFilter($event);" *ngIf="filters?.length">
+   
+    <sb-library-filters  [list]="filters" class="text-transform-none" 
+      [layout]="layout" selectedItems="{{[selectedFilterIndex]}}" id="projectListFilters"
+      (selectedFilter)="getDataByFilter($event);" *ngIf="filters?.length"
+     >
     </sb-library-filters>
+    
   </div>
 
   <app-item-list-card *ngIf="selectedFilterIndex==2" title="{{'FRMELEMNTS_LBL_CREATE_NEW_PROJECT' | translate}}" id="createProjectCard"
     subTitle="{{'FRMELEMNTS_LBL_CREATE_NEW_PROJECT_SUBHEADING' | translate}}" class="create_header"
     (cardSelect)="doAction()">
-    <ion-icon class="mg-popup-btn-icon clr-primary" name="ios-arrow-round-forward" arrow></ion-icon>
+    <ion-icon style="color:brown"  class="mg-popup-btn-icon clr-primary" name="ios-arrow-round-forward" arrow></ion-icon>
   </app-item-list-card>
   <div class="header">
   <app-item-list-header *ngIf="selectedFilter" headerLabel="{{'FRMELEMNTS_LBL_PROJECTS' | translate}} {{selectedFilter | lowercase}}"></app-item-list-header>

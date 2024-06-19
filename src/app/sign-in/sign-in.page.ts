@@ -163,11 +163,11 @@ export class SignInPage implements OnInit {
 
     private navigateBack(skipNavigation) {
         this.location.back();
-        // if ((skipNavigation && skipNavigation.navigateToCourse) ||
-        //     (skipNavigation && (skipNavigation.source === 'user' ||
-        //         skipNavigation.source === 'resources'))) {
-        //     this.location.back();
-        // }
+        if ((skipNavigation && skipNavigation.navigateToCourse) ||
+            (skipNavigation && (skipNavigation.source === 'user' ||
+                skipNavigation.source === 'resources'))) {
+            this.location.back();
+        }
     }
 
     async appleSignIn() {
