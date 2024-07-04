@@ -88,7 +88,6 @@
     "cordova-plugin-androidx-adapter": "^1.1.3",
     "cordova-plugin-appavailability": "^0.4.2",
     "cordova-plugin-badge": "^0.8.8",
-    "cordova-plugin-chooser": "^1.3.2",
     "cordova-plugin-device": "^2.0.3",
     "cordova-plugin-dialogs": "^2.0.2",
     "cordova-plugin-document-viewer": "^0.9.13",
@@ -189,12 +188,13 @@
     "cordova-plugin-app-version": "^0.1.12",
     "cordova-plugin-awesome-shared-preferences": "git+https://github.com/adriano-di-giovanni/cordova-plugin-shared-preferences.git",
     "cordova-plugin-badge-fix": "^0.8.10",
-    "cordova-plugin-camera": "git+https://github.com/vishwanath1004/cordova-plugin-camera.git",
+    "cordova-plugin-camera": "github:shikshalokam/cordova-plugin-camera",
+    "cordova-plugin-chooser": "github:shikshalokam/cordova-plugin-chooser",
     "cordova-plugin-code-push": "git+https://github.com/swayangjit/cordova-plugin-code-push.git",
     "cordova-plugin-console": "^1.1.0",
     "cordova-plugin-fcm-with-dependecy-updated": "git+https://github.com/Sunbird-Ed/sb-cordova-plugin-fcm.git#release-5.0.2",
-    "cordova-plugin-file-transfer": "git+https://github.com/vishwanath1004/cordova-plugin-file-transfer.git",
-    "cordova-plugin-filepath": "git+https://github.com/vishwanath1004/cordova-plugin-filepath.git",
+    "cordova-plugin-file-transfer": "github:vishwanath1004/cordova-plugin-file-transfer",
+    "cordova-plugin-filepath": "github:vishwanath1004/cordova-plugin-filepath",
     "cordova-plugin-inappupdatemanager": "git+https://github.com/subranil/cordova-plugin-inappupdatemanager.git#release-3.7.0",
     "cordova-plugin-local-notification": "git+https://github.com/fquirin/cordova-plugin-local-notifications.git",
     "cordova-plugin-openrap": "git+https://github.com/project-sunbird/cordova-plugin-openrap.git",
@@ -228,7 +228,6 @@
       "cordova-plugin-x-socialsharing": {},
       "cordova-plugin-device": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-file-transfer": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-statusbar": {},
@@ -276,9 +275,6 @@
       "cordova-plugin-androidx-adapter": {},
       "cordova-plugin-secure-storage-echo": {},
       "cordova-plugin-appavailability": {},
-      "cordova-plugin-camera": {},
-      "cordova-plugin-filepath": {},
-      "cordova-plugin-chooser": {},
       "cordova-plugin-filepicker": {},
       "cordova-plugin-document-viewer": {},
       "com-sarriaroman-photoviewer": {},
@@ -291,7 +287,13 @@
       },
       "uk.co.workingedge.phonegap.plugin.istablet": {},
       "cordova-plugin-console": {},
-      "cordova-plugin-sunbirdsplash": {}
+      "cordova-plugin-sunbirdsplash": {},
+      "cordova-plugin-camera": {
+        "ANDROIDX_CORE_VERSION": "1.6.+"
+      },
+      "cordova-plugin-chooser": {},
+      "cordova-plugin-filepath": {},
+      "cordova-plugin-file-transfer": {}
     },
     "platforms": [
       "ios"

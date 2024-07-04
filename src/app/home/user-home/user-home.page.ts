@@ -834,19 +834,29 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
       board.push(this.profile?.syllabus?.length  ?  this.profile?.syllabus[0]: null)
       board.push(this.profile?.board?.length  ?  this.profile?.board[0]: null)
       let role = this.profile.profileType.toLowerCase();
+      let roles= this.profile.serverProfile?.profileUserType?.type
+
+      console.log("roles",roles)
       if (this.profile.serverProfile) {
         role = this.profile.serverProfile.profileUserType.type.toLowerCase();
       }
       const otherCategories = await this.formAndFrameworkUtilService.getFormFields(
         FormConstants.ML_HOME_CATEGORIES
       );
+      console.log("board",board);
+      console.log("this.profile",this.profile)
       board.forEach(element => {
+
+      
+       
         if(otherCategories[element] && otherCategories[element][role]){
          this.otherCategories = otherCategories[element][role]; 
          return;
          }
       });
-      if (this.otherCategories.length) {
+        
+        console.log("this.otherCategories",this.otherCategories)
+      if (this.otherCategories.length && roles == 'teacher') {
         this.homeDataAvailable = true;
         this.events.publish('onPreferenceChange:showReport', true);
       } else {

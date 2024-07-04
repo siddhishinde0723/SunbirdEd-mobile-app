@@ -81,6 +81,14 @@ export const actions = {
     }
   ],
 
+  CERTIFICATE_ACTION:{
+    title: "CERTIFICATE",
+    icon: "ribbon",
+    action: "certificate",
+    color: 'success',
+    id:'certificate'
+  },
+
   TASK_FILE_DESCRIPTION:{
     label:'FRMELEMNTS_LBL_TASK_ATTACHMENTS_DESCRIPTION'
   },
@@ -96,9 +104,16 @@ export const actions = {
       id:'camera'
     },
     {
-      title: "FRMELEMNTS_LBL_GALLERY",
+      title: "FRMELEMENTS_LBL_UPLOAD_IMAGE",
       icon: "images",
-      action: "openGallery",
+      action: "openImage",
+      color: 'primary',
+      id:'images'
+    },
+    {
+      title: "FRMELEMENTS_LBL_UPLOAD_VIDEO",
+      icon: "videocam",
+      action: "openVideo",
       color: 'primary',
       id:'images'
     },

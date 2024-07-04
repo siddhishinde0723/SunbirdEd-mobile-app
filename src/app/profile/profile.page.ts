@@ -591,7 +591,7 @@ async delete(){
         (!this.profile.email && !this.profile.phone && this.profile.recoveryEmail)) {
             request.type = ProfileConstants.CONTACT_TYPE_EMAIL;
         } else if (this.profile.phone || this.profile.recoveryPhone) {
-          this.toast.showMessage('You have not updated your email id. Please write a maile to support to delete your account', 'danger');
+          this.toast.showMessage('You havent updated your email address. Please send an email to the admin to delete your account.', 'danger');
         }
           const resp = await this.profileService.generateOTP(request).toPromise();
           if (resp) {
@@ -604,6 +604,8 @@ async delete(){
                    .then((result) => {
                     if(result) {
                      console.log('profile deleted succesfully');
+                     this.toast.showMessage('Profile deleted successfully.', 'success');
+
                      this.telemetryGeneratorService.generateInteractTelemetry(InteractType.TOUCH,   //telemetry for delete button clicked
                      InteractSubtype.DELETE_SUCCESS,
                      undefined,

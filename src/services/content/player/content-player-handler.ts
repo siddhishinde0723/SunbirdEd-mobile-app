@@ -21,6 +21,7 @@ declare const cordova;
 export class ContentPlayerHandler {
     private isPlayerLaunched = false;
     private lastPlayedContentId: string;
+    mimetyes: any = ['application/vnd.ekstep.h5p-archive', 'application/vnd.ekstep.ecml-archive']
     constructor(
         @Inject('PLAYER_SERVICE') private playerService: PlayerService,
         @Inject('COURSE_SERVICE') private courseService: CourseService,
@@ -84,7 +85,7 @@ export class ContentPlayerHandler {
 
             request['correlationData'] = [correlationData];
         }
-        this.playerService.getPlayerConfig(content, request).subscribe((data) => {
+        this.playerService.getPlayerConfig(content, request).subscribe(async (data) => {
             data['data'] = {};
             if (isCourse || (content.contentData &&
                 content.contentData.status === ContentFilterConfig.CONTENT_STATUS_UNLISTED)) {
@@ -104,9 +105,9 @@ export class ContentPlayerHandler {
                 const filePath = this.commonUtilService.convertFileSrc(`${data.metadata.basePath}`);
                 if (!isStreaming) {
                     this.file.checkFile(`file://${data.metadata.basePath}/`, 'index.ecml').then((isAvailable) => {
-                        this.canvasPlayerService.xmlToJSon(`${filePath}/index.ecml`).then((json) => {
+                        this.canvasPlayerService.xmlToJSon(`file://${data.metadata.basePath}/`, 'index.ecml').then(async (json) => {
                             data['data'] = JSON.stringify(json);
-                            this.router.navigate([RouterLinks.PLAYER],
+                            await this.router.navigate([RouterLinks.PLAYER],
                                 { state: { config: data,  course : contentInfo.course, navigateBackToContentDetails, isCourse } });
 
                         }).catch((error) => {
@@ -114,18 +115,18 @@ export class ContentPlayerHandler {
                         });
                     }).catch((err) => {
                         console.error('err', err);
-                        this.canvasPlayerService.readJSON(`${filePath}/index.json`).then((json) => {
-                            data['data'] = json;
-                            this.router.navigate([RouterLinks.PLAYER],
+                        this.file.readAsText(`file://${data.metadata.basePath}/`, 'index.json').then(async (response)=> {
+                            data['data'] = response;
+                            await this.router.navigate([RouterLinks.PLAYER],
                                 { state: { config: data,  course : contentInfo.course, navigateBackToContentDetails,
                                         corRelation: contentInfo.correlationList, isCourse } });
-
                         }).catch((e) => {
-                            console.error('readJSON error', e);
-                        });
+                            console.error('readAsText error', e);
+                        })
+                    
                     });
                 } else {
-                    this.router.navigate([RouterLinks.PLAYER],
+                    await this.router.navigate([RouterLinks.PLAYER],
                         { state: { config: data, course : contentInfo.course, navigateBackToContentDetails,
                                 corRelation: contentInfo.correlationList, isCourse } });
                 }
@@ -133,7 +134,7 @@ export class ContentPlayerHandler {
                 if (callback && (data.metadata.mimeType === 'video/mp4' || data.metadata.mimeType === 'video/webm')) {
                     callback({ state: { config: data,  course : contentInfo.course, navigateBackToContentDetails, isCourse } });
                 } else {
-                    this.router.navigate([RouterLinks.PLAYER],
+                    await this.router.navigate([RouterLinks.PLAYER],
                         { state: { contentToPlay : content , config: data,  course : contentInfo.course, navigateBackToContentDetails,
                                 corRelation: contentInfo.correlationList, isCourse , childContent: isChildContent } });
                 }
@@ -156,10 +157,10 @@ export class ContentPlayerHandler {
         this.lastPlayedContentId = contentId;
     }
 
-    playContent(content: Content, navExtras: NavigationExtras, telemetryDetails, isCourse: boolean,
+    async playContent(content: Content, navExtras: NavigationExtras, telemetryDetails, isCourse: boolean,
                 navigateBackToContentDetails: boolean = true, hideHeaders: boolean = true) {
         if (hideHeaders) {
-            this.appHeaderService.hideHeader();
+            await this.appHeaderService.hideHeader();
         }
         const playingContent = content;
 
@@ -177,7 +178,7 @@ export class ContentPlayerHandler {
         let isStreaming: boolean;
         let shouldDownloadAndPlay: boolean;
         if (playingContent.contentData.streamingUrl && this.commonUtilService.networkInfo.isNetworkAvailable &&
-            (playingContent.mimeType !== 'application/vnd.ekstep.h5p-archive')) { // 1
+            playingContent.mimeType.includes(this.mimetyes)) { // 1
             isStreaming = true;
             shouldDownloadAndPlay = false;
         } else if (!this.commonUtilService.networkInfo.isNetworkAvailable && playingContent.isAvailableLocally) { // 2
@@ -187,13 +188,13 @@ export class ContentPlayerHandler {
             isStreaming = false;
             shouldDownloadAndPlay = true;
         } else {
-            this.router.navigate([RouterLinks.CONTENT_DETAILS], navExtras);
+            await this.router.navigate([RouterLinks.CONTENT_DETAILS], navExtras);
             return;
         }
 
         // Executes only if the conditions are passed else skip
         this.generateInteractTelemetry(isStreaming, telemetryDetails.pageId, contentInfo);
-        this.launchContentPlayer(playingContent, isStreaming, shouldDownloadAndPlay, contentInfo, isCourse, navigateBackToContentDetails);
+        await this.launchContentPlayer(playingContent, isStreaming, shouldDownloadAndPlay, contentInfo, isCourse, navigateBackToContentDetails);
     }
 
     private generateInteractTelemetry(isStreaming: boolean, pageId: string, contentInfo) {

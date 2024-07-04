@@ -137,6 +137,7 @@ export class EntityfilterComponent implements OnInit {
     };
     this.assessmentService.post(config).subscribe(
       (success) => {
+       console.log("success",success)
         this.loading = false;
         this.selectableList = !event ? [] : this.selectableList;
         for (let i = 0; i < success.result[0].data.length; i++) {
@@ -148,8 +149,10 @@ export class EntityfilterComponent implements OnInit {
           if (!event) {
             if (this.searchQuery === "") {
               this.selectableList = [...this.selectedItems, ...success.result[0].data];
+               this.loading = false;
             } else {
               this.selectableList = [...this.selectableList, ...success.result[0].data];
+              this.loading = false;
             }
           } else {
             this.selectableList.forEach((element) => {

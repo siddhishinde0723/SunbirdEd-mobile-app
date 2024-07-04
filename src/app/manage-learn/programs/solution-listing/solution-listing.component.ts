@@ -11,7 +11,8 @@ import { AppHeaderService } from '@app/services';
 import { Platform } from '@ionic/angular';
 import { UpdateLocalSchoolDataService } from '../../core/services/update-local-school-data.service';
 import { SplaschreenDeeplinkActionHandlerDelegate } from '@app/services/sunbird-splashscreen/splaschreen-deeplink-action-handler-delegate';
-
+import { ObservationService } from '../../observation/observation.service';
+ObservationService
 @Component({
   selector: 'app-solution-listing',
   templateUrl: './solution-listing.component.html',
@@ -44,7 +45,8 @@ export class SolutionListingComponent {
     private platform: Platform,
     private toast: ToastService,
     private ulsdp: UpdateLocalSchoolDataService,
-    private deeplinkActionHandler:SplaschreenDeeplinkActionHandlerDelegate
+    private deeplinkActionHandler:SplaschreenDeeplinkActionHandlerDelegate,
+    public obsService: ObservationService
   ) {
     activatedRoute.params.subscribe((param) => {
       this.programId = param.id;
@@ -161,6 +163,7 @@ export class SolutionListingComponent {
     if (data.observationId) {
       observationId = data.observationId;
     }
+    console.log("data",data)
     this.router.navigate(
       [`/${RouterLinks.OBSERVATION}/${RouterLinks.OBSERVATION_DETAILS}`],
       {
@@ -172,7 +175,13 @@ export class SolutionListingComponent {
           entityType: data.entityType ? data.entityType : ''
         },
       }
-    );
+    ).then(() => {
+      this.obsService.obsTraceObj.programId = this.programId;
+      this.obsService.obsTraceObj.solutionId = data._id;
+      this.obsService.obsTraceObj.name = data.name;
+      // this.obsService.obsTraceObj.programName = data.name;
+      console.log("inside" ,  this.obsService)
+    });
   }
 
   async getSolutions() {

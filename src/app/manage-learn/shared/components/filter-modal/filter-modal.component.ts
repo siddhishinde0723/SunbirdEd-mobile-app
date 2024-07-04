@@ -22,6 +22,7 @@ export class FilterModalComponent implements OnInit {
   @Input() entityId: string;
   searchText: any;
   count: any;
+
   constructor(
     private loader: LoaderService,
     // public reportSrvc: ReportsService,
@@ -41,43 +42,44 @@ export class FilterModalComponent implements OnInit {
 
   typeChange(e) {
     this.selectedType = e.detail.value;
-
-    this.serachEntity(this.searchText);
+    this.search(this.searchText);
   }
 
   search(searchText) {
     if (searchText == null || searchText == undefined) {
       searchText = '';
     }
-    this.dataList = [];
     this.searchText = searchText;
-
+    this.page = 1; // Reset to the first page for a new search
+    this.dataList = []; // Clear dataList for a new search
     this.type == 'entity' ? this.serachEntity(searchText) : this.searchProgramByEntity(searchText);
   }
+
   async searchProgramByEntity(searchText: any) {
     this.loader.startLoader();
     let payload = await this.utils.getProfileData();
 
     const config = {
-      url:
-        urlConstants.API_URLS.GET_PROGRAM_BY_ENTITY +
-        // this.entityId +
-        `?search=${encodeURIComponent(searchText)}&page=${this.page}&limit=${this.limit}`,
+      url: `${urlConstants.API_URLS.GET_PROGRAM_BY_ENTITY}?search=${encodeURIComponent(searchText)}&page=${this.page}&limit=${this.limit}`,
       payload: payload,
     };
+
     this.unnatiSrvc.post(config).subscribe(
       (data) => {
         this.loader.stopLoader();
-        this.dataList = data.result.data;
+        this.dataList = this.dataList.concat(data.result.data);
+        console.log("this.dataList", this.dataList);
       },
       (error) => {
         this.loader.stopLoader();
       }
     );
   }
-  async serachEntity(searchText: any) {
 
+  async serachEntity(searchText: any) {
+    // Implement this method similar to searchProgramByEntity if needed
   }
+
   getEntityTypes() {
     this.utils.getMandatoryEntitiesList().then((data) => {
       console.log(data, 'data 109');
@@ -93,10 +95,11 @@ export class FilterModalComponent implements OnInit {
     setTimeout(() => {
       event.target.complete();
       this.page++;
-      this.search(this.searchText);
+      this.type == 'entity' ? this.serachEntity(this.searchText) : this.searchProgramByEntity(this.searchText);
       if (this.dataList.length == this.count) {
         event.target.disabled = true;
       }
     }, 500);
   }
 }
+

@@ -268,7 +268,8 @@ export class ObservationDetailComponent implements OnInit {
     };
     this.assessmentService.delete(config).subscribe(
       success => {
-        this.toast.openToast(success.message);
+        console.log("success",success)
+        this.toast.openToast("Entity Removed successfully");
 
         this.loader.stopLoader();
         this.getObservationEntities();

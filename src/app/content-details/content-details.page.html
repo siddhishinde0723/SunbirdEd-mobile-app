@@ -1,5 +1,5 @@
 <!-- New content details -->
-<ion-content *ngIf="content && appGlobalService?.CONTENT_STREAMING_ENABLED">
+<ion-content *ngIf="content">
   <div class="sb-play-container sb-player-container" *ngIf="commonUtilService.networkInfo.isNetworkAvailable && playerType !== 'sunbird-video-player'"
     [ngClass]="{'standalone-player-container': contentDownloadable[content?.identifier] && (content.mimeType === 'video/mp4' || content.mimeType === 'video/webm'), '': !contentDownloadable[content?.identifier]}">
     <div *ngIf="contentDownloadable[content?.identifier]">
@@ -61,14 +61,14 @@
 
         </div>
         <div class="sb-common-player-group sb-play-title-group"
-          *ngIf="content.mimeType !== 'application/vnd.ekstep.h5p-archive'">
+          *ngIf="!contentDownloadPlay">
           <button fill="clear" icon-only class="sb-common-title" aria-label="Play video" (click)="handleContentPlay(true)">
             <img src="assets/imgs/play_circle.svg" role="button" alt="play" class="play-circle">
           </button>
           <p class="play-text"> {{'PLAY' | translate}} </p>
         </div>
         <div class="sb-common-player-group sb-download-title-group" (click)="openConfirmPopUp()"
-          *ngIf="content.mimeType === 'application/vnd.ekstep.h5p-archive'">
+          *ngIf="contentDownloadPlay">
           <ion-button fill="clear" icon-only class="sb-common-title">
             <ion-icon name="cloud-download" role="button" class="sb-common-white-icon"></ion-icon>
           </ion-button>
@@ -87,8 +87,11 @@
       </div>
     </div>
     <div *ngIf="playerType === 'sunbird-video-player' && config"  [ngClass]="{'aspectratio' : isPlayerPlaying, '': !isPlayerPlaying}" data-ratio="16:9" #aspectRatio>
-      <sunbird-video-player [playerConfig]="config" (playerEvent)="playerEvents($event)"
-        (telemetryEvent)="playerTelemetryEvents($event)"></sunbird-video-player>
+      <!-- <sunbird-video-player [player-config]="config" (playerEvent)="playerEvents($event)"
+        (telemetryEvent)="playerTelemetryEvents($event)"></sunbird-video-player> -->
+        <div class="aspectratio" data-ratio="16:9" id="help-video-aspect-ratio" #aspectRatio>
+          <div #video></div>
+          </div>
     </div>
   </div>
   <div *ngIf="!commonUtilService.networkInfo.isNetworkAvailable && playerType !== 'sunbird-video-player'">
@@ -138,8 +141,11 @@
       </div>
       <div *ngIf="playerType === 'sunbird-video-player' && config" [ngClass]="{'aspectratio' : isPlayerPlaying, '': !isPlayerPlaying}"
         data-ratio="16:9" #aspectRatio>
-        <sunbird-video-player [playerConfig]="config" (playerEvent)="playerEvents($event)"
-          (telemetryEvent)="playerTelemetryEvents($event)"></sunbird-video-player>
+        <div class="aspectratio" data-ratio="16:9" id="help-video-aspect-ratio" #aspectRatio>
+          <div #video></div>
+          </div>
+        <!-- <sunbird-video-player [player-config]="config" (playerEvent)="playerEvents($event)"
+          (telemetryEvent)="playerTelemetryEvents($event)"></sunbird-video-player> -->
       </div>
     </div>
     <div class="sb-player-container sb-offline-container" *ngIf="!contentDownloadable[content?.identifier]">
@@ -167,7 +173,7 @@
           <div *ngIf="content && !this.limitedShareContentFlag">
             <button *ngIf="!contentDownloadable[content?.identifier]" (click)="openConfirmPopUp()"
               [ngClass]="!(content?.contentData?.downloadUrl) ? 'download-disabled' : null"
-              [disabled]="isDownloadStarted || (isContentDownloading$ | async) || content.mimeType === 'video/webm'" fill="clear" icon-only
+              [disabled]="isDownloadStarted || (isContentDownloading$ | async) || (content.mimeType === 'video/webm' && platform.is('ios'))" fill="clear" icon-only
               class="sb-btn-tile">
               <img src="assets/imgs/outline_download.svg" alt="download content" class="mb-4">
               <span *ngIf="!isDownloadStarted" class="sb-btn-footer-text">{{'DOWNLOAD' | translate}}</span>
@@ -349,7 +355,7 @@
 </ion-content>
 
 <!-- Page footer -->
-<app-sb-download-popup *ngIf="showDownload" (cancelDownloadEmit)="cancelDownload($event)" tabindex="1" role="dialog"
+<app-sb-download-popup *ngIf="showDownload" (cancelDownloadEmit)="cancelDownload()" tabindex="1" role="dialog"
   [downloadProgress]="downloadProgress" [contentName]="content?.contentData?.name" [isUpdateAvail]="isUpdateAvail"
   [showDownload]="showDownload" [contentAvailableLocally]="contentDownloadable[content?.identifier]"
   [contentSize]="content?.contentData?.size">
