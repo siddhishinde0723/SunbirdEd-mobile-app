@@ -7,11 +7,11 @@
 }
 
 .cr-terms-checkbox{
-  --background-checked: #9D7F73;
-  --border-color: #9D7F73;
+  --background-checked: #572E91;
+  --border-color: #572E91;
   --border-radius: 4px;
   --border-width: 1px;
-  --border-color-checked:#9D7F73;
+  --border-color-checked:#572E91;
 }
 .cr-input-primary {
   display: inline-flex;
@@ -73,20 +73,20 @@
   padding: 0px 10px;
 }
 .save-changes{
-  color: black;
-  background-color: #9D7F73;
+  color: white;
+  background-color: #572E91;
   font-size: 1rem;
   padding: 8px 0;
   margin-left: 18px;
-  border: 2px solid #9D7F73;
+  border: 2px solid #572E91;
   width: 45%;
 }
 .save-changes-not-agree{
-  color: black !important;
+  color: #572E91!important;
   background-color: white;
   font-size: 1rem;
   padding: 8px 0;
-  border: 2px solid #9D7F73;
+  border: 2px solid #572E91;
   width: 45%;
   margin-left: 10px;
 }

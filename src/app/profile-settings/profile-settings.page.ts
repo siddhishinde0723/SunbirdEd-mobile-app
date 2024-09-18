@@ -632,7 +632,7 @@ export class ProfileSettingsPage implements OnInit, OnDestroy, AfterViewInit {
                 isShowBackButton: true
               }
             };
-            this.router.navigate([RouterLinks.DISTRICT_MAPPING], navigationExtras);
+            // this.router.navigate([RouterLinks.DISTRICT_MAPPING], navigationExtras);
           }
         }, 2000);
         this.events.publish('onboarding-card:completed', { isOnBoardingCardCompleted: true });

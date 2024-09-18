@@ -24,7 +24,7 @@ import {Router} from '@angular/router';
 import {SbProgressLoader} from '@app/services/sb-progress-loader.service';
 import {LoginNavigationHandlerService} from '@app/services/login-navigation-handler.service';
 import {GooglePlus} from '@ionic-native/google-plus/ngx';
-import {PreferenceKey, SystemSettingsIds} from '@app/app/app.constant';
+import {PreferenceKey, SystemSettingsIds,RouterLinks} from '@app/app/app.constant';
 import {Location} from '@angular/common';
 import {
     SignInWithApple,
@@ -65,7 +65,8 @@ export class SignInPage implements OnInit {
         if(extrasData && extrasData.hideBackBtn) {
             this.appHeaderService.hideHeader();
         } else {
-            this.appHeaderService.showHeaderWithBackButton();
+            // this.appHeaderService.showHeaderWithBackButton();
+            this.appHeaderService.hideHeader();
         }
         if (this.platform.is('ios')) {
             // this one is to make sure keyboard has done button on top to close the keyboard
@@ -74,6 +75,7 @@ export class SignInPage implements OnInit {
     }
 
     async ngOnInit() {
+     
         console.log("signin page ",this.skipNavigation)
 
         this.appName = await this.commonUtilService.getAppName();
@@ -137,37 +139,38 @@ export class SignInPage implements OnInit {
     }
 
     async register() {
-        const webviewSessionProviderConfigLoader = await this.commonUtilService.getLoader();
-        let webviewRegisterSessionProviderConfig: WebviewRegisterSessionProviderConfig;
-        let webviewMigrateSessionProviderConfig: WebviewSessionProviderConfig;
-        await webviewSessionProviderConfigLoader.present();
-        try {
-            webviewRegisterSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('register');
-            webviewMigrateSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('migrate');
-            await webviewSessionProviderConfigLoader.dismiss();
-        } catch (e) {
-            await this.sbProgressLoader.hide({id: 'login'});
-            await webviewSessionProviderConfigLoader.dismiss();
-            this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
-            return;
-        }
-        const webViewRegisterSession = new WebviewLoginSessionProvider(
-            webviewRegisterSessionProviderConfig,
-            webviewMigrateSessionProviderConfig
-        );
-        await this.loginNavigationHandlerService.setSession(webViewRegisterSession, this.skipNavigation, InteractSubtype.KEYCLOAK)
-        .then(() => {
-            this.navigateBack(this.skipNavigation);
-        });
+          this.router.navigate([RouterLinks.SIGNUP_BASIC])
+        // const webviewSessionProviderConfigLoader = await this.commonUtilService.getLoader();
+        // let webviewRegisterSessionProviderConfig: WebviewRegisterSessionProviderConfig;
+        // let webviewMigrateSessionProviderConfig: WebviewSessionProviderConfig;
+        // await webviewSessionProviderConfigLoader.present();
+        // try {
+        //     webviewRegisterSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('register');
+        //     webviewMigrateSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('migrate');
+        //     await webviewSessionProviderConfigLoader.dismiss();
+        // } catch (e) {
+        //     await this.sbProgressLoader.hide({id: 'login'});
+        //     await webviewSessionProviderConfigLoader.dismiss();
+        //     this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
+        //     return;
+        // }
+        // const webViewRegisterSession = new WebviewLoginSessionProvider(
+        //     webviewRegisterSessionProviderConfig,
+        //     webviewMigrateSessionProviderConfig
+        // );
+        // await this.loginNavigationHandlerService.setSession(webViewRegisterSession, this.skipNavigation, InteractSubtype.KEYCLOAK)
+        // .then(() => {
+        //     this.navigateBack(this.skipNavigation);
+        // });
     }
 
     private navigateBack(skipNavigation) {
         this.location.back();
-        if ((skipNavigation && skipNavigation.navigateToCourse) ||
-            (skipNavigation && (skipNavigation.source === 'user' ||
-                skipNavigation.source === 'resources'))) {
-            this.location.back();
-        }
+        // if ((skipNavigation && skipNavigation.navigateToCourse) ||
+        //     (skipNavigation && (skipNavigation.source === 'user' ||
+        //         skipNavigation.source === 'resources'))) {
+        //     this.location.back();
+        // }
     }
 
     async appleSignIn() {

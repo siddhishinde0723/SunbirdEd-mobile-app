@@ -188,7 +188,7 @@ export class ProjectService {
     return payload;
   }
 
-  async startAssessment(projectId, id) {
+  async startAssessment(projectId, id,programName?) {
     if (!this.networkFlag) {
       this.toast.showMessage('FRMELEMNTS_MSG_YOU_ARE_WORKING_OFFLINE_TRY_AGAIN', 'danger');
       return;
@@ -232,6 +232,8 @@ export class ProjectService {
           observationId: data.observationId,
           entityId: data.entityId,
           entityName: data.entityName,
+          name:data.solutionDetails.name,
+          programName:programName
         },
       });
     }, (error) => {
@@ -239,7 +241,7 @@ export class ProjectService {
     })
   }
 
-  async checkReport(projectId, taskId) {
+  async checkReport(projectId, taskId,programName?) {
     if (!this.networkFlag) {
       this.toast.showMessage('FRMELEMNTS_MSG_YOU_ARE_WORKING_OFFLINE_TRY_AGAIN', 'danger');
       return;
@@ -266,6 +268,8 @@ export class ProjectService {
             observationId: data.observationId,
             entityId: data.entityId,
             entityName: data.entityName,
+            name:data.solutionDetails.name,
+          programName:programName
           },
         });
 
@@ -429,7 +433,7 @@ export class ProjectService {
 
   acceptDataSharingPrivacyPolicy() {
     return new Promise((resolve, reject) => {
-      this.popupService.showPPPForProjectPopUp('FRMELEMNTS_LBL_PROJECT_PRIVACY_POLICY', 'FRMELEMNTS_LBL_PROJECT_PRIVACY_POLICY_TC', 'FRMELEMNTS_LBL_TCANDCP', 'FRMELEMNTS_LBL_SHARE_PROJECT_DETAILS', 'https://shikshalokam.org/term-of-use/', 'privacyPolicy').then((data: any) => {
+      this.popupService.showPPPForProjectPopUp('FRMELEMNTS_LBL_PROJECT_PRIVACY_POLICY', 'FRMELEMNTS_LBL_PROJECT_PRIVACY_POLICY_TC', 'FRMELEMNTS_LBL_TCANDCP', 'FRMELEMNTS_LBL_SHARE_PROJECT_DETAILS', 'https://diksha.gov.in/term-of-use.html', 'privacyPolicy').then((data: any) => {
         data && data.isClicked ? resolve(data.isChecked) : reject();
       })
     })

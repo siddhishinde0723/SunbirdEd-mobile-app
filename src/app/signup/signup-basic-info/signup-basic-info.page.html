@@ -26,15 +26,17 @@
       </ion-item>
 
       <ion-item lines="none">
-        <ion-label position="stacked" class="important" style="margin-bottom: .7rem;">{{'YOB_TITLE' | translate}}
+        <ion-label position="stacked" class="important" style="margin-bottom: .7rem;">
+          {{'YOB_TITLE' | translate}}
         </ion-label>
-        <ion-select formControlName="dob" placeholder="{{'SELECT_YOB' | translate}}" interface="popover" mode="ios"
-          class="yob-info ion-text-capitalize">
+        <ion-select formControlName="dob" placeholder="{{'SELECT_YOB' | translate}}" class="yob-info ion-text-capitalize">
           <ion-select-option *ngFor="let year of birthYearOptions" value="{{year}}">
-            {{year}}</ion-select-option>
+            {{year}}
+          </ion-select-option>
         </ion-select>
-
       </ion-item>
+      
+      
     </form>
 
     <div style="padding: 1rem;">
@@ -48,7 +50,7 @@
 
 </ion-content>
 <div class="footer">
-  <label>{{'HAVE_ACCOUNT' | translate }}</label>
+  <label  style="font-weight: 700;">{{'Have Account' | translate }}</label>
   <button class="login-info sb-btn sb-btn-normal sb-btn-outline-primary text-uppercase"
     aria-label="Already have an account? Login here" tabindex="0" (click)="redirectToLogin()" type="submit">{{'SIGN_IN'
     | translate}}</button>

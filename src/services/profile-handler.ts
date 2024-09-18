@@ -44,6 +44,7 @@ export class ProfileHandler {
     }
     public async getSupportedUserTypes(rootOrgId?: string): Promise<Array<PersonaConfig>> {
         const supportedUserTypes = await this.getFormFields(rootOrgId);
+        console.log("supportedUserTypes",supportedUserTypes)
         return supportedUserTypes.map((element) => {
             element.name = element.translations ?
                 this.commonUtilService.getTranslatedValue(element.translations, element.name) : element.name;

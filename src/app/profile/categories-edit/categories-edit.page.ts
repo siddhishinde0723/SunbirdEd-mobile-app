@@ -157,8 +157,24 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    console.log("this.framework 160",this.framework)
+
     this.supportedProfileAttributes = await this.profileHandler.getSupportedProfileAttributes(false);
+    const targetAttributes = {
+      "board": "board",
+  };
+  
+  const newAttributes = {
+      "board": "board",
+      "medium": "medium",
+      "gradeLevel": "gradeLevel"
+  };
+  if (JSON.stringify(this.supportedProfileAttributes) === JSON.stringify(targetAttributes)) {
+    this.supportedProfileAttributes = newAttributes;
+}
+    console.log(" this.supportedProfileAttributes", this.supportedProfileAttributes)
     const subscriptionArray: Array<any> = this.updateAttributeStreamsnSetValidators(this.supportedProfileAttributes);
+   console.log("subscriptionArray",subscriptionArray)
     this.formControlSubscriptions = combineLatest(subscriptionArray).subscribe();
     this.userType = await this.preferences.getString(PreferenceKey.SELECTED_USER_TYPE).toPromise();
   }
@@ -264,7 +280,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
 
         try {
           await this.getFrameworkData(value[0]);
-
+          console.log("this.framework 267",this.framework)
           const boardCategoryTermsRequet: GetFrameworkCategoryTermsRequest = {
             frameworkId: this.framework.identifier,
             requiredCategories: [FrameworkCategoryCode.BOARD],
@@ -372,6 +388,8 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
    */
   onSubmit() {
     const formVal = this.profileEditForm.value;
+    console.log("377",this.profileEditForm)
+    console.log("this.showOnlyMandatoryFields",this.showOnlyMandatoryFields)
     if (formVal.boards && !formVal.boards.length && this.syllabusList.length && this.isBoardAvailable) {
       if (this.showOnlyMandatoryFields) {
         this.boardSelect.open();
@@ -393,6 +411,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
     } else {
       this.submitForm(formVal);
     }
+    console.log("413",formVal)
   }
 
   /**
@@ -409,7 +428,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
    * It changes the color of the submit button on change of class.
    */
   enableSubmitButton() {
-    if (this.profileEditForm.value.grades.length) {
+    if (this.profileEditForm?.value?.grades?.length) {
       this.btnColor = '#006DE5';
     } else {
       this.btnColor = '#8FC4FF';
@@ -422,6 +441,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
    */
 
   async submitForm(formVal) {
+    console.log("443",formVal)
     await this.loader.present();
     const req: UpdateServerProfileInfoRequest = {
       userId: this.profile.uid,
@@ -457,6 +477,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
       });
       req.framework['subject'] = Names;
     }
+    console.log("req 479",req)
     this.profileService.updateServerProfile(req).toPromise()
       .then(async () => {
         await this.loader.dismiss();
@@ -468,6 +489,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
         this.commonUtilService.showToast(this.commonUtilService.translateMessage('PROFILE_UPDATE_FAILED'));
         console.error('Unable to submit:', error);
       });
+    
   }
 
   refreshSegmentTags() {
@@ -540,11 +562,14 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
   }
 
   private async getFrameworkData(frameworkId) {
+    
     this.framework = await this.frameworkService.getFrameworkDetails({
       from: CachedItemRequestSourceFrom.SERVER,
       frameworkId,
       requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES
     }).toPromise();
+    console.log("this.framework 552",this.framework)
+
   }
 
   private updateAttributeStreamsnSetValidators(attributes: { [key: string]: string }): Array<any> {

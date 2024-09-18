@@ -38,6 +38,10 @@ export const urlConstants = {
     PROJECT_TEMPLATE_DETAILS: '/api/project/mlprojects/v1/templates/details/',
     ALL_EVIDENCE: '/api/observations/mlreports/v1/listAllEvidences',
     TEMPLATE_DETAILS:'/api/solutions/mlcore/v1/details/',//+SOL ID
+    SEARCH_LOCATION:'/api/data/v1/location/search',
+    CREATE_USER:'/api/user/v3/create',
+    AUTHTOKEN:'/auth/realms/sunbird/protocol/openid-connect/token',
+    USER_UPDATE:'/api/user/v3/update',
     SURVEY_FEEDBACK: {
       GET_DETAILS_BY_ID: '/api/surveys/mlsurvey/v1/details',
       MAKE_SUBMISSION: '/api/surveySubmissions/mlsurvey/v1/update/',

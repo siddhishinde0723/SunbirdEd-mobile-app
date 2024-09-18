@@ -50,6 +50,9 @@ export class DownloadsTabComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("downloadedContents",this.downloadedContents)
+
+
     this.headerService.headerEventEmitted$.subscribe(async () => {
       if (this.deleteAllPopupPresent) {
         await this.deleteAllConfirm.dismiss();
@@ -91,7 +94,7 @@ export class DownloadsTabComponent implements OnInit {
     });
     await deleteConfirm.present();
     const { data } = await deleteConfirm.onDidDismiss();
-    this.showDeleteButton=false
+    this.showDeleteButton=false;
 
     if (data === undefined) { // Backdrop clicked
       if (!identifier) { this.unSelectAllContents(); }

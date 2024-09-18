@@ -93,12 +93,12 @@
             <span *ngIf="!(userLocation?.school && userLocation?.school?.name && userLocation?.school?.name?.length)"
                 class="lighter">{{'FRMELEMNTS_LBL_ADD_SCHOOL' | translate}}</span>
         </div>
-        <div class="container MT10 MB10 edit-options">
+        <!-- <div class="container MT10 MB10 edit-options">
             <ion-button shape="round" aria-label="Edit Role, Block, District, State"  (click)="onEditProfileClicked()"
                 class="custom-round ion-text-capitalize">
                 {{'EDIT' | translate }}
             </ion-button>
-        </div>
+        </div> -->
     </div>
     </div>
     <div class="framework-block" *ngIf="profile?.framework">
@@ -150,7 +150,7 @@
         <div *ngIf="profile?.email">
             <div class="email " role="button" (click)="editEmail();" tabindex="0">
                 <span class="icon MR10 align-middle">
-                    <ion-icon aria-hidden="true" name="mail"></ion-icon>
+                    <ion-icon style="color: #572E91;" aria-hidden="true" name="mail"></ion-icon>
                 </span>
                 <span class="value align-middle">{{ profile?.email }}</span>
             </div>
@@ -158,7 +158,7 @@
         <div *ngIf="!profile?.email">
             <div class="email light" role="button" (click)="editEmail();" tabindex="0">
                 <span class="icon MR10 align-middle">
-                    <ion-icon aria-hidden="true" name="mail"></ion-icon>
+                    <ion-icon   style="color: #572E91;" aria-hidden="true" name="mail"></ion-icon>
                 </span>
                 <span class="value align-middle">{{'ADD_EMAIL' | translate}}</span>
             </div>

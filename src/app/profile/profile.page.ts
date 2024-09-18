@@ -229,6 +229,7 @@ export class ProfilePage implements OnInit {
 
   async ngOnInit() {
     this.doRefresh();
+    console.log("this.profile 232",this.profile)
     this.appName = await this.appVersion.getAppName();
   }
 
@@ -300,7 +301,8 @@ export class ProfilePage implements OnInit {
     const that = this;
     return new Promise((resolve, reject) => {
       that.authService.getSession().toPromise().then((session: OAuthSession) => {
-        console.log("session",session)
+        // console.log("session",session)
+        
         if (session === null || session === undefined) {
           reject('session is null');
         } else {
@@ -322,6 +324,8 @@ export class ProfilePage implements OnInit {
               that.zone.run(async () => {
                 that.resetProfile();
                 that.profile = profileData;
+                console.log("this.profile 327",this.profile)
+
                 // ******* Segmentation
                 let segmentDetails = JSON.parse(JSON.stringify(profileData.framework));
                 Object.keys(segmentDetails).forEach((key) => {
@@ -362,9 +366,13 @@ export class ProfilePage implements OnInit {
                     that.isStateValidated = that.profile.stateValidated;
                     resolve();
                   });
+                  console.log("this.profile 369",this.profile)
+
                   if(profileData && profileData.framework && Object.keys(profileData.framework).length == 0) {
                     await this.getFrameworkDetails();
                   }
+                  console.log("this.profile 374",this.profile)
+
               });
             }).catch(err => {
               if (refresher) {
@@ -928,6 +936,7 @@ async delete(){
         Environment.HOME,
         PageId.PROFILE, null);
       this.router.navigate([`/${RouterLinks.PROFILE}/${RouterLinks.CATEGORIES_EDIT}`]);
+      this.doRefresh();
     } else {
       this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
     }

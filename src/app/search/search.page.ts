@@ -379,7 +379,7 @@ export class SearchPage implements OnInit, AfterViewInit, OnDestroy, OnTabViewWi
                 isShowBackButton: false
               }
             };
-            this.navCtrl.navigateForward([`/${RouterLinks.DISTRICT_MAPPING}`], navigationExtras);
+            // this.navCtrl.navigateForward([`/${RouterLinks.DISTRICT_MAPPING}`], navigationExtras);
           }
         } else {
           this.router.navigate([`/${RouterLinks.PROFILE_SETTINGS}`],

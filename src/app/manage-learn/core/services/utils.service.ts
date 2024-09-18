@@ -464,21 +464,28 @@ export class UtilsService {
     let data;
     return new Promise(async (resolve, reject) => {
       try {
+        console.log("this.profile 467",this.profile)
         const mandatoryFields = await this.storage.get(storageKeys.mandatoryFields)
         if (!mandatoryFields[this.profile.state][this.profile.role]) throw "Mandatory fields locally not found";
         data = { result: mandatoryFields[this.profile.state][this.profile.role] }
+        console.log("data 471",data)
       } catch {
         const config = {
           url: urlConstants.API_URLS.MANDATORY_ENTITY_TYPES_FOR_ROLES + `${this.profile.state}?role=${this.profile.role}`,
         };
         data = await this.kendra.get(config).toPromise()
         data && data.result && data.result.length && this.storeMandatoryFields(data.result)
-
+        console.log("config",config)
+        console.log("data",data)
       }
+
+      
       if (data.result && data.result.length) {
+        console.log("this.requ",this.requiredFields)
         this.requiredFields = data.result;
         let allFieldsPresent = true;
         for (const field of this.requiredFields) {
+         
           if (!this.profile[field]) {
             allFieldsPresent = false;
             break
@@ -620,12 +627,15 @@ export class UtilsService {
                   this.userId = profileData.userId;
                   this.profile = profileData;
                   const obj = {};
+                  console.log("profileData",profileData)
                   for (const location of profileData["userLocations"]) {
                     obj[location.type] = location.id;
                   }
                   for (const org of profileData["organisations"]) {
+                    console.log("org",profileData)
                     if (org.isSchool) {
                       obj["school"] = org.externalId;
+                      break
                     }
                   }
                   const roles = [];

@@ -27,7 +27,7 @@ import {
   CachedItemRequestSourceFrom,
   SearchType,
   InteractType,
-  FormService
+  FormService,
 } from '@project-sunbird/sunbird-sdk';
 import { AggregatorPageType } from '@app/services/content/content-aggregator-namespaces';
 import { NavigationService } from '@app/services/navigation-handler.service';
@@ -40,7 +40,9 @@ import { UnnatiDataService } from '@app/app/manage-learn/core/services/unnati-da
 import { OnTabViewWillEnter } from '@app/app/tabs/on-tab-view-will-enter';
 import { FieldConfig } from '@app/app/components/common-forms/field-config';
 import { FormConstants } from '@app/app/form.constants';
-
+import {
+ SharedPreferences,
+} from 'sunbird-sdk';
 @Component({
   selector: 'app-admin-home',
   templateUrl: './admin-home.page.html',
@@ -68,6 +70,8 @@ export class AdminHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
     @Inject('FRAMEWORK_SERVICE') private frameworkService: FrameworkService,
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
     @Inject('FORM_SERVICE') private formService: FormService,
+    @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
+
     private commonUtilService: CommonUtilService,
     private router: Router,
     private appGlobalService: AppGlobalService,
@@ -111,6 +115,9 @@ export class AdminHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
   }
 
   async ionViewWillEnter() {
+    // const auth = await this.preferences.getString('oauth_token').toPromise();
+    // console.log("auth",auth)
+
     this.events.subscribe('update_header', () => {
       this.headerService.showHeaderWithHomeButton(['download', 'notification']);
     });

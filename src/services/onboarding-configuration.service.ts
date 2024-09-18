@@ -139,9 +139,9 @@ export class OnboardingConfigurationService {
                 }
                 break;
 
-            case OnboardingScreenType.DISTRICT_MAPPING:
-                this.setDistrictMappingDetails(config);
-                break;
+            // case OnboardingScreenType.DISTRICT_MAPPING:
+            //     this.setDistrictMappingDetails(config);
+            //     break;
 
             default:
                 skipOnboarding = false;
@@ -163,9 +163,9 @@ export class OnboardingConfigurationService {
                 //todo
                 break;
 
-            case OnboardingScreenType.DISTRICT_MAPPING:
-                //todo
-                break;
+            // case OnboardingScreenType.DISTRICT_MAPPING1:
+            //     //todo
+            //     break;
 
             default:
                 skipOnboarding = false;

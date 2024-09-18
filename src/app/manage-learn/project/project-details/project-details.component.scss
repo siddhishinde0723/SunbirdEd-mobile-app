@@ -39,13 +39,13 @@
   }
 
   .add-task {
-    --background:  #b8a9a3 !important;
-    background-color:#b8a9a3 ;
+    --background:   !important;
+    border: #572E91;
     .flex-box {
       display: flex;
       align-items: center;
       .icon {
-        color: #9D7F73 !important;
+        color: #572E91!important;
         font-size: 1.875rem;
       }
       .label {

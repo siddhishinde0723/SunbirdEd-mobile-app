@@ -194,6 +194,8 @@ export class TermsAndConditionsPage implements OnInit {
                 state: { categoriesProfileData }
             });
             } else {
+              console.log("profile 197",profile)
+
               this.router.navigate([`/${RouterLinks.PROFILE}/${RouterLinks.CATEGORIES_EDIT}`], {
                 state: categoriesProfileData
               });
@@ -225,9 +227,15 @@ export class TermsAndConditionsPage implements OnInit {
       if (value['status'] && !this.appGlobalService.isJoinTraningOnboardingFlow) {
         this.router.navigate(['/', RouterLinks.TABS]);
       } else {
-        this.router.navigate([`/${RouterLinks.PROFILE}/${RouterLinks.CATEGORIES_EDIT}`], {
+
+        console.log("profile 231",profile)
+        if(profile.profileType == "administrator"){
+          this.router.navigate(['/', RouterLinks.TABS]);
+        }
+        else{ this.router.navigate([`/${RouterLinks.PROFILE}/${RouterLinks.CATEGORIES_EDIT}`], {
           state: categoriesProfileData
-        });
+        });}
+         
       }
     }
   }

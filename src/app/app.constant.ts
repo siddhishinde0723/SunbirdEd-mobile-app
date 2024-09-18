@@ -506,6 +506,7 @@ export class RouterLinks {
     public static readonly PERMISSION = 'permission';
     public static readonly ABOUT_US = 'about-us';
     public static readonly DISTRICT_MAPPING = 'district-mapping';
+    public static readonly DISTRICT_MAPPING1 = 'district-mapping1';
 
     // Profile settings Routes
     public static readonly PROFILE_SETTINGS = 'profile-settings';
@@ -550,7 +551,8 @@ export class RouterLinks {
     public static readonly PROFILE_TAB = `/${RouterLinks.TABS}/${RouterLinks.PROFILE}`;
     public static readonly GUEST_PROFILE_TAB = `/${RouterLinks.TABS}/${RouterLinks.GUEST_PROFILE}`;
     public static readonly DOWNLOAD_TAB = `/${RouterLinks.TABS}/${RouterLinks.DOWNLOAD_MANAGER}`;
-    public static readonly ONBOARDING_DISTRICT_MAPPING = `/${RouterLinks.DISTRICT_MAPPING}`;
+    // public static readonly DISTRICT_MAPPING = `/${RouterLinks.DISTRICT_MAPPING}`;
+    public static readonly ONBOARDING_DISTRICT_MAPPING = `/${RouterLinks.DISTRICT_MAPPING1}`;
 
     // TEXTBOOK view more page Routes
     public static readonly TEXTBOOK_VIEW_MORE = 'textbook-view-more';
@@ -560,7 +562,6 @@ export class RouterLinks {
 
     // routing to Term of use Web Page
     public static readonly TERM_OF_USE = 'https://shikshalokam.org/term-of-use/';
-    public static readonly PRIVATE_POLICY = 'https://shikshalokam.org/data-privacy-policy/';
 
     // My Groups
     public static readonly MY_GROUPS = 'my-groups';
@@ -808,5 +809,7 @@ export class OnboardingScreenType {
     public static readonly LANGUAGE_SETTINGS = 'language-setting';
     public static readonly USER_TYPE_SELECTION = 'user-type-selection';
     public static readonly PROFILE_SETTINGS = 'profile-settings';
-    public static readonly DISTRICT_MAPPING = 'district-mapping';
+    public static readonly DISTRICT_MAPPING1 = 'district-mapping';
+     public static readonly DISTRICT_MAPPING = 'district-mapping';
+
 }

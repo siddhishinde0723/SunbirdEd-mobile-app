@@ -64,7 +64,7 @@ export class HasNotSelectedFrameworkGuard implements Resolve<any> {
             this.appGlobalService.setOnBoardingCompleted();
             this.router.navigate([`/${RouterLinks.TABS}`]);
         } else {
-            this.navigateToDistrictMapping();
+            // this.navigateToDistrictMapping();
         }
     }
 

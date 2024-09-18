@@ -404,7 +404,7 @@ export class UserTypeSelectionPage implements OnDestroy {
               noOfStepsToCourseToc: this.categoriesProfileData.noOfStepsToCourseToc + 1
             }
           };
-          this.router.navigate([RouterLinks.DISTRICT_MAPPING], navigationExtras);
+          // this.router.navigate([RouterLinks.DISTRICT_MAPPING], navigationExtras);
         }
       }
     } else {

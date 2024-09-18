@@ -46,6 +46,7 @@ export class ProgramListingComponent implements OnInit {
             }
             this.kendraService.post(config).subscribe(success => {
                 this.loader.stopLoader();
+                console.log("success",success)
                 if (success.result.data) {
                     this.programs = this.programs.concat(success.result.data);
                     this.count = success.result.count;

@@ -95,7 +95,7 @@ export class NavigationService {
                     source: pageId
                 }
             };
-            this.router.navigate([RouterLinks.DISTRICT_MAPPING], navigationExtras);
+            // this.router.navigate([RouterLinks.DISTRICT_MAPPING], navigationExtras);
         } else {
             this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
         }

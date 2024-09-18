@@ -53,7 +53,9 @@ export class SignupBasicInfoPage implements OnInit {
         }
       }
     };
-    await this.router.navigate(['/', RouterLinks.DISTRICT_MAPPING], navigationExtras);
+    await this.router.navigate(['/', RouterLinks.DISTRICT_MAPPING1], navigationExtras);
+    // await this.router.navigate(['/', RouterLinks.DISTRICT_MAPPING], navigationExtras);
+
   }
 
   initiateYearSelecter() {

@@ -41,14 +41,14 @@
           <g>
             <title>Layer 1</title>
             <g fill="none" fill-rule="evenodd" id="Download-Manager">
-              <g fill="#9D7F73" fill-rule="nonzero" id="arrow">
+              <g fill="#024F9D" fill-rule="nonzero" id="arrow">
                 <path
                   d="m7.97649,2.03349l0,6l1.17,0l-2.17,2.17l-2.17,-2.17l1.17,0l0,-6l2,0l0,0zm2,-2l-6,0l0,6l-4,0l7,7l7,-7l-4,0l0,-6z"
                   id="Shape" />
               </g>
             </g>
             <g fill="none" fill-rule="evenodd" id="Download-Manager">
-              <g fill="#9D7F73" fill-rule="nonzero" id="bar">
+              <g fill="#024F9D" fill-rule="nonzero" id="bar">
                 <polygon id="Path"
                   points="14.064681947231293,18.104969024658203 0.06468096375465393,18.104969024658203 0.06468096375465393,20.10494041442871 14.064681947231293,20.10494041442871 " />
               </g>
@@ -261,7 +261,7 @@
     </div>
   </ion-content>
   <ion-footer class="side-menu-footer">
-    {{'VERSION'| translate}} {{versionName}}.{{versionCode}}
+    {{'VERSION'| translate}} {{versionCode}}
   </ion-footer>
 </ion-menu> 
 <ion-menu contentId="mainContent" class="sb-side-menu" *ngIf="!isRtl" side="start" persistent="true"
@@ -412,7 +412,7 @@
           <span class="sb-menu-item" role="button" menuClose>{{'HELP' | translate}}</span>
         </ion-item>
 
-        <ion-item role="button" (click)="loginWithKeyCloak()" *ngIf="!isLoggedIn && showLoginButton">
+        <ion-item role="button" (click)="loginWithKeyCloak()"  *ngIf="!isLoggedIn && showLoginButton">
           <span class="sb-menu-icon">
             <ion-icon name="log-in-outline"></ion-icon>
           </span>
@@ -431,7 +431,7 @@
   </ion-content>
   <ion-footer class="side-menu-footer" style="height: 6.063rem; padding: 26px">
     <div *ngIf="!isUpdateAvailable">
-      {{'VERSION'| translate}} {{versionName}}.{{versionCode}}
+      {{'VERSION'| translate}} {{versionCode}}
     </div>
     <div *ngIf="isUpdateAvailable">
       <button class="sb-btn sb-btn-md sb-btn-primary PR35 W100 ellipsis text-uppercase btn-block continue"

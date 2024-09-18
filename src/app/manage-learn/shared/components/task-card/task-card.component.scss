@@ -40,9 +40,9 @@
         padding-left: 0px;
     }
     .mandatory-ribben-label{
-        background-color:#9D7F73 !important;
+        background-color: #572E91!important;
         padding: 2px 15px;
-        color: #000;
+        color: white;
         text-transform: uppercase;
         font-size: 0.813rem !important;
         border-radius: 4px;
@@ -51,8 +51,8 @@
     }
 
     .action-btn{
-        --background:#9D7F73 !important;
-        color: black !important;
+        --background: #572E91 !important;
+        color: white!important;
         text-transform: none;
     }
 
@@ -69,8 +69,8 @@
 }
 .view-more {
     --background: transparent !important;
-    --border-color: #9D7F73 !important;
-    --color: black !important;
+    --border-color:#572E91!important;
+    --color: #572E91 !important;
     width: 100%;
     text-transform: none;
     font-weight: bold;

@@ -2,12 +2,15 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProfileConstants, OTPTemplates, RouterLinks, PreferenceKey } from '@app/app/app.constant';
-import { CommonUtilService } from '@app/services';
-import { VerifyOtpRequest, HttpClientError, GenerateOtpRequest, ProfileService, SharedPreferences } from 'sunbird-sdk';
+import { CommonUtilService, Environment } from '@app/services';
+import { VerifyOtpRequest, HttpClientError, GenerateOtpRequest, ProfileService, SharedPreferences , AuthService} from 'sunbird-sdk';
 import { Location as SbLocation } from '@project-sunbird/client-services/models/location';
 import { TncUpdateHandlerService } from '@app/services/handlers/tnc-update-handler.service';
 import { Location } from '@angular/common';
-
+import { KendraApiService } from '@app/app/manage-learn/core/services/kendra-api.service';
+import { urlConstants } from '@app/app/manage-learn/core/constants/urlConstants';
+import { auth,tenantChannelId } from '@app/configuration/configuration';
+import { async } from '@angular/core/testing';
 @Component({
   selector: 'app-otp',
   templateUrl: './otp.page.html',
@@ -24,15 +27,24 @@ export class OtpPage implements OnInit {
   invalidOtp = false;
   remainingAttempts: any;
   loader: any;
+  password:any;
+  otp=true;
+  skipNavigation: any;
+  loginDet: any;
   constructor(
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
     @Inject('SHARED_PREFERENCES') private preference: SharedPreferences,
+    @Inject('AUTH_SERVICE') private authService: AuthService,
+
     private _fb: FormBuilder,
     private commonUtilService: CommonUtilService,
     private tncUpdateHandlerService: TncUpdateHandlerService,
     private location: Location,
+    private kendraService: KendraApiService,
     public router: Router) {
     const extrasState = this.router.getCurrentNavigation().extras.state;
+    this.skipNavigation = extrasState;
+    this.password=extrasState.password
     this.userData = extrasState.userData;
     this.contactNumber = this.userData?.contactInfo?.phone ? (this.userData?.contactInfo?.phone).replace(/\d(?=\d{4})/g, '*')
       : this.userData?.contactInfo?.email;
@@ -90,47 +102,122 @@ export class OtpPage implements OnInit {
             }
           }, {}));
           const profileReq = {
-            userId: this.userData.userId,
             profileLocation: locationCodes,
             firstName: this.userData.name,
             lastName: '',
             dob: this.userData.dob,
             profileUserTypes: this.userData.profileUserTypes
           };
-          this.profileService.updateServerProfile(profileReq).toPromise()
-            .then(async (data) => {
-              if (this.userData.profileUserTypes.length && this.userData.profileUserTypes[0].type) {
-                await this.preference.putString(PreferenceKey.SELECTED_USER_TYPE, this.userData.profileUserTypes[0].type).toPromise();
-              }
-              await this.loader.dismiss();
-              const categoriesProfileData = {
-                hasFilledLocation: true,
-                showOnlyMandatoryFields: true,
-              };
-              this.router.navigate([`/${RouterLinks.PROFILE}/${RouterLinks.CATEGORIES_EDIT}`], {
-                state: categoriesProfileData
-              });
-            }).catch(async (error) => {
-              console.error(error);
-              await this.loader.dismiss();
-              if (error.response.body.params.err === 'UOS_USRUPD0003') {
-                this.commonUtilService.showToast(this.commonUtilService.translateMessage('SOMETHING_WENT_WRONG'));
-              }
+          const body = {
+            "request": {
+              "firstName": this.userData.name,
+              "organisationId": tenantChannelId,
+              "email": this.userData.contactInfo.email,
+              "emailVerified": true,
+              "username":this.userData.contactInfo.email,
+              "password":  this.password.password,
+              "dob": this.userData.dob,
+              "roles": [
+                "PUBLIC"
+            ]
+          }
+          };
+          const usercreate = {
+            url: urlConstants.API_URLS.CREATE_USER,
+            payload: body
+          };
+         
+          this.kendraService.post(usercreate).subscribe(async user => {
+            if(user?.result?.response == 'SUCCESS'){
+              //  this.commonUtilService.showToast('User Created Successfully');
+              // Make the second API call
+              // this.router.navigate([RouterLinks.SIGN_IN]);
+
+          const body1 = {
+            "request": {
+              "username":this.userData.contactInfo.email,
+              "password":  this.password.password,
+          }
+          };       
+          const data={
+            url: urlConstants.API_URLS.AUTHTOKEN,
+            payload: body1
+           
+          }
+         await this.kendraService.post(data).subscribe( async success => {
+
+            console.log("success",success)
+             const profileLocation = [];
+
+            const locationLevels = ['state', 'district', 'block', 'cluster', 'school'];
+
+            locationLevels.forEach(level => {
+                if (this.userData.location[level]) {
+                    profileLocation.push(this.userData.location[level]);
+                }
             });
+
+            console.log("this.userData.profileUserTypes",this.userData.profileUserTypes)
+             const update ={
+              "request": {
+                userId: user?.result?.userId,
+                profileUserTypes: this.userData.profileUserTypes,
+                profileLocation:profileLocation,
+                 }
+             }
+            const userupdate={
+            url: urlConstants.API_URLS.USER_UPDATE,
+            payload: update,
+            }
+            await this.kendraService.post(userupdate).subscribe( async upadated => {
+              if(upadated.result.response == 'SUCCESS'){
+                this.commonUtilService.showToast("User Created Successfully.");
+                  this.router.navigate([RouterLinks.SIGN_IN]);
+                // location.reload();
+              }
+            }, error => {
+              console.log  ("error 175",error)   
+              this.commonUtilService.showToast("User Created Successfully but error while profile update.");
+              });
+          });
+            }
+            else if (user?.status == 400) {
+              let errorMessage = JSON.parse(user.error).params.errmsg;
+              this.commonUtilService.showToast(errorMessage);
+          }
+          else{
+            let errorMessage = JSON.parse(user.error).params.errmsg;
+            this.commonUtilService.showToast(errorMessage);
+        }
+            await this.loader.dismiss();
+          
+          }, error => {
+            console.log  ("error 191",error)   
+            });
+         
+         
         })
         .catch(error => {
           this.loader.dismiss();
           if (HttpClientError.isInstance(error)
             && error.response.responseCode === 400) {
+
             if (typeof error.response.body === 'object') {
               if (error.response.body.params.err === 'UOS_OTPVERFY0063' &&
-                error.response.body.result.remainingAttempt > 0) {
-                this.remainingAttempts = error.response.body.result.remainingAttempt;
-                this.otpInfoForm.value.otp = '';
-                this.invalidOtp = true;
+                  error.response.body.result.remainingAttempt >= 0) {
+                  this.remainingAttempts = error.response.body.result.remainingAttempt;
+                  this.otpInfoForm.value.otp = '';
+                  this.invalidOtp = true;
+                  this.otp = true;
+              } else if (error.response.body.params.errmsg === 'Invalid OTP') {
+                  this.commonUtilService.showToast(this.commonUtilService.translateMessage('OTP_FAILED'));
+                  this.remainingAttempts = error.response.body.result.remainingAttempt;
+                  this.otpInfoForm.value.otp = '';
+                  this.otp = false;
               } else {
-                this.commonUtilService.showToast(this.commonUtilService.translateMessage('OTP_FAILED'));
+                  this.otp = false;
               }
+
             }
           }
         });
@@ -163,9 +250,11 @@ export class OtpPage implements OnInit {
       let loader = await this.commonUtilService.getLoader();
       await loader.present();
       this.profileService.generateOTP(req).toPromise()
-        .then(async () => {
+        .then(async (success) => {
           this.commonUtilService.showToast(this.commonUtilService.translateMessage('OTP_RESENT'));
           await loader.dismiss();
+          this.otp=true;
+          this.enableResend = true
           loader = undefined;
         })
         .catch(async (e) => {

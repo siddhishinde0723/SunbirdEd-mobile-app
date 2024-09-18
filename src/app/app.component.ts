@@ -508,11 +508,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   reloadGuestEvents() {
-    this.checkDeviceLocation();
-     //     this.checkGuestUserType();
-     this.loginHandlerService.signIn();
+    // this.checkDeviceLocation();
+    //  //     this.checkGuestUserType();
+    //  this.loginHandlerService.signIn();
+    this.router.navigate([RouterLinks.SIGN_IN])
   }
-
+  // reloadGuestEvents() {
+  //   this.checkDeviceLocation();
+  //    //     this.checkGuestUserType();
+  //    this.loginHandlerService.signIn();
+  // }
   private async checkGuestUserType() {
     const isAdminUser = (await this.preferences.getString(PreferenceKey.SELECTED_USER_TYPE).toPromise() === ProfileType.ADMIN);
     if (isAdminUser && this.appGlobalService.isGuestUser) {

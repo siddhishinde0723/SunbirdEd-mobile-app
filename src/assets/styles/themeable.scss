@@ -4,17 +4,17 @@
 
 html[data-theme="JOYFUL"]{
 
-  --app-primary: #FFCB37;
-  --app-primary-medium: #FFCB37;
-  --app-primary-light-2: #94CCF5;
-  --app-primary-light: #C6E7FF;
-  --app-primary-background: #E9E8D9;
-  --app-primary-header: #FFCB37;
-  --app-primary-header-light: #FFE487;
-  --app-secondary-background: #F2F2EA;
-  --app-tertiary: #6236FF;
-  --app-tertiary-light: #E0E1FD;
-  --app-tertiary-background: #F3F7FB;
+  --app-primary:#572E91 ;
+  --app-primary-medium:#FF9911;
+  --app-primary-light-2:#94CCF5;
+  --app-primary-light:#C6E7FF;
+  --app-primary-background:#E9E8D9;
+  --app-primary-header:#FF9911;
+  --app-primary-header-light:#FFE487;
+  --app-secondary-background:#F2F2EA;
+  --app-tertiary:#6236FF;
+  --app-tertiary-light:#E0E1FD;
+  --app-tertiary-background:#F3F7FB;
   --app-quaternary-medium: #FF794A;
   --app-quaternary-light: #FDF0E4;
 
@@ -44,7 +44,7 @@ html[data-theme="JOYFUL"]{
     ion-buttons{
       ion-button{
         --background: var(--app-primary-header) !important;
-        --color: #9D7F73;
+        --color: #572E91 !important;
         box-shadow: none !important;
       }
     }
@@ -54,25 +54,24 @@ html[data-theme="JOYFUL"]{
     background: var(--app-primary-background) !important;
   }
 
-  ion-button {
-    --background: #9D7F73 !important;
-    --color: var(--app-black) !important;
+  ion-button{
+    --background: #572E91!important;
+    --color: var(--app-white) !important;
     --border-radius: 20px !important;
-    --border-color: #9D7F73 !important;
-
-    button {
+    --border-color: #572E91!important;
+    button{
       box-shadow: var(--button-style-shadow) !important;
     }
   }
 
   ion-button.button-clear{
     --background: transparent !important;
-    --color: balck !important;
+    --color:#572E91 !important;
   }
 
   button{
     border-radius: 20px !important;
-    color: black;
+    color: var(--app-white);
     // background-color: var(--app-primary) !important;
   }
 
@@ -103,7 +102,7 @@ html[data-theme="JOYFUL"]{
   }
 
   ion-radio {
-    --color-checked: #9D7F73 !important;
+    --color-checked: #572E91 !important;
     --color: var(--app-gray) !important;
   }
 
@@ -120,19 +119,19 @@ html[data-theme="JOYFUL"]{
 
   ion-alert{ // EXCEPTION
     [aria-checked=true].sc-ion-alert-md .alert-checkbox-icon.sc-ion-alert-md{
-      border-color: var(--app-primary) !important;
-      background-color: var(--app-primary) !important;
+       border-color:#572E91!important;
+       background-color: #572E91 !important;
     }
 
     [aria-checked=true].sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md{
-      border-color: var(--app-primary) !important;
+       border-color: #572E91!important;
       .alert-radio-inner.sc-ion-alert-md{
-        background-color: var(--app-primary) !important;
+        background-color: #572E91 !important;
       }
     }
     button {
-      background-color: #9D7F73 !important;
-      color: var(--app-black) !important;
+      //  background-color:#572E91 !important;
+       color:#572E91  !important;
     }
   }
 
@@ -141,31 +140,30 @@ html[data-theme="JOYFUL"]{
     box-shadow: var(--button-style-shadow) !important;
     background-color: var(--app-white);
     &.selected {
-      border:3px solid var(--app-primary) !important;
+      border:3px solid #572E91 !important;
     }
   }
 
   ion-title{
-    color: black !important;
+    color: #572E91 !important;
   }
 
   // SelectBox popup multi select styles
   .select-box.select-alert, .ftue-changes.select-alert {
     .alert-button {
-      border-color: #9D7F73 !important;
+      border-color: #572E91!important;
       border-radius: 20px !important;
       text-transform: none;
     }
     .alert-button:first-child:not(:only-child) {
       background: transparent !important;
-      color: black !important;
+      color: #572E91 !important;
     }
     .alert-button:last-child:not(:only-child) {
-      background: #9D7F73;
-      color: black !important;
+      // background: #572E91 !important;
+      color: white  !important;
     }
-
-    .alert-wrapper {
+    .alert-wrapper{
       background-color: var(--app-secondary-background);
       border-radius: 1rem 1rem 0 0;
       button{
@@ -189,12 +187,12 @@ html[data-theme="JOYFUL"]{
   // SB- button styles
   .sb-btn {
     border-radius: 20px !important;
-    background-color: #9D7F73 !important;
-    color: var(--app-black) !important;
+    background-color: #572E91 !important;
+    color: var(--app-white) !important;
   }
 
   .sb-btn-primary-outline{
-    color: var(--app-black) !important;
+    color: #572E91 !important;
     background-color: var(--app-white) !important;
   }
   app-user-home, app-discover {
@@ -214,8 +212,8 @@ html[data-theme="JOYFUL"]{
   }
 
   .sb-btn-outline-primary {
-    color: black!important;
-    background-color: #9D7F73 !important;
+    color:#572E91!important;
+    background-color: var(--app-white) !important;
   }
 
   .sb-btn-outline-secondary{
@@ -302,9 +300,8 @@ html[data-theme="JOYFUL"]{
       background-color: var(--app-white) !important;
       border-radius: 16px 16px 0 0;
     }
-
-    .sb-menu-item {
-      color: black;
+    .sb-menu-item{
+      color:#572E91;
     }
     .sb-menu-item-language{
       color: var(--app-gray) !important;
@@ -447,15 +444,15 @@ html[data-theme="JOYFUL"]{
 
       .sb-medium-pills-container, .sb-grade-pills-container {
         .pill{
-          border-color:  #9D7F73 !important;
-          color: black !important;
+          border-color:#572E91 !important;
+          color:#572E91 !important;
           box-shadow: var(--button-style-shadow) !important;
           margin-right: 1rem !important;
         }
         .pill.active{
-          color:black !important;
-          background-color: #9D7F73 !important;
-          border-color: #9D7F73 !important;
+          color: var(--app-white) !important;
+          background-color:#572E91!important;
+          border-color: #572E91!important;
         }
       }
 
@@ -528,7 +525,7 @@ html[data-theme="JOYFUL"]{
   // enrolled-course-details page
   app-enrolled-course-details-page{
     .enrolled-course-card-button{
-      background-color: #9D7F73 !important;
+      background-color: #572E91!important;
       border-radius: 50px !important;
       margin: 1rem 0 1rem !important;
     }
@@ -561,7 +558,7 @@ html[data-theme="JOYFUL"]{
 
     .card-content-bottom-0 {
       .segment-button-has-label-only {
-        color: black !important;
+        color:#572E91 !important;
       }
     }
   }
@@ -613,14 +610,11 @@ html[data-theme="JOYFUL"]{
       margin: 8px;
       background-color: var(--app-white) !important;
       border-radius: 16px;
-
-      .email,
-      .phone {
-        border: 1px solid #9D7F73 !important;
+      .email ,.phone{
+        border: 1px solid #572E91 !important;
         box-shadow: var(--button-style-shadow) !important;
-
-        .icon {
-          color: black !important;
+        .icon{
+          color: var(--app-primary);
         }
         .value{
           color: var(--app-gray);
@@ -936,7 +930,7 @@ html[data-theme="JOYFUL"]{
       border-radius: 12px !important;
       min-height: 3rem !important;
       .title{
-        color: black !important;
+        color: #572E91 !important;
         font-weight: bold;
       }
       .sb-curiculum__chapter{
@@ -1011,23 +1005,23 @@ html[data-theme="JOYFUL"]{
         border-radius: 16px 16px 0 0;
         .sb-form-button{
           button{
-            border: 1px solid #9D7F73 !important;
+            border: 1px solid #572E91!important;
             border-radius: 20px !important;
           }
           .sb-btn-primary-outline{
-            color:black!important;
-            background-color: white!important;
+            color: var(--app-primary) !important;
+            background-color: var(--app-white) !important;
           }
           .sb-btn-primary{
-            color: black!important;
-            background-color: #9D7F73 !important;
+            color: var(--app-white) !important;
+            background-color: #572E91 !important;
           }
         }
 
       }
       .cfe-multiselect-modal-item {
         .container input:checked~.checkmark {
-          background-color: #9D7F73 !important;
+          background-color: #572E91 !important;
         }
       }
 
@@ -1117,9 +1111,9 @@ html[data-theme="JOYFUL"]{
       .report-button{
         border-radius: 20px !important;
         box-shadow: var(--button-style-shadow) !important;
-        background-color: #9D7F73 !important;
-        color: black!important;
-        border: #9D7F73 !important;
+        background-color:#572E91!important;
+        color: var(--app-white) !important;
+        border: #572E91 !important;
         min-width: 60vw !important;
       }
     }
@@ -1156,7 +1150,7 @@ html[data-theme="JOYFUL"]{
       background: transparent !important;
     }
     .my-cr-title {
-      color: black !important;
+      color: #572E91!important;
     }
     .my-cr-card{
       border-radius: 16px;
@@ -1287,7 +1281,7 @@ html[data-theme="JOYFUL"]{
 
       .sb-btn-outline-info{
         background-color: var(--app-white) !important;
-        color: var(--app-black) !important;
+        color: #572E91!important;
       }
 
       .sb-popover-action-btn{
@@ -1342,11 +1336,11 @@ html[data-theme="JOYFUL"]{
     .sb-medium-pills-container{
       .pill{
         border: none !important;
-        color: black!important;
+        color:#572E91!important;
       }
       .pill.active{
-        background-color: #9D7F73 !important;
-        color: black !important;
+        background-color:#572E91!important;
+        color: var(--app-white) !important;
       }
     }
     .explore-results-section{
@@ -1488,7 +1482,7 @@ html[data-theme="JOYFUL"]{
         padding-right: 16px;
         .enrolled-course-card-button{
           border-radius: 2rem !important;
-          background-color: #9D7F73 !important;
+          background-color:#572E91 !important;
         }
       }
       ion-card-content{
@@ -1507,7 +1501,7 @@ html[data-theme="JOYFUL"]{
         border-radius: 1rem;
         .cd-chapter-card-button{
           border-radius: 2rem !important;
-          background-color: #9D7F73 !important;
+          background-color: #572E91!important;
         }
       }
     }
@@ -1651,7 +1645,7 @@ html[data-theme="JOYFUL"]{
   }
   .action-sheet-container{
     button{
-      color: black !important;
+      color: var(--app-primary) !important;
       background-color:transparent !important;
       box-shadow: none !important;
     }
@@ -1659,7 +1653,7 @@ html[data-theme="JOYFUL"]{
 
   app-district-mapping{
     .block-button-clear {
-      color: black !important;
+      color:#572E91 !important;
     }
   }
 

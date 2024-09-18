@@ -48,16 +48,21 @@ export class ConsentPiiPopupComponent {
             userId: this.profile.uid
         };
         this.popOverCtrl.dismiss(request);
+       
     }
     dontShare() {
         this.closePopover(false);
     }
     share() {
         this.closePopover(true);
+        
     }
 
     converDataSrcToObject(ele) {
         const dataSrc = ele.templateOptions.dataSrc;
+        console.log("dataSrc",dataSrc)
+        console.log("ele 64",ele)
+        console.log("this.profile 64",this.profile)
         switch (dataSrc.marker) {
             case 'SERVER_PROFILE':
                 if (ele.code === 'emailId' || ele.code === 'phoneNumber') {

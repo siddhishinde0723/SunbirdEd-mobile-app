@@ -90,7 +90,6 @@
     "cordova-plugin-badge": "^0.8.8",
     "cordova-plugin-device": "^2.0.3",
     "cordova-plugin-dialogs": "^2.0.2",
-    "cordova-plugin-document-viewer": "^0.9.13",
     "cordova-plugin-file": "^8.0.0",
     "cordova-plugin-file-opener2": "^2.2.1",
     "cordova-plugin-filechooser": "^1.2.0",
@@ -193,6 +192,7 @@
     "cordova-plugin-chooser": "github:shikshalokam/cordova-plugin-chooser",
     "cordova-plugin-code-push": "git+https://github.com/swayangjit/cordova-plugin-code-push.git",
     "cordova-plugin-console": "^1.1.0",
+    "cordova-plugin-document-viewer": "github:siddhishinde0723/cordova-plugin-document-viewer",
     "cordova-plugin-fcm-with-dependecy-updated": "git+https://github.com/Sunbird-Ed/sb-cordova-plugin-fcm.git#release-5.0.2",
     "cordova-plugin-file-transfer": "github:vishwanath1004/cordova-plugin-file-transfer",
     "cordova-plugin-filepath": "github:vishwanath1004/cordova-plugin-filepath",
@@ -277,7 +277,6 @@
       "cordova-plugin-secure-storage-echo": {},
       "cordova-plugin-appavailability": {},
       "cordova-plugin-filepicker": {},
-      "cordova-plugin-document-viewer": {},
       "com-sarriaroman-photoviewer": {},
       "cordova-sqlite-storage": {},
       "cordova-plugin-telerik-imagepicker": {},
@@ -294,7 +293,8 @@
       },
       "cordova-plugin-chooser": {},
       "cordova-plugin-filepath": {},
-      "cordova-plugin-file-transfer": {}
+      "cordova-plugin-file-transfer": {},
+      "cordova-plugin-document-viewer": {}
     },
     "platforms": [
       "ios"

@@ -198,7 +198,7 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
         this.versionName = vName;
         this.utilityService.getBuildConfigValue(GenericAppConfig.VERSION_CODE)
           .then(vCode => {
-            this.versionCode = vCode;
+            this.versionCode = "5.0.0";
           })
           .catch(error => {
             console.error('Error in getting app version code', error);
@@ -303,11 +303,20 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
 
   emitSideMenuItemEvent($event, menuItem) {
     // this.toggleMenu();
-    this.menuCtrl.close().then(() => {
+    console.log("event",menuItem)
+    if(menuItem == 'LOGOUT'){
+    this.router.navigate([RouterLinks.SIGN_IN])
+    this.menuCtrl.close();
+     this.sideMenuItemEvent.emit({ menuItem });
+    }
+    else{
+      this.menuCtrl.close().then(() => {
       this.sideMenuItemEvent.emit({ menuItem });
     }).catch((e) => {
       this.sideMenuItemEvent.emit({ menuItem });
     })
+}
+ 
   }
 
   ngOnDestroy() {

@@ -1008,7 +1008,7 @@
   "WANT_TO_CHECK_FREE_TRAININGS": "Want to check courses?",
   "WEBVIEW_UPDATE_TEXT": "For an effective experience, download the latest version of WebView from the Google Play store.",
   "WELCOME": "Welcome",
-  "WELCOME_BACK": "WELCOME BACK {{%s}}",
+  "WELCOME_BACK": "WELCOME {{%s}}",
   "YES": "Yes",
   "YOUR_LOCATION": "Your Location",
   "YOUR_LOCATION_DETAILS": "Your location details help us provide you with relevant content. Check if your location is correct, else reselect your location and submit it.",
@@ -1139,7 +1139,7 @@
   "FRMELEMNTS_MSG_SOMETHING_WENT_WRONG": "Due to a technical problem, we are unable to process the request",
   "FRMELEMNTS_MSG_PLEASE_NETWORK": "Please check your network connection and try again",
   "FRMELEMNTS_MSG_NEW_TASK_ADDED_SUCCESSFUL": "New Task has been successfully created.",
-  "FRMELEMNTS_MSG_NO_SCHOOL_FOUND": "No {{entity}} found",
+  "FRMELEMNTS_MSG_NO_SCHOOL_FOUND": "No entity found",
   "FRMELEMNTS_MSG_SELECT_ENTITY_TO_SELECT_PROGRAM": "Please select the entity to select your program",
   "FRMELEMNTS_MSG_NO_DATA_AVAILABLE": "No Data available",
   "FRMELEMNTS_MSG_TASK_ADDED_SUCCESSFULLY": "Task Added Successfully",
@@ -1355,6 +1355,7 @@
   "FRMELEMNTS_LBL_CONFIRM_EMAIL_VALIDATION": "Please enter email address",
   "FRMELEMNTS_LBL_CONFIRM_EMAIL_PATTERN_VALIDATION": "Please enter valid email address",
   "FRMELEMNTS_LBL_OTP_NOT_RECEIVED": "Didn’t Receive an OTP?",
+  "FRMELEMNTS_LBL_RESEND_OTP":"Resend OTP",
   "FRMELEMNTS_LBL_STEP": "Step {{page_number}}",
   "ENTER_USER_NAME": "Enter your name",
   "CRS_TRK_AGREE_TO_SHARE_PROFILE_DETAILS": "I consent to share my details with the administrators of this course. All course administrators are bound by the ",
@@ -1414,5 +1415,8 @@
   "FRMELEMNTS_LBL_FILE_CORRUPTED": "File corrupted",
   "FRMELEMNTS_LBL_PROJECT_END_DATE":"Project end date",
   "FRMELEMNTS_LBL_PROJECT_START_DATE":"Project start date",
-  "FRMELEMNTS_MSG_PROJECT_END_DATE":"Are you sure? Task end date will also be changed to this if it is later"
+  "FRMELEMNTS_MSG_PROJECT_END_DATE":"Are you sure? Task end date will also be changed to this if it is later",
+  "UDISE_CODE":"UDISE code",
+  "FRMELEMNTS_LBL_ENTER_UDISE":"Enter UDISE code"  
+
 }

@@ -76,7 +76,8 @@ export class EditContactDetailsPopupComponent {
       if (this.type === ProfileConstants.CONTACT_TYPE_PHONE) {
         req = {
           key: formVal.phone,
-          type: ProfileConstants.CONTACT_TYPE_PHONE
+          type: ProfileConstants.CONTACT_TYPE_PHONE,
+         
         };
       } else {
         req = {

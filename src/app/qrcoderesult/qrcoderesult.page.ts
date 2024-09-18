@@ -350,7 +350,7 @@ export class QrcoderesultPage implements OnDestroy {
             isShowBackButton: false
           }
         };
-        this.navCtrl.navigateForward([`/${RouterLinks.DISTRICT_MAPPING}`], navigationExtras);
+        // this.navCtrl.navigateForward([`/${RouterLinks.DISTRICT_MAPPING}`], navigationExtras);
       }
     } else if (this.appGlobalService.isGuestUser
       && this.isSingleContent
@@ -398,7 +398,7 @@ export class QrcoderesultPage implements OnDestroy {
                   isShowBackButton: false
                 }
               };
-              this.navCtrl.navigateForward([`/${RouterLinks.DISTRICT_MAPPING}`], navigationExtras);
+              // this.navCtrl.navigateForward([`/${RouterLinks.DISTRICT_MAPPING}`], navigationExtras);
             } else {
               this.navCtrl.navigateBack([RouterLinks.TABS]);
             }

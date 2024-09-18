@@ -106,7 +106,7 @@ export class TncUpdateHandlerService {
       }
     } else {
       if (!onboarding.skipOnboardingForLoginUser) {
-        this.checkDistrictMapping(profile, locationMappingConfig, userDetails);
+          this.checkDistrictMapping(profile, locationMappingConfig, userDetails);
       }
     }
   }
@@ -174,7 +174,7 @@ export class TncUpdateHandlerService {
       .then(async (custodianOrgId: string) => {
         const isCustodianOrgId = profile.rootOrg.rootOrgId === custodianOrgId;
         if (isCustodianOrgId && !this.commonUtilService.isUserLocationAvalable(userDetails, locationMappingConfig)) {
-          this.navigateToDistrictMapping();
+          // this.navigateToDistrictMapping();
         } else {
           if (!(await this.isSSOUser(userDetails))) {
             this.appGlobalService.showYearOfBirthPopup(userDetails.serverProfile);
@@ -195,7 +195,7 @@ export class TncUpdateHandlerService {
         noOfStepsToCourseToc: 1
       }
     };
-    this.router.navigate(['/', RouterLinks.DISTRICT_MAPPING], navigationExtras);
+     this.router.navigate(['/', RouterLinks.DISTRICT_MAPPING], navigationExtras);
   }
 
   private async updateUserAsGuest() {

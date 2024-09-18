@@ -6,7 +6,7 @@ import { SegmentationTagService, TagPrefixConstants } from "@app/services/segmen
 import { Events } from "@app/util/events";
 import { CachedItemRequestSourceFrom, ProfileService, ServerProfileDetailsRequest } from "sunbird-sdk";
 import { Location } from '@angular/common';
-import { initTabs, LOGIN_TEACHER_TABS } from "@app/app/module.service";
+import { initTabs, LOGIN_TEACHER_TABS,LOGGEDIN_HOME_SEARCH_TABS } from "@app/app/module.service";
 import { NavigationExtras, Router } from "@angular/router";
 import { ExternalIdVerificationService } from "@app/services/externalid-verification.service";
 
@@ -33,6 +33,7 @@ export class CategoriesEditService {
 
   async updateServerProfile(profile, req, showOnlyMandatoryFields, shouldUpdatePreference, hasFilledLocation, noOfStepsToCourseToc) {
     this.commonUtilService.showToast(this.commonUtilService.translateMessage('PROFILE_UPDATE_SUCCESS'));
+    console.log("req 36",req)
     this.events.publish('loggedInProfile:update', req.framework);
     const isSSOUser = await this.tncUpdateHandlerService.isSSOUser(profile);
     await this.refreshSegmentTags(profile);
@@ -46,11 +47,21 @@ export class CategoriesEditService {
       try {
         updatedProfile = await this.profileService.getServerProfilesDetails(reqObj).toPromise();
       } catch {
-        initTabs(this.container, LOGIN_TEACHER_TABS);
+        console.log("profile 50",req.profileType)
+        if(req.profileType == "administrator"){
+          console.log("if")
+           this.router.navigate([RouterLinks.HOME_ADMIN]);
+        }
+        else{
+          console.log("else")
+          initTabs(this.container, LOGIN_TEACHER_TABS);
+        }
+       
         if (hasFilledLocation) {
           this.executeUserPostOnboardingSteps(isSSOUser, updatedProfile, noOfStepsToCourseToc);
         } else {
-          this.navigateToDistrictMapping(noOfStepsToCourseToc);
+          // this.router.navigate([RouterLinks.ADMIN_HOME]);
+          // this.navigateToDistrictMapping(noOfStepsToCourseToc);
         }
       }
 
@@ -58,11 +69,14 @@ export class CategoriesEditService {
       if (shouldUpdatePreference) {
         this.location.back();
       } else {
+        console.log("profile 71",profile)
         initTabs(this.container, LOGIN_TEACHER_TABS);
+        console.log("")
         if (hasFilledLocation || isSSOUser) {
           this.executeUserPostOnboardingSteps(isSSOUser, updatedProfile)
         } else {
-          this.navigateToDistrictMapping();
+          this.router.navigate([RouterLinks.PROFILE]);
+          // this.navigateToDistrictMapping();
         }
       }
     } else {

@@ -834,22 +834,52 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
       board.push(this.profile?.syllabus?.length  ?  this.profile?.syllabus[0]: null)
       board.push(this.profile?.board?.length  ?  this.profile?.board[0]: null)
       let role = this.profile.profileType.toLowerCase();
+      let roles= this.profile.serverProfile?.profileUserType?.type
+      console.log("this.profilr",this.profile)
+      console.log("roles",roles)
       if (this.profile.serverProfile) {
         role = this.profile.serverProfile.profileUserType.type.toLowerCase();
       }
       const otherCategories = await this.formAndFrameworkUtilService.getFormFields(
         FormConstants.ML_HOME_CATEGORIES
       );
+      console.log("board",board);
+      console.log("this.profile",this.profile)
       board.forEach(element => {
+
+        if(element =='NCF'){
+          element ='ncf_board'
+        }
+       console.log("element",element)
         if(otherCategories[element] && otherCategories[element][role]){
          this.otherCategories = otherCategories[element][role]; 
          return;
          }
       });
-      if (this.otherCategories.length) {
+    //   let newCategory = {
+    //     "name": "project",
+    //     "icon": {
+    //         "web": "",
+    //         "app": "assets/imgs/ic_project.svg"
+    //     }
+    // };
+    
+    // Add the new category at index 1
+    // this.otherCategories.splice(1, 0, newCategory);
+    
+    // Log the updated array
+        console.log("this.other",this.otherCategories)
+        this.otherCategories = this.otherCategories.filter(category => category.name !== "observation");
+        console.log("this.otherCategories",this.otherCategories)
+      if (this.otherCategories.length && (roles == 'teacher' || roles == 'youth')) {
         this.homeDataAvailable = true;
         this.events.publish('onPreferenceChange:showReport', true);
-      } else {
+      } 
+      // if (this.otherCategories.length) {
+      //   this.homeDataAvailable = true;
+      //   this.events.publish('onPreferenceChange:showReport', true);
+      // }
+      else {
         this.events.publish('onPreferenceChange:showReport', false);
       }
     } catch (error) {
@@ -891,7 +921,7 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
       return;
     }
     switch (selectedPill) {
-      case 'observations':
+      case 'observation':
         this.router.navigate([RouterLinks.OBSERVATION], {});
         break;
       case 'project':

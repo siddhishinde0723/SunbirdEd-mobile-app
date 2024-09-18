@@ -114,6 +114,7 @@ export enum PageId {
     RECOVERY_ACCOUNT_ID_POPUP = 'recovery-account-id-popup',
     MERGE_ACCOUNT_POPUP = 'merge-account-popup',
     DISTRICT_MAPPING = 'district-mapping',
+    DISTRICT_MAPPING1 ='district-mapping',
     SIGNIN_POPUP = 'signin-popup',
     EXTERNAL_USER_VERIFICATION_POPUP = 'user-verification-popup',
     FAQ_REPORT_ISSUE = 'faq-report-issue',
@@ -193,6 +194,7 @@ export enum ImpressionType {
     EDIT = 'edit',
     WORKFLOW = 'workflow',
     DISTRICT_MAPPING = 'district-mapping',
+    DISTRICT_MAPPING1 ='district-mapping',
     CAMERA = 'camera',
     FILE_MANAGEMENT = 'file-management',
     /* New Telemetry */

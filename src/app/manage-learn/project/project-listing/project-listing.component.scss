@@ -6,15 +6,15 @@
 }
 
 .view-more {
-   --background: #9D7F73 !important;
-   --border-color: #9D7F73!important;
-   --color: black!important;
+   --background: #572E91 !important;
+   --border-color: #572E91!important;
+   --color: white!important;
    height: 2.25rem;
    font-size: 0.875rem;
 }
 ion-searchbar ::ng-deep .searchbar-input{
   border-radius: 10px;
-  border:1px solid #9D7F73;
+  border:1px solid #572E91;
 }
 
 sb-library-filters ::ng-deep{
@@ -23,15 +23,15 @@ sb-library-filters ::ng-deep{
   }
   .sb-medium-pills-container, .sb-grade-pills-container {
     .pill{
-      border-color:  #9D7F73 !important;
-      color: black !important;
+      border-color:  #572E91!important;
+      color: #572E91 !important;
       box-shadow: var(--button-style-shadow) !important;
       margin-right: 1rem !important;
     }
     .pill.active{
-      color:black !important;
-      background-color: #9D7F73 !important;
-      border-color: #9D7F73 !important;
+      color:white !important;
+      background-color: #572E91 !important;
+      border-color: #572E91 !important;
     }
   }
 
@@ -41,7 +41,6 @@ sb-library-filters ::ng-deep{
     }
   }
 }
-
 .create_header ::ng-deep .title.w-90 {
   color:black;
 }

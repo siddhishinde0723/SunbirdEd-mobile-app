@@ -6,17 +6,18 @@ import { Platform, } from '@ionic/angular';
 import { IsProfileAlreadyInUseRequest, GenerateOtpRequest, ProfileService } from 'sunbird-sdk';
 import { FieldConfig, FieldConfigValidationType } from 'common-form-elements';
 import { Location } from '@angular/common';
+import { FormBuilder, FormControl, FormGroup,Validators } from '@angular/forms';
 @Component({
   selector: 'app-signup-email-password',
   templateUrl: './signup-email-password.page.html',
   styleUrls: ['./signup-email-password.page.scss'],
 })
 export class SignupEmailPasswordPage implements OnInit {
-  contactType = 'phone';
+  contactType = 'email';
   appName = '';
   mobileNumberConfig: FieldConfig<any>[] = [];
   emailConfig: FieldConfig<any>[] = [];
-  // passwordConfig: FieldConfig<any>[] = [];
+  passwordConfig: FieldConfig<any>[] = [];
   contactConfig: FieldConfig<any>[] = [];
   isFormValid = false;
   errorConfirmPassword = false;
@@ -24,39 +25,76 @@ export class SignupEmailPasswordPage implements OnInit {
   userId: string;
   userData: any;
   btnColor = '#8FC4FF';
+  formGroup: FormGroup;
+  passwordVisible = false;
   constructor(
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
     public platform: Platform,
     private commonUtilService: CommonUtilService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private fb: FormBuilder,
   ) {
     const extrasState = this.router.getCurrentNavigation().extras.state;
     this.userData = extrasState.userData;
   }
   ngOnInit() {
-    this.contactType = 'phone';
-    this.mobileNumberConfig = [{
-      code: 'phone',
+    this.contactType = 'email';
+    this.emailConfig = [{
+      code: 'email',
       type: 'input',
       templateOptions: {
-        type: 'tel',
+        type: 'email',
         label: '',
-        placeHolder: this.commonUtilService.translateMessage('ENTER_PHONE_POPUP_TITLE'),
+        placeHolder: this.commonUtilService.translateMessage('FRMELEMNTS_LBL_ENTER_EMAIL'),
       },
       validations: [{
         type: FieldConfigValidationType.REQUIRED,
         value: null,
-        message: this.commonUtilService.translateMessage('FRMELEMNTS_LBL_CONFIRM_CONTACT_VALIDATION')
+        message: this.commonUtilService.translateMessage('FRMELEMNTS_LBL_CONFIRM_EMAIL_VALIDATION')
       },
       {
         type: FieldConfigValidationType.PATTERN,
-        value: /^[6-9]\d{9}$/,
-        message: this.commonUtilService.translateMessage('FRMELEMNTS_LBL_CONTACT_PATTERN_VALIDATION')
+        value: /^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/,
+        message: this.commonUtilService.translateMessage('FRMELEMNTS_LBL_CONFIRM_EMAIL_PATTERN_VALIDATION')
       }]
     }];
-    this.contactConfig = this.mobileNumberConfig;
+    this.contactConfig = this.emailConfig;
+    // this.mobileNumberConfig = [{
+    //   code: 'phone',
+    //   type: 'input',
+    //   templateOptions: {
+    //     type: 'tel',
+    //     label: '',
+    //     placeHolder: this.commonUtilService.translateMessage('ENTER_PHONE_POPUP_TITLE'),
+    //   },
+    //   validations: [{
+    //     type: FieldConfigValidationType.REQUIRED,
+    //     value: null,
+    //     message: this.commonUtilService.translateMessage('FRMELEMNTS_LBL_CONFIRM_CONTACT_VALIDATION')
+    //   },
+    //   {
+    //     type: FieldConfigValidationType.PATTERN,
+    //     value: /^[6-9]\d{9}$/,
+    //     message: this.commonUtilService.translateMessage('FRMELEMNTS_LBL_CONTACT_PATTERN_VALIDATION')
+    //   }]
+    // }];
+ 
+    // this.contactConfig = this.mobileNumberConfig;
     this.setappname()
+    this.formGroup = this.fb.group({
+      password: ['', [
+        Validators.required,
+        Validators.pattern('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[~.,)(}{\\[!"#$%&\'()*+,-./:;<=>?@[^_`{|}~\\]])(?=\\S+$).{8,}$')
+      ]]
+    });
+  
+    this.formGroup.get('password').statusChanges.subscribe(status => {
+    });
+    
+  }
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
   }
   async setappname() {
     this.appName = await this.commonUtilService.getAppName();
@@ -83,12 +121,14 @@ export class SignupEmailPasswordPage implements OnInit {
         }]
       }];
       this.contactConfig = this.emailConfig;
-    } else if (this.contactType === 'phone') {
-      this.contactConfig = this.mobileNumberConfig;
-    }
+    } 
+    // else if (this.contactType === 'phone') {
+    //   this.contactConfig = this.mobileNumberConfig;
+    // }
   }
 
   async continue() {
+    if (this.formGroup.valid) {
     if (this.commonUtilService.networkInfo.isNetworkAvailable) {
       this.loader = await this.commonUtilService.getLoader();
       await this.loader.present();
@@ -113,6 +153,7 @@ export class SignupEmailPasswordPage implements OnInit {
       this.commonUtilService.showToast(this.commonUtilService.translateMessage('INTERNET_CONNECTIVITY_NEEDED'));
     }
   }
+  }
   async generateOTP() {
     let req: GenerateOtpRequest;
     if (this.contactType === ProfileConstants.CONTACT_TYPE_PHONE) {
@@ -134,7 +175,8 @@ export class SignupEmailPasswordPage implements OnInit {
         }
         const navigationExtras: NavigationExtras = {
           state: {
-            userData: this.userData
+            userData: this.userData,
+            password: this.formGroup.value
           }
         };
         this.router.navigate([RouterLinks.OTP], navigationExtras);

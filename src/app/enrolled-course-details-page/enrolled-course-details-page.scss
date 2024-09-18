@@ -208,9 +208,9 @@
       }
     }
     .enrolled-course-card-button{
-        background-color: #9D7F73;
+        background-color: $green;
         border: none;
-        color: black;
+        color: white;
         text-align: center;
         text-decoration: none;
         display: inline-block;
@@ -289,7 +289,7 @@
     }
   }
   .sc-ion-segment-md-h{
-    --color-checked : #9D7F73;
+    --color-checked : #572E91;
     font-weight: bold;
     --color: #{map-get($colors, cornflower_blue)};
   }
@@ -315,7 +315,7 @@
   }
   .card-icons {
     font-size: 1.875rem;
-    color: #9D7F73;
+    color: #572E91;
   }
   .card-icons-downloadStarted {
     font-size: 1.875rem;
@@ -602,7 +602,7 @@ margin-top: -13px; opacity: 1;
 .consent-arrow {
   ion-icon{
     font-size: 1.5rem;
-    color: black;
+    color: #572E91;
   }
 }
 .sb--card__meta1 {

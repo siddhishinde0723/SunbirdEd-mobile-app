@@ -94,6 +94,10 @@ const routes: Routes = [
     path: RouterLinks.DISTRICT_MAPPING,
     loadChildren: './district-mapping/district-mapping.module#DistrictMappingPageModule'
   },
+  {
+    path: RouterLinks.DISTRICT_MAPPING1,
+    loadChildren: './district-mapping1/district-mapping1.module#DistrictMapping1PageModule'
+  },
   { path: RouterLinks.MY_GROUPS, loadChildren: './my-groups/my-groups.module#MyGroupsPageModule' },
   { path: RouterLinks.CURRICULUM_COURSES, loadChildren: './curriculum-courses/curriculum-courses.module#CurriculumCoursesPageModule' },
   { path: RouterLinks.PROGRAM, loadChildren: './manage-learn/programs/programs.module#ProgramsModule', canActivate:[MlGuard] },
