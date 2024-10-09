@@ -143,7 +143,7 @@ android {
         }
 
         production {
-            applicationId "${production_app_id}"
+            applicationId "org.shikshagraha.app"
             flavorDimensions "default"
             resValue("string", "deeplink_base_url", "${production_deeplink_base_url}")
             resValue("string", "deeplink_ncert_url", "${production_deeplink_ncert_url}")

@@ -313,7 +313,7 @@ export const sunbirdSdkFactory =
     return async () => {
       const buildConfigValues = JSON.parse(await new Promise<string>((resolve, reject) => {
         document.addEventListener('deviceready', () => {
-          sbutility.getBuildConfigValues('org.shikshagraha.app', (v) => {
+          sbutility.getBuildConfigValues('org.sunbird.app', (v) => {
             resolve(v);
           }, (err) => {
             reject(err);
